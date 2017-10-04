@@ -13,9 +13,9 @@ You are to create an Android application to be used to show meeting room occupat
 
 - List of rooms - then click through to heat map
 	- "heat map" of the last day / week / month of the room. 
-			- Black - seat not used often.
-			- color spectrum inbetween
-			- White - seat is used very often.
+	 - Black - seat not used often.
+	 - color spectrum inbetween
+	 - White - seat is used very often.
 
 **Screen:**
 
