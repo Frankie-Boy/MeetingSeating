@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MeetingSeating</string>
+    <string-array name="drawer_options">
+        <item>Home</item>
+        <item>Seat List</item>
+        <item>Room List</item>
+        <item>Settings</item>
+        <item>Logout</item>
+    </string-array>
+    <string name="action_toolbar_refresh">Refresh</string>
+    <string name="action_toolbar_filter">Filter</string>
+    <string name="action_toolbar_search">Search</string>
+</resources>
