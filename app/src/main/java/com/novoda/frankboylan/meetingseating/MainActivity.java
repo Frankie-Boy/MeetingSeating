@@ -22,8 +22,11 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView)findViewById(R.id.side_drawer);
 
         mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+        mDrawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.drawer_list_item, mDrawerOptions));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // ToDo: Check if online, if so, parse JSON and recreate SQLite DB.
+        // ToDo: Display the last time the information was updated (use lastUpdateTimestamp)
     }
 }
