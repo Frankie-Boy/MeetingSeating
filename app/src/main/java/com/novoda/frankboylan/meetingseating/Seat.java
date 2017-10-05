@@ -22,4 +22,9 @@ public class Seat {
     public String getUnitType() {
         return unitType;
     }
+
+    @Override
+    public String toString() {
+        return getSeatId() + ":  " + getValue() + getUnitType();
+    }
 }

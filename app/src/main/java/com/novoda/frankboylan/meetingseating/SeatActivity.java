@@ -5,22 +5,41 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.R.attr.id;
 
 public class SeatActivity extends AppCompatActivity {
+    DBHelper dbHelper;
     private Seat seat;
+    private List<Seat> seatList = new ArrayList<Seat>();
     private Toolbar toolbar;
+    ListView listViewSeats;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat);
 
         Toolbar toolbarSeat = (Toolbar)findViewById(R.id.toolbar_seat);
+        toolbarSeat.setTitle("Seat List"); // ToDo: Reference strings.xml
         setSupportActionBar(toolbarSeat);
 
-        // ToDo: read data from SQLite (Cursor) internal db to List (ListAdapter).
+        listViewSeats = (ListView)findViewById(R.id.listview_all_seats);
+
+        updateList();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateList();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -32,15 +51,21 @@ public class SeatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_filter:
-                // Show the filter view
                 break;
             case R.id.action_refresh:
-                // Run SQLite query to fetch result (based on selected filters)
+                updateList();
                 break;
             default:
                 // How did users get here? :thinking:
                 return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private void updateList() {
+        dbHelper = new DBHelper(this);
+        seatList = dbHelper.getAllSeats();
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, seatList);
+        listViewSeats.setAdapter(adapter);
     }
 }
