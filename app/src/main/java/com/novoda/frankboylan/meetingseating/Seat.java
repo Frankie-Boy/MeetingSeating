@@ -1,7 +1,7 @@
 package com.novoda.frankboylan.meetingseating;
 
 public class Seat {
-    private int seatId, value;
+    private int seatId, value, roomId;
     private String unitType;
 
     public void setSeatId(int seatId) {
@@ -22,9 +22,14 @@ public class Seat {
     public String getUnitType() {
         return unitType;
     }
-
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+    public int getRoomId() {
+        return roomId;
+    }
     @Override
     public String toString() {
-        return getSeatId() + ":  " + getValue() + getUnitType();
+        return getSeatId() + ":  " + getValue() + getUnitType() + " RoomId: " + getRoomId();
     }
 }
