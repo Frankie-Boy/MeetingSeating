@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -24,14 +25,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.security.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private String[] mDrawerOptions;
+    private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,103 +51,21 @@ public class MainActivity extends AppCompatActivity {
                 R.layout.drawer_list_item, mDrawerOptions));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        new JSONParser().execute();
-
-        // ToDo: Check if online, if so, parse JSON and recreate SQLite DB.
-        // ToDo: Display the last time the information was updated (use lastUpdateTimestamp)
+        updateUI();
     }
+    /**
+     * Fetches Json data, refreshes ListViews with SQLite data
+     */
+    private void updateUI() {
+        // Fetches Json Data and updates SQLite DB.
+        JSONParser jsonParser = new JSONParser(this);
+        jsonParser.execute();
 
-    private class JSONParser extends AsyncTask<Void, Void, Void> {
+        dbHelper = new DBHelper(this);
 
-        private static final String URL_DATASET = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com/prod/seat-monitor-data";
-        public ArrayList<HashMap<String, String>> roomList = new ArrayList<>();
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            HttpHandler sh = new HttpHandler();
-
-            // Making a request to url and getting response
-            String jsonStr = sh.makeServiceCall(URL_DATASET);
-
-            Log.e("TAG_URL ", "Response from url: " + jsonStr);
-
-            if (jsonStr != null) {
-                try {
-                    JSONObject jsonObj = new JSONObject(jsonStr);
-                    DBHelper dbHelper = new DBHelper(MainActivity.this);
-                    // Getting JSON Array node
-                    JSONArray rooms = jsonObj.getJSONArray("rooms");
-
-                    for (int i = 0; i < rooms.length(); i++) {
-                        JSONObject room = rooms.getJSONObject(i);
-                        Room newRoom = new Room();
-
-                        newRoom.setRoomId(room.getInt("roomId"));
-                        newRoom.setRoomLocation(room.getString("location"));
-                        newRoom.setRoomUnitName(room.getString("unitName"));
-                        newRoom.setRoomName(room.getString("roomName"));
-
-                        JSONArray seats = room.getJSONArray("seats");
-
-                        dbHelper.addRoom(newRoom);
-
-                        for (int j = 0; j < seats.length(); j++) {
-                            JSONObject seat = seats.getJSONObject(j);
-                            Seat seatObj = new Seat();
-
-                            seatObj.setSeatId(seat.getInt("seatId"));
-                            seatObj.setValue(seat.getInt("value"));
-                            seatObj.setUnitType(seat.getString("unitType"));
-                            seatObj.setRoomId(room.getInt("roomId"));
-
-                            dbHelper.addSeat(seatObj);
-                        }
-                    }
-                    dbHelper.close();
-                } catch (final JSONException e) {
-                    Log.e("JSONERROR", "Json parsing error: " + e.getMessage());
-                }
-            } else {
-                Log.e("ERRTAG", "Couldn't get json from server.");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Toast.makeText(MainActivity.this,"Json Data is downloading",Toast.LENGTH_LONG).show();
-            // Showing progress dialog
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            if(!roomList.isEmpty()) {
-                Log.d("TAGIMP", roomList.toString());
-            }
-        }
-
-/*
-        public String readJsonDataFromUrl(String url) throws IOException {
-            String jsonDataString = null;
-            InputStream inputStream = null;
-            StringBuilder stringBuilder = new StringBuilder();
-
-            try {
-                inputStream = new URL(url).openStream();
-                BufferedReader bufferedReader = new BufferedReader(
-                        new InputStreamReader(inputStream, "UTF-8")
-                );
-                while ((jsonDataString = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(jsonDataString);
-                }
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            }
-            return new String(stringBuilder);
-        }*/
+        TextView tvUpdatedTime = (TextView)findViewById(R.id.tv_last_timestamp);
+        com.novoda.frankboylan.meetingseating.Timestamp metaTimestamp = dbHelper.getMetaTimestamp();
+        Date lastUpdatedDate = new Date(metaTimestamp.getTimestamp() * 1000);
+        tvUpdatedTime.setText("Last Updated: " + lastUpdatedDate);
     }
 }

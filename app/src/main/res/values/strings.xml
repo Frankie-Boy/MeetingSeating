@@ -10,4 +10,5 @@
     <string name="action_toolbar_refresh">Refresh</string>
     <string name="action_toolbar_filter">Filter</string>
     <string name="action_toolbar_search">Search</string>
+    <string name="action_toolbar_heatmap">Heatmap</string>
 </resources>

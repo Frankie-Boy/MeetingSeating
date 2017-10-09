@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class SignInActivity extends AppCompatActivity{
-    private static final String TAG = "Auth";
+    private static final String TAG = "SignInActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,4 +20,5 @@ public class SignInActivity extends AppCompatActivity{
         startActivity(intent);
         finish();
     }
+
 }

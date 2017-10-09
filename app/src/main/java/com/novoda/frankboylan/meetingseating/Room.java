@@ -30,4 +30,8 @@ public class Room {
     public String getRoomUnitName() {
         return roomUnitName;
     }
+    @Override
+    public String toString() {
+        return getRoomId() + ":  " + getRoomName() + " in " + getRoomLocation() + getRoomUnitName();
+    }
 }

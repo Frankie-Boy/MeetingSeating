@@ -14,6 +14,7 @@ import java.util.List;
 import static android.R.attr.id;
 
 public class SeatActivity extends AppCompatActivity {
+    private static final String TAG = "SeatActivity";
     DBHelper dbHelper;
     private Seat seat;
     private List<Seat> seatList = new ArrayList<Seat>();
@@ -53,15 +54,19 @@ public class SeatActivity extends AppCompatActivity {
             case R.id.action_filter:
                 break;
             case R.id.action_refresh:
+                JSONParser jsonParser = new JSONParser(this);
+                jsonParser.execute();
+
                 updateList();
                 break;
             default:
-                // How did users get here? :thinking:
                 return super.onOptionsItemSelected(item);
         }
         return true;
     }
-
+    /**
+     * Refreshes ListViews with SQLite data
+     */
     private void updateList() {
         dbHelper = new DBHelper(this);
         seatList = dbHelper.getAllSeats();
