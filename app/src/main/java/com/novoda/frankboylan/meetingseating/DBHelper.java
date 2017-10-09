@@ -13,7 +13,7 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
     private static final String TAG = "DBHelper";
 
-    private static int DATABASE_VERSION = 15;
+    private static int DATABASE_VERSION = 16;
 
     // Database Strings
     private static final String DATABASE_NAME = "meeting_seating_db";
@@ -180,4 +180,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
         return seatList;
     }
+
+
 }
