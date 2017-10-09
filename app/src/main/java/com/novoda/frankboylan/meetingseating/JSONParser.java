@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -17,10 +16,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 class JSONParser extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "JSONParser";
-    private static final String BASE = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com/";
-    private static final String ENV = "prod/";
-    private static final String SEAT_MONITOR = "seat-monitor-data/";
-    private static final String ENDPOINT_SEAT_MONITOR = BASE + ENV + SEAT_MONITOR; // Data end-point URL
 
     private Context mContext;
 
@@ -36,104 +31,44 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        OkHttpClient client = new OkHttpClient();
-
-        // OkHttp Request start
-        Request request = new Request.Builder()
-                .url(ENDPOINT_SEAT_MONITOR)
-                .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ENDPOINT_SEAT_MONITOR)
+                .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
-                .client(client)
+                .client(new OkHttpClient())
                 .build();
-        MeetingSeatingClient meetingSeatingClient = retrofit.create(MeetingSeatingClient.class);
-        Data response = new Data();
+        AwsSeatMonitorService awsSeatMonitorService = retrofit.create(AwsSeatMonitorService.class);
+        RoomSeatData roomSeatData = new RoomSeatData();
+        long serverResponseTimestamp = 0L;
         try {
-            Response<Data> dataResponse = meetingSeatingClient.getData().execute();
-            response = dataResponse.body();
+            Response<RoomSeatData> response = awsSeatMonitorService.seatMonitorData().execute();
+            roomSeatData = response.body();
+            if (response.isSuccessful() && roomSeatData != null) {
+                serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
-        Long newTimestamp = Long.getLong(response.getLastUpdateTimestamp());
         DBHelper dbHelper = new DBHelper(mContext);
-        if (dbHelper.getMetaTimestamp().getTimestamp() < newTimestamp) { // If the data is newer than the last update
-            if (response.getRooms().isEmpty()) {
-                Log.d(TAG, "No rooms found");
-            } else {
-                for (Room room : response.getRooms()) {
-                    dbHelper.addRoom(room);
-                    for (Seat seat : room.getSeats()) {
-                        seat.setRoomId(room.getRoomId());
-                        dbHelper.addSeat(seat);
-                    }
+        long databaseTimestamp = dbHelper.getMetaTimestamp().getTimestamp();
+        if (serverResponseTimestamp < databaseTimestamp) {
+            return null;
+        }
+        if (roomSeatData.getRooms().isEmpty()) {
+            Log.d(TAG, "No rooms found");
+        } else {
+            dbHelper.clearData();
+            dbHelper.setMetaTimestamp(serverResponseTimestamp);
+            for (Room room : roomSeatData.getRooms()) {
+                dbHelper.addRoom(room);
+                for (Seat seat : room.getSeats()) {
+                    seat.setRoomId(room.getRoomId());
+                    dbHelper.addSeat(seat);
                 }
             }
-            debugLog(dbHelper);
         }
-
-
-        /*String jsonString = null;
-        try {
-            Response response = client.newCall(request).execute();
-            Log.d(TAG, "Response from url: " + response);
-            ResponseBody responseBody = response.body();
-            if (response.isSuccessful() && responseBody != null) {
-                jsonString = responseBody.string();
-            }
-        } catch (IOException e) {
-            throw new IllegalStateException("Fubar", e);
-        }
-
-        if (jsonString == null) {
-            throw new IllegalStateException("Couldn't get JSON from server.");
-        }
-        try {
-            DBHelper dbHelper = new DBHelper(mContext);
-            dbHelper.clearData(); // Clear existing data
-
-            JSONObject jsonObj = new JSONObject(jsonString);
-            Long newUpdateTimestamp = jsonObj.getLong("lastUpdateTimestamp");
-            if(dbHelper.getMetaTimestamp().getTimestamp() < newUpdateTimestamp) { // If the data is newer than the last update
-                dbHelper.setMetaTimestamp(newUpdateTimestamp); // Update the timestamp
-
-                JSONArray rooms = jsonObj.getJSONArray("rooms");
-
-                for (int i = 0; i < rooms.length(); i++) { // Creates Room for each Room in JSON data
-                    JSONObject room = rooms.getJSONObject(i);
-                    Room newRoom = new Room();
-
-                    newRoom.setRoomId(room.getInt("roomId"));
-                    newRoom.setRoomLocation(room.getString("location"));
-                    if(room.has("unitName")) {
-                        newRoom.setRoomUnitName(room.getString("unitName"));
-                    }
-                    newRoom.setRoomName(room.getString("roomName"));
-
-                    JSONArray seats = room.getJSONArray("seats");
-
-                    dbHelper.addRoom(newRoom);
-
-                    for (int j = 0; j < seats.length(); j++) { // Creates Seat for each Seat in JSON data
-                        JSONObject seat = seats.getJSONObject(j);
-                        Seat seatObj = new Seat();
-
-                        seatObj.setSeatId(seat.getInt("seatId"));
-                        seatObj.setValue(seat.getInt("value"));
-                        seatObj.setUnitType(seat.getString("unitType"));
-                        seatObj.setRoomId(room.getInt("roomId"));
-
-                        dbHelper.addSeat(seatObj);
-                    }
-                }
-                debugLog(dbHelper);
-
-            }
-            dbHelper.close();
-        } catch (final JSONException e) {
-            Log.e(TAG, "JSON parsing error: " + e.getMessage());
-        }*/
+        debugLog(dbHelper);
+        dbHelper.close();
         return null;
     }
 

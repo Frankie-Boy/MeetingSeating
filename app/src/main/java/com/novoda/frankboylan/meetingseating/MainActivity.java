@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
      * Fetches Json data, refreshes ListViews with SQLite data
      */
     private void updateUI() {
-        // Fetches Json Data and updates SQLite DB.
+        // Fetches Json RoomSeatData and updates SQLite DB.
         JSONParser jsonParser = new JSONParser(this);
         jsonParser.execute();
 

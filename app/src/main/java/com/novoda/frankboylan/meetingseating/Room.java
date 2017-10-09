@@ -58,4 +58,14 @@ public class Room {
         this.seats = seats;
     }
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "location='" + location + '\'' +
+                ", unitName='" + unitName + '\'' +
+                ", roomName='" + roomName + '\'' +
+                ", roomId=" + roomId +
+                ", seats=" + seats +
+                '}';
+    }
 }
