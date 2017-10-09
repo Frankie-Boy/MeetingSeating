@@ -1,37 +1,61 @@
 package com.novoda.frankboylan.meetingseating;
 
-class Room {
-    private String roomName;
-    private int roomId;
-    private String roomLocation;
-    private String roomUnitName;
+import com.squareup.moshi.Json;
 
-    void setRoomName(String roomName) {
-        this.roomName = roomName;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Room {
+
+    @Json(name = "location")
+    private String location;
+    @Json(name = "unitName")
+    private String unitName;
+    @Json(name = "roomName")
+    private String roomName;
+    @Json(name = "roomId")
+    private Integer roomId;
+    @Json(name = "seats")
+    private List<Seat> seats = new ArrayList<>();
+
+    public String getLocation() {
+        return location;
     }
-    String getRoomName() {
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public String getRoomName() {
         return roomName;
     }
-    void setRoomId(int roomId) {
-        this.roomId = roomId;
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
-    int getRoomId() {
+
+    public Integer getRoomId() {
         return roomId;
     }
-    void setRoomLocation(String roomLocation) {
-        this.roomLocation = roomLocation;
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
     }
-    String getRoomLocation() {
-        return roomLocation;
+
+    public List<Seat> getSeats() {
+        return seats;
     }
-    void setRoomUnitName(String roomUnitName) {
-        this.roomUnitName = roomUnitName;
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
     }
-    String getRoomUnitName() {
-        return roomUnitName;
-    }
-    @Override
-    public String toString() {
-        return getRoomId() + ":  " + getRoomName() + " in " + getRoomLocation() + getRoomUnitName();
-    }
+
 }

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +109,8 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ROOM_ID, room.getRoomId());
         values.put(ROOM_NAME, room.getRoomName());
-        values.put(ROOM_LOCATIONNAME, room.getRoomLocation());
-        values.put(ROOM_UNITNAME, room.getRoomUnitName());
+        values.put(ROOM_LOCATIONNAME, room.getLocation());
+        values.put(ROOM_UNITNAME, room.getUnitName());
 
         db.insert(TABLE_ROOM, null, values);
         db.close();
@@ -131,8 +130,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 Room room = new Room();
                 room.setRoomId(cursor.getInt(0));
                 room.setRoomName(cursor.getString(1));
-                room.setRoomLocation(cursor.getString(2));
-                room.setRoomUnitName(cursor.getString(3));
+                room.setLocation(cursor.getString(2));
+                room.setUnitName(cursor.getString(3));
 
                 roomList.add(room);
             } while (cursor.moveToNext());

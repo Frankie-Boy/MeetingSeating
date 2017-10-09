@@ -1,35 +1,56 @@
 package com.novoda.frankboylan.meetingseating;
 
-class Seat {
-    private int seatId, value, roomId;
+import com.squareup.moshi.Json;
+
+public class Seat {
+
+    @Json(name = "seatId")
+    private Integer seatId;
+    private Integer roomId;
+    @Json(name = "value")
+    private Integer value;
+    @Json(name = "unitType")
     private String unitType;
 
-    void setSeatId(int seatId) {
-        this.seatId = seatId;
-    }
-    int getSeatId() {
+    public Integer getSeatId() {
         return seatId;
     }
-    void setValue(int value) {
-        this.value = value;
+
+    public void setSeatId(Integer seatId) {
+        this.seatId = seatId;
     }
-    int getValue() {
+
+    public Integer getValue() {
         return value;
     }
-    void setUnitType(String unitType) {
-        this.unitType = unitType;
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
-    String getUnitType() {
+
+    public String getUnitType() {
         return unitType;
     }
-    void setRoomId(int roomId) {
-        this.roomId = roomId;
+
+    public void setUnitType(String unitType) {
+        this.unitType = unitType;
     }
-    int getRoomId() {
+
+    public Integer getRoomId() {
         return roomId;
     }
+
+    public void setRoomId(Integer roomId) {
+        this.roomId = roomId;
+    }
+
     @Override
     public String toString() {
-        return getSeatId() + ":  " + getValue() + getUnitType() + " RoomId: " + getRoomId();
+        return "Seat{" +
+                "seatId=" + seatId +
+                ", roomId=" + roomId +
+                ", value=" + value +
+                ", unitType='" + unitType + '\'' +
+                '}';
     }
 }

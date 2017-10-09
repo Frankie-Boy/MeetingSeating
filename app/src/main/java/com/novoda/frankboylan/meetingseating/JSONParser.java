@@ -5,24 +5,21 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 
 class JSONParser extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "JSONParser";
-    private static final String BASE = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com";
-    private static final String ENV = "/prod";
-    private static final String SEAT_MONITOR = "/seat-monitor-data";
+    private static final String BASE = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com/";
+    private static final String ENV = "prod/";
+    private static final String SEAT_MONITOR = "seat-monitor-data/";
     private static final String ENDPOINT_SEAT_MONITOR = BASE + ENV + SEAT_MONITOR; // Data end-point URL
 
     private Context mContext;
@@ -45,7 +42,39 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
         Request request = new Request.Builder()
                 .url(ENDPOINT_SEAT_MONITOR)
                 .build();
-        String jsonString = null;
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ENDPOINT_SEAT_MONITOR)
+                .addConverterFactory(MoshiConverterFactory.create())
+                .client(client)
+                .build();
+        MeetingSeatingClient meetingSeatingClient = retrofit.create(MeetingSeatingClient.class);
+        Data response = new Data();
+        try {
+            Response<Data> dataResponse = meetingSeatingClient.getData().execute();
+            response = dataResponse.body();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Long newTimestamp = Long.getLong(response.getLastUpdateTimestamp());
+        DBHelper dbHelper = new DBHelper(mContext);
+        if (dbHelper.getMetaTimestamp().getTimestamp() < newTimestamp) { // If the data is newer than the last update
+            if (response.getRooms().isEmpty()) {
+                Log.d(TAG, "No rooms found");
+            } else {
+                for (Room room : response.getRooms()) {
+                    dbHelper.addRoom(room);
+                    for (Seat seat : room.getSeats()) {
+                        seat.setRoomId(room.getRoomId());
+                        dbHelper.addSeat(seat);
+                    }
+                }
+            }
+            debugLog(dbHelper);
+        }
+
+
+        /*String jsonString = null;
         try {
             Response response = client.newCall(request).execute();
             Log.d(TAG, "Response from url: " + response);
@@ -104,7 +133,7 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
             dbHelper.close();
         } catch (final JSONException e) {
             Log.e(TAG, "JSON parsing error: " + e.getMessage());
-        }
+        }*/
         return null;
     }
 

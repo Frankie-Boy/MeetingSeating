@@ -26,15 +26,15 @@ public class SeatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat);
 
-        toolbarSeat = (Toolbar)findViewById(R.id.toolbar_seat);
+        toolbarSeat = findViewById(R.id.toolbar_seat);
         toolbarSeat.setTitle("Seat List"); // ToDo: Reference strings.xml
         setSupportActionBar(toolbarSeat);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        clFilterView = (ConstraintLayout)findViewById(R.id.cl_filter);
+        clFilterView = findViewById(R.id.cl_filter);
         clFilterView.setVisibility(View.GONE);
-        listViewSeats = (ListView)findViewById(R.id.listview_all_seats);
+        listViewSeats = findViewById(R.id.listview_all_seats);
         updateList();
     }
 
