@@ -2,8 +2,10 @@ package com.novoda.frankboylan.meetingseating;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,25 +19,35 @@ public class SeatActivity extends AppCompatActivity {
     DBHelper dbHelper;
     private Seat seat;
     private Toolbar toolbarSeat;
+    private DrawerLayout drawerLayout;
     ListView listViewSeats;
     ConstraintLayout clFilterView;
     MenuItem refreshItem, filterItem;
+    boolean filterViewVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat);
 
+        ListView drawerList = findViewById(R.id.side_drawer);
+        drawerLayout = findViewById(R.id.drawer_layout);
+
+        String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
+        drawerList.setAdapter(new ArrayAdapter<>(this,
+                R.layout.drawer_list_item, mDrawerOptions));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+
         toolbarSeat = findViewById(R.id.toolbar_seat);
         toolbarSeat.setTitle(R.string.toolbar_seat_title);
+        // toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
         setSupportActionBar(toolbarSeat);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        clFilterView = findViewById(R.id.cl_filter);
-        clFilterView.setVisibility(View.GONE);
         listViewSeats = findViewById(R.id.listview_all_seats);
         updateList();
+
+        clFilterView = findViewById(R.id.cl_filter);
     }
 
     @Override
@@ -50,6 +62,7 @@ public class SeatActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.seat_toolbar_content, menu);
         refreshItem = menu.findItem(R.id.action_refresh);
         filterItem = menu.findItem(R.id.action_filter);
+        cycleUI();
         return true;
     }
 
@@ -57,10 +70,8 @@ public class SeatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_filter:
-                refreshItem.setVisible(false);
-                filterItem.setVisible(false);
-                clFilterView.setVisibility(View.VISIBLE);
-                toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
+                filterViewVisible = true;
+                cycleUI();
                 break;
             case R.id.action_refresh:
                 JSONParser jsonParser = new JSONParser(this);
@@ -68,10 +79,12 @@ public class SeatActivity extends AppCompatActivity {
                 updateList();
                 break;
             case android.R.id.home:
-                refreshItem.setVisible(true);
-                filterItem.setVisible(true);
-                clFilterView.setVisibility(View.GONE);
-                toolbarSeat.setTitle(R.string.toolbar_seat_title);
+                if(filterViewVisible) {
+                    filterViewVisible = false;
+                    cycleUI();
+                    break;
+                }
+                drawerLayout.openDrawer(Gravity.LEFT);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,5 +99,26 @@ public class SeatActivity extends AppCompatActivity {
         List<Seat> seatList = dbHelper.getAllSeats();
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
+    }
+
+    /**
+     * Updates UI - View, Toolbar, Icons, Titles, & Nav Drawer
+     */
+    private void cycleUI() {
+        if (filterViewVisible) { // Display Filter View
+            refreshItem.setVisible(false); // Removing Toolbar items
+            filterItem.setVisible(false);
+            clFilterView.setVisibility(View.VISIBLE); // Displaying View
+            toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
+            toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
+            return;
+        } else {
+            refreshItem.setVisible(true); // Adding Toolbar items
+            filterItem.setVisible(true);
+        }
+        // Hide Filter View
+        clFilterView.setVisibility(View.GONE); // Hiding View
+        toolbarSeat.setTitle(R.string.toolbar_seat_title);
+        toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
     }
 }

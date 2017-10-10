@@ -1,8 +1,10 @@
 package com.novoda.frankboylan.meetingseating;
 
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -10,23 +12,27 @@ import android.widget.ListView;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String TAG = "StatisticsActivity";
-    private Toolbar toolbarStats;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
-        ListView mDrawerList = findViewById(R.id.side_drawer);
+        ListView drawerList = findViewById(R.id.side_drawer);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
-        mDrawerList.setAdapter(new ArrayAdapter<>(this,
+        drawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.drawer_list_item, mDrawerOptions));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        toolbarStats = findViewById(R.id.toolbar_stats);
+        Toolbar toolbarStats = findViewById(R.id.toolbar_stats);
         toolbarStats.setTitle(R.string.toolbar_statistics_title);
+        toolbarStats.setNavigationIcon(R.drawable.ic_action_burger);
+
         setSupportActionBar(toolbarStats);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         updateUI();
     }
@@ -43,6 +49,9 @@ public class StatisticsActivity extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.action_refresh:
                 updateUI();
+                break;
+            case android.R.id.home:
+                drawerLayout.openDrawer(Gravity.LEFT);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

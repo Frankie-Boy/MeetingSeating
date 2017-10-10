@@ -15,4 +15,6 @@
     <string name="toolbar_room_title">Rooms</string>
     <string name="toolbar_seat_title">Seats</string>
     <string name="toolbar_seat_filter_title">Filter Menu</string>
+    <string name="nav_drawer_closed">Closed</string>
+    <string name="nav_drawer_open">Open</string>
 </resources>
