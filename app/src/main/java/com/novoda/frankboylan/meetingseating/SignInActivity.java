@@ -18,7 +18,7 @@ public class SignInActivity extends AppCompatActivity{
      * Button Handler method - Sign In
      */
     public void handlerSignIn(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, StatisticsActivity.class);
         startActivity(intent);
         finish();
     }

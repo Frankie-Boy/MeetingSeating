@@ -11,4 +11,8 @@
     <string name="action_toolbar_filter">Filter</string>
     <string name="action_toolbar_search">Search</string>
     <string name="action_toolbar_heatmap">Heatmap</string>
+    <string name="toolbar_statistics_title">Statistics</string>
+    <string name="toolbar_room_title">Rooms</string>
+    <string name="toolbar_seat_title">Seats</string>
+    <string name="toolbar_seat_filter_title">Filter Menu</string>
 </resources>

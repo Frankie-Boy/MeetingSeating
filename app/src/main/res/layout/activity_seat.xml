@@ -8,11 +8,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_seat"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        style="@style/AppToolbar"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

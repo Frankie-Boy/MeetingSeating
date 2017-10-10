@@ -1,34 +1,29 @@
 package com.novoda.frankboylan.meetingseating;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RoomActivity extends AppCompatActivity {
     private static final String TAG = "RoomActivity";
     private ListView listViewRooms;
-    private DBHelper dbHelper;
-    private List<Room> roomList = new ArrayList<Room>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        Toolbar toolbarRoom = (Toolbar)findViewById(R.id.toolbar_room);
-        toolbarRoom.setTitle("Room List"); // ToDo: Reference strings.xml
+        Toolbar toolbarRoom = findViewById(R.id.toolbar_room);
+        toolbarRoom.setTitle(R.string.toolbar_room_title);
         setSupportActionBar(toolbarRoom);
 
-        listViewRooms = (ListView)findViewById(R.id.listview_all_rooms);
-
+        listViewRooms = findViewById(R.id.listview_all_rooms);
         updateList();
     }
 
@@ -61,8 +56,8 @@ public class RoomActivity extends AppCompatActivity {
      * Refreshes ListViews with SQLite data
      */
     private void updateList() {
-        dbHelper = new DBHelper(this);
-        roomList = dbHelper.getAllRooms();
+        DBHelper dbHelper = new DBHelper(this);
+        List<Room> roomList = dbHelper.getAllRooms();
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, roomList);
         listViewRooms.setAdapter(adapter);
     }

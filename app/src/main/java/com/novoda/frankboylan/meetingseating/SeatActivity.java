@@ -27,7 +27,7 @@ public class SeatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_seat);
 
         toolbarSeat = findViewById(R.id.toolbar_seat);
-        toolbarSeat.setTitle("Seat List"); // ToDo: Reference strings.xml
+        toolbarSeat.setTitle(R.string.toolbar_seat_title);
         setSupportActionBar(toolbarSeat);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -60,7 +60,7 @@ public class SeatActivity extends AppCompatActivity {
                 refreshItem.setVisible(false);
                 filterItem.setVisible(false);
                 clFilterView.setVisibility(View.VISIBLE);
-                toolbarSeat.setTitle("Fitler Menu"); // ToDo: reference strings.xml
+                toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
                 break;
             case R.id.action_refresh:
                 JSONParser jsonParser = new JSONParser(this);
@@ -71,7 +71,7 @@ public class SeatActivity extends AppCompatActivity {
                 refreshItem.setVisible(true);
                 filterItem.setVisible(true);
                 clFilterView.setVisibility(View.GONE);
-                toolbarSeat.setTitle("Seats List"); // ToDo: reference string.xml
+                toolbarSeat.setTitle(R.string.toolbar_seat_title);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
