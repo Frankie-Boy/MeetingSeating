@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MeetingSeating</string>
     <string-array name="drawer_options">
-        <item>Home</item>
+        <item>Statistics</item>
         <item>Seat List</item>
         <item>Room List</item>
         <item>Settings</item>
@@ -17,4 +17,5 @@
     <string name="toolbar_seat_filter_title">Filter Menu</string>
     <string name="nav_drawer_closed">Closed</string>
     <string name="nav_drawer_open">Open</string>
+    <string name="drawer_greeting">Offline Mode</string>
 </resources>

@@ -15,9 +15,9 @@ public class SignInActivity extends AppCompatActivity{
     }
 
     /**
-     * Button Handler method - Sign In
+     * Button Handler method - Offline Mode
      */
-    public void handlerSignIn(View view) {
+    public void handlerOfflineLogin(View view) {
         Intent intent = new Intent(this, StatisticsActivity.class);
         startActivity(intent);
         finish();

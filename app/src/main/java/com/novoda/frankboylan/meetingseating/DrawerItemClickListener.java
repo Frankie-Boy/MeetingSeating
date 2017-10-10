@@ -14,6 +14,8 @@ class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickL
         Intent intent;
         switch (position) {
             case 0: // Home
+                intent = new Intent(context, StatisticsActivity.class);
+                context.startActivity(intent);
                 break;
             case 1: // Seat list
                 intent = new Intent(context, SeatActivity.class);

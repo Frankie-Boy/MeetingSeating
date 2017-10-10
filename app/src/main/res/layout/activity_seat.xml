@@ -46,7 +46,32 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/listview_all_seats"></android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
-        <!-- The drawer layout -->
-    <ListView android:id="@+id/side_drawer"
-        style="@style/LeftDrawer"/>
+    <!-- The drawer layout -->
+    <LinearLayout
+        style="@style/LeftDrawer"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/side_drawer_personal"
+            android:layout_width="match_parent"
+            android:layout_height="225dp"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center|bottom"
+            android:orientation="horizontal">
+            <!-- Image and Greeting Message Here -->
+            <TextView
+                android:id="@+id/tv_drawer_greeting"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:maxLines="1"
+                android:text="@string/drawer_greeting"
+                android:textColor="@color/white"
+                android:textSize="40sp" />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/side_drawer"
+            android:layout_weight="1"
+            style="@style/LeftDrawerList"/>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>
