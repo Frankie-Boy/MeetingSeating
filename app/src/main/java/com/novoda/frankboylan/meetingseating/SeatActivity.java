@@ -1,7 +1,6 @@
 package com.novoda.frankboylan.meetingseating;
 
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class SeatActivity extends AppCompatActivity {
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
     ListView listViewSeats;
-    ConstraintLayout clFilterView;
+    ScrollView svFilterView;
     MenuItem refreshItem, filterItem;
     boolean filterViewVisible;
 
@@ -47,7 +47,7 @@ public class SeatActivity extends AppCompatActivity {
         listViewSeats = findViewById(R.id.listview_all_seats);
         updateList();
 
-        clFilterView = findViewById(R.id.cl_filter);
+        svFilterView = findViewById(R.id.sv_filter);
     }
 
     @Override
@@ -106,19 +106,22 @@ public class SeatActivity extends AppCompatActivity {
      */
     private void cycleUI() {
         if (filterViewVisible) { // Display Filter View
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            listViewSeats.setVisibility(View.GONE);
             refreshItem.setVisible(false); // Removing Toolbar items
             filterItem.setVisible(false);
-            clFilterView.setVisibility(View.VISIBLE); // Displaying View
+            svFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
             return;
-        } else {
-            refreshItem.setVisible(true); // Adding Toolbar items
-            filterItem.setVisible(true);
         }
         // Hide Filter View
-        clFilterView.setVisibility(View.GONE); // Hiding View
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        svFilterView.setVisibility(View.GONE); // Hiding View
+        listViewSeats.setVisibility(View.VISIBLE);
         toolbarSeat.setTitle(R.string.toolbar_seat_title);
         toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
+        refreshItem.setVisible(true); // Adding Toolbar items
+        filterItem.setVisible(true);
     }
 }

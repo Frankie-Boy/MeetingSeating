@@ -18,4 +18,5 @@
     <string name="nav_drawer_closed">Closed</string>
     <string name="nav_drawer_open">Open</string>
     <string name="drawer_greeting">Offline Mode</string>
+    <string name="button_filter_proceed">APPLY FILTERS</string>
 </resources>
