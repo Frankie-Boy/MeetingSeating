@@ -19,43 +19,36 @@
             style="@style/AppToolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         <!-- Filter View -->
-        <ScrollView
-            android:id="@+id/sv_filter"
+        <RelativeLayout
+            android:id="@+id/rl_filter"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/lightGrey">
-            <LinearLayout
+            android:layout_height="match_parent">
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:background="@color/lightGrey">
                 <ExpandableListView
                     android:id="@+id/expandable_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="35dp">
 
                 </ExpandableListView>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="10dp">
-                    <Button
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:background="@color/colorPrimary"
-                        android:text="@string/button_filter_proceed"
-                        android:textColor="@color/white"/>
-                </LinearLayout>
-
-            </LinearLayout>
-        </ScrollView>
-        <!-- List of Seats -->
-        <ListView
-            android:id="@+id/listview_all_seats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_weight="1"/>
+            </ScrollView>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"
+                android:text="@string/button_filter_proceed"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
+    <!-- List of Seats -->
+    <ListView
+        android:id="@+id/listview_all_seats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_weight="1"/>
     </LinearLayout>
     <!-- The drawer layout -->
     <LinearLayout

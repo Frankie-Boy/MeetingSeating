@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class SeatActivity extends AppCompatActivity {
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
     ListView listViewSeats;
-    ScrollView svFilterView;
+    RelativeLayout rlFilterView;
     MenuItem refreshItem, filterItem;
     boolean filterViewVisible;
 
@@ -47,7 +47,7 @@ public class SeatActivity extends AppCompatActivity {
         listViewSeats = findViewById(R.id.listview_all_seats);
         updateList();
 
-        svFilterView = findViewById(R.id.sv_filter);
+        rlFilterView = findViewById(R.id.rl_filter);
     }
 
     @Override
@@ -110,14 +110,14 @@ public class SeatActivity extends AppCompatActivity {
             listViewSeats.setVisibility(View.GONE);
             refreshItem.setVisible(false); // Removing Toolbar items
             filterItem.setVisible(false);
-            svFilterView.setVisibility(View.VISIBLE); // Displaying View
+            rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
             return;
         }
         // Hide Filter View
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        svFilterView.setVisibility(View.GONE); // Hiding View
+        rlFilterView.setVisibility(View.GONE); // Hiding View
         listViewSeats.setVisibility(View.VISIBLE);
         toolbarSeat.setTitle(R.string.toolbar_seat_title);
         toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
