@@ -76,11 +76,11 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
         // Print DB
         List<Seat> seatList = sqliteDML.getAllSeats();
         for (int i = 0; i < seatList.size(); i++) {
-            Log.d("SEAT_DB", seatList.get(i).toString());
+            Log.d("TABLE_SEAT", seatList.get(i).toString());
         }
         List<Room> roomList = sqliteDML.getAllRooms();
         for (int j = 0; j < roomList.size(); j++) {
-            Log.d("ROOM_DB", roomList.get(j).toString());
+            Log.d("TABLE_ROOM", roomList.get(j).toString());
         }
     }
 
