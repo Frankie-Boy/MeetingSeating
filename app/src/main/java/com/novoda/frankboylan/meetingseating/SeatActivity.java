@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -40,7 +41,8 @@ public class SeatActivity extends AppCompatActivity {
 
         toolbarSeat = findViewById(R.id.toolbar_seat);
         toolbarSeat.setTitle(R.string.toolbar_seat_title);
-        // toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
+        toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
+
         setSupportActionBar(toolbarSeat);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -48,6 +50,8 @@ public class SeatActivity extends AppCompatActivity {
         updateList();
 
         rlFilterView = findViewById(R.id.rl_filter);
+        rlFilterView.setVisibility(View.GONE); // Hiding View
+
     }
 
     @Override
@@ -62,7 +66,6 @@ public class SeatActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.seat_toolbar_content, menu);
         refreshItem = menu.findItem(R.id.action_refresh);
         filterItem = menu.findItem(R.id.action_filter);
-        cycleUI();
         return true;
     }
 
@@ -107,9 +110,11 @@ public class SeatActivity extends AppCompatActivity {
     private void cycleUI() {
         if (filterViewVisible) { // Display Filter View
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            listViewSeats.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_off_left));
             listViewSeats.setVisibility(View.GONE);
             refreshItem.setVisible(false); // Removing Toolbar items
             filterItem.setVisible(false);
+            rlFilterView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_on_left));
             rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
@@ -117,7 +122,9 @@ public class SeatActivity extends AppCompatActivity {
         }
         // Hide Filter View
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        rlFilterView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_off_right));
         rlFilterView.setVisibility(View.GONE); // Hiding View
+        listViewSeats.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_on_right));
         listViewSeats.setVisibility(View.VISIBLE);
         toolbarSeat.setTitle(R.string.toolbar_seat_title);
         toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
