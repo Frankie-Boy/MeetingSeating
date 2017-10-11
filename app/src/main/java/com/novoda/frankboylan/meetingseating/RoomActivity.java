@@ -59,7 +59,7 @@ public class RoomActivity extends AppCompatActivity {
                 updateList();
                 break;
             case android.R.id.home:
-                drawerLayout.openDrawer(Gravity.LEFT);
+                drawerLayout.openDrawer(Gravity.START);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -71,9 +71,9 @@ public class RoomActivity extends AppCompatActivity {
      * Refreshes ListViews with SQLite data
      */
     private void updateList() {
-        DBHelper dbHelper = new DBHelper(this);
-        List<Room> roomList = dbHelper.getAllRooms();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, roomList);
+        SqliteDML sqliteDML = new SqliteDML(this);
+        List<Room> roomList = sqliteDML.getAllRooms();
+        ArrayAdapter<Room> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, roomList);
         listViewRooms.setAdapter(adapter);
     }
 }

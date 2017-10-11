@@ -63,6 +63,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="@color/colorPrimary"
                 android:text="@string/button_filter_proceed"
+                android:textSize="20sp"
                 android:textColor="@color/white"/>
         </RelativeLayout>
     <!-- List of Seats -->

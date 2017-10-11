@@ -18,8 +18,7 @@ import java.util.List;
 
 public class SeatActivity extends AppCompatActivity {
     private static final String TAG = "SeatActivity";
-    DBHelper dbHelper;
-    private Seat seat;
+    SqliteDML sqliteDML;
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
     ListView listViewSeats;
@@ -92,7 +91,7 @@ public class SeatActivity extends AppCompatActivity {
                     cycleFilterUI();
                     break;
                 }
-                drawerLayout.openDrawer(Gravity.LEFT);
+                drawerLayout.openDrawer(Gravity.START);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -103,9 +102,9 @@ public class SeatActivity extends AppCompatActivity {
      * Refreshes ListViews with SQLite data
      */
     private void updateList() {
-        dbHelper = new DBHelper(this);
-        List<Seat> seatList = dbHelper.getAllSeats();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, seatList);
+        sqliteDML = new SqliteDML(this);
+        List<Seat> seatList = sqliteDML.getAllSeats();
+        ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
     }
 
@@ -140,7 +139,7 @@ public class SeatActivity extends AppCompatActivity {
     /**
      * Toggles expand on TextViews content depending on tag set in activity_seat.xml
      */
-    public void handlerExpandableToggle(View view) {
+    public void handlerExpandableToggle(View view) { // Ignore warning, this is being used (styles.xml)
         String contextTag = view.getTag().toString(); // Retrieves tag for context on what to toggle
         switch(contextTag) {
             case "rooms": // Toggles the first TextViews content
@@ -168,9 +167,12 @@ public class SeatActivity extends AppCompatActivity {
             }, getResources().getInteger(R.integer.slide_animation_duration_quick));
             return;
         }   // Otherwise load contents then show it
+        displayRoomSwitches();
         llRoomsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_down_appear));
         llRoomsExpandableContent.setVisibility(View.VISIBLE);
+    }
 
+    private void displayRoomSwitches() {
     }
 
     /**

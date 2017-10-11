@@ -37,7 +37,7 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
                 .client(new OkHttpClient())
                 .build();
         AwsSeatMonitorService awsSeatMonitorService = retrofit.create(AwsSeatMonitorService.class);
-        RoomSeatData roomSeatData = new RoomSeatData();
+        RoomSeatData roomSeatData;
         long serverResponseTimestamp = 0L;
         try {
             Response<RoomSeatData> response = awsSeatMonitorService.seatMonitorData().execute();
@@ -48,36 +48,37 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
         }
-        DBHelper dbHelper = new DBHelper(mContext);
-        long databaseTimestamp = dbHelper.getMetaTimestamp().getTimestamp();
+        SqliteDML sqliteDML = new SqliteDML(mContext);
+        long databaseTimestamp = sqliteDML.getMetaTimestamp().getTimestamp();
         if (serverResponseTimestamp < databaseTimestamp) {
             return null;
         }
+        SqliteDDL sqliteDDL = new SqliteDDL(mContext);
         if (roomSeatData.getRooms().isEmpty()) {
             Log.d(TAG, "No rooms found");
         } else {
-            dbHelper.clearData();
-            dbHelper.setMetaTimestamp(serverResponseTimestamp);
+            sqliteDDL.clearData();
+            sqliteDML.setMetaTimestamp(serverResponseTimestamp);
             for (Room room : roomSeatData.getRooms()) {
-                dbHelper.addRoom(room);
+                sqliteDML.addRoom(room);
                 for (Seat seat : room.getSeats()) {
                     seat.setRoomId(room.getRoomId());
-                    dbHelper.addSeat(seat);
+                    sqliteDML.addSeat(seat);
                 }
             }
         }
-        debugLog(dbHelper);
-        dbHelper.close();
+        debugLog(sqliteDML);
+        sqliteDDL.close();
         return null;
     }
 
-    private void debugLog(DBHelper dbHelper) {
+    private void debugLog(SqliteDML sqliteDML) {
         // Print DB
-        List<Seat> seatList = dbHelper.getAllSeats();
+        List<Seat> seatList = sqliteDML.getAllSeats();
         for (int i = 0; i < seatList.size(); i++) {
             Log.d("SEAT_DB", seatList.get(i).toString());
         }
-        List<Room> roomList = dbHelper.getAllRooms();
+        List<Room> roomList = sqliteDML.getAllRooms();
         for (int j = 0; j < roomList.size(); j++) {
             Log.d("ROOM_DB", roomList.get(j).toString());
         }
