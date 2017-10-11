@@ -159,12 +159,18 @@ public class SeatActivity extends AppCompatActivity {
      */
     private void cycleRoomsExpandableUI() {
         if (llRoomsExpandableContent.getVisibility() == View.VISIBLE) { // If the View is already displayed, hide it
-            // ToDo: Slide up vanish animation
-            llRoomsExpandableContent.setVisibility(View.GONE);
+            llRoomsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_up_vanish));
+            llRoomsExpandableContent.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    llRoomsExpandableContent.setVisibility(View.GONE);
+                }
+            }, getResources().getInteger(R.integer.slide_animation_duration_quick));
             return;
-        }   // Otherwise show it
-        // ToDo: Slide down appear animation
+        }   // Otherwise load contents then show it
+        llRoomsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_down_appear));
         llRoomsExpandableContent.setVisibility(View.VISIBLE);
+
     }
 
     /**
@@ -172,11 +178,16 @@ public class SeatActivity extends AppCompatActivity {
      */
     private void cycleSeatsExpandableUI() {
         if (llSeatsExpandableContent.getVisibility() == View.VISIBLE) { // If the View is already displayed, hide it
-            // ToDo: Slide up vanish animation
-            llSeatsExpandableContent.setVisibility(View.GONE);
+            llSeatsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_up_vanish));
+            llSeatsExpandableContent.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    llSeatsExpandableContent.setVisibility(View.GONE);
+                }
+            }, getResources().getInteger(R.integer.slide_animation_duration_quick));
             return;
-        }   // Otherwise show it
-        // ToDo: Slide down appear animation
+        } // Otherwise load contents then show it
+        llSeatsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_down_appear));
         llSeatsExpandableContent.setVisibility(View.VISIBLE);
     }
 }
