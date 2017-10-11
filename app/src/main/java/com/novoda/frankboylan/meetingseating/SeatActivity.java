@@ -28,8 +28,9 @@ public class SeatActivity extends AppCompatActivity {
     RelativeLayout rlFilterView;
     LinearLayout llRoomsExpandableContent, llSeatsExpandableContent;
     MenuItem refreshItem, filterItem;
-    List<Seat> seatsList;
-    boolean initialToggleSeats = false, initialToggleRooms = false;
+    private List<Seat> seatsList;
+    private List<Room> roomsList;
+    boolean initialToggleSeats, initialToggleRooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,11 @@ public class SeatActivity extends AppCompatActivity {
 
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         //llSeatsExpandableContent.setVisibility(View.GONE);
+
+        initialToggleSeats = false;
+        initialToggleRooms = false;
+
+        fillFitlerView();
     }
 
     @Override
@@ -107,17 +113,13 @@ public class SeatActivity extends AppCompatActivity {
      * Refreshes ListViews with SQLite data
      */
     private void updateList() {
-        seatsList = getSeatList();
+        SeatListController seatListControllerController = new SeatListController(this);
+        seatsList = seatListControllerController.getAllSeats();
+
+        // ToDo: getAllRooms from RoomList.java
+
         ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatsList);
         listViewSeats.setAdapter(adapter);
-    }
-
-    /**
-     * Retrieves all Seats in a seatList via SqliteDML
-     */
-    private List<Seat> getSeatList() {
-        sqliteDML = new SqliteDML(this);
-        return sqliteDML.getAllSeats();
     }
 
     /**
@@ -185,9 +187,23 @@ public class SeatActivity extends AppCompatActivity {
         llRoomsExpandableContent.setVisibility(View.VISIBLE);
     }
 
+    private void fillFitlerView() {
+        for(Room room : roomsList) {
+            Switch newSwitch = new Switch(this);
+            newSwitch.setChecked(true);
+            newSwitch.setText(room.toString());
+            newSwitch.setTag("Room");
+            newSwitch.setId(room.getRoomId()); // Could cause issues if roomIds are the same
+            newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
+            newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
+            newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch));
+            llRoomsExpandableContent.addView(newSwitch);
+        }
+    }
+
+    // This method is actively being replaced.
     private void displayRoomSwitches() {
         llRoomsExpandableContent.removeAllViewsInLayout();
-        List<Room> roomsList = sqliteDML.getAllRooms();
         for(Room room : roomsList) {
             final Switch newSwitch = new Switch(this);
             if(!initialToggleRooms) {
@@ -219,7 +235,7 @@ public class SeatActivity extends AppCompatActivity {
         }
         initialToggleRooms = true;
     }
-
+    // So is this one
     private void displaySeatSwitches() {
         llSeatsExpandableContent.removeAllViewsInLayout(); // Clears all of the Switches
         int i = 0;
