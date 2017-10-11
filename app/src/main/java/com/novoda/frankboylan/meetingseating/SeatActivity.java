@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -23,8 +24,8 @@ public class SeatActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     ListView listViewSeats;
     RelativeLayout rlFilterView;
+    LinearLayout llRoomsExpandableContent, llSeatsExpandableContent;
     MenuItem refreshItem, filterItem;
-    boolean filterViewVisible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,12 @@ public class SeatActivity extends AppCompatActivity {
         rlFilterView = findViewById(R.id.rl_filter);
         rlFilterView.setVisibility(View.GONE); // Hiding View
 
+
+        llRoomsExpandableContent = findViewById(R.id.ll_filter_expandable_rooms);
+        llRoomsExpandableContent.setVisibility(View.GONE);
+
+        llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
+        llSeatsExpandableContent.setVisibility(View.GONE);
     }
 
     @Override
@@ -73,8 +80,7 @@ public class SeatActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_filter:
-                filterViewVisible = true;
-                cycleUI();
+                cycleFilterUI();
                 break;
             case R.id.action_refresh:
                 JSONParser jsonParser = new JSONParser(this);
@@ -82,9 +88,8 @@ public class SeatActivity extends AppCompatActivity {
                 updateList();
                 break;
             case android.R.id.home:
-                if(filterViewVisible) {
-                    filterViewVisible = false;
-                    cycleUI();
+                if(rlFilterView.getVisibility() == View.VISIBLE) {
+                    cycleFilterUI();
                     break;
                 }
                 drawerLayout.openDrawer(Gravity.LEFT);
@@ -107,8 +112,8 @@ public class SeatActivity extends AppCompatActivity {
     /**
      * Updates UI - View, Toolbar, Icons, Titles, & Nav Drawer
      */
-    private void cycleUI() {
-        if (filterViewVisible) { // Display Filter View
+    private void cycleFilterUI() {
+        if (rlFilterView.getVisibility() == View.GONE) { // If filter view isn't visible, display it
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             listViewSeats.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_off_left));
             listViewSeats.setVisibility(View.GONE);
@@ -130,5 +135,48 @@ public class SeatActivity extends AppCompatActivity {
         toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
         refreshItem.setVisible(true); // Adding Toolbar items
         filterItem.setVisible(true);
+    }
+
+    /**
+     * Toggles expand on TextViews content depending on tag set in activity_seat.xml
+     */
+    public void handlerExpandableToggle(View view) {
+        String contextTag = view.getTag().toString(); // Retrieves tag for context on what to toggle
+        switch(contextTag) {
+            case "rooms": // Toggles the first TextViews content
+                cycleRoomsExpandableUI();
+                break;
+            case "seats":
+                cycleSeatsExpandableUI();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Toggles specifically the LinearLayout Expandable Rooms View
+     */
+    private void cycleRoomsExpandableUI() {
+        if (llRoomsExpandableContent.getVisibility() == View.VISIBLE) { // If the View is already displayed, hide it
+            // ToDo: Slide up vanish animation
+            llRoomsExpandableContent.setVisibility(View.GONE);
+            return;
+        }   // Otherwise show it
+        // ToDo: Slide down appear animation
+        llRoomsExpandableContent.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Toggles specifically the LinearLayout Expandable Seats View
+     */
+    private void cycleSeatsExpandableUI() {
+        if (llSeatsExpandableContent.getVisibility() == View.VISIBLE) { // If the View is already displayed, hide it
+            // ToDo: Slide up vanish animation
+            llSeatsExpandableContent.setVisibility(View.GONE);
+            return;
+        }   // Otherwise show it
+        // ToDo: Slide down appear animation
+        llSeatsExpandableContent.setVisibility(View.VISIBLE);
     }
 }

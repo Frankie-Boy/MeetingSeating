@@ -19,4 +19,6 @@
     <string name="nav_drawer_open">Open</string>
     <string name="drawer_greeting">Offline Mode</string>
     <string name="button_filter_proceed">APPLY FILTERS</string>
+    <string name="filter_expandable_rooms">Rooms</string>
+    <string name="filter_expandable_seats">Seat</string>
 </resources>

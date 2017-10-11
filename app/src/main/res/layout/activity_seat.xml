@@ -27,12 +27,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/lightGrey">
-                <ExpandableListView
-                    android:id="@+id/expandable_list_view"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="35dp">
-
-                </ExpandableListView>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!-- First Expandable TextView Header -->
+                    <TextView
+                        style="@style/filter_expandable_header_textview"
+                        android:text="@string/filter_expandable_rooms"
+                        android:tag="rooms"/>
+                    <!-- Content to toggle -->
+                    <LinearLayout
+                        android:id="@+id/ll_filter_expandable_rooms"
+                        style="@style/filter_expandable_contents"
+                        android:orientation="vertical">
+                        <!-- Dynamic Switch's added here -->
+                    </LinearLayout>
+                    <!-- Second Expandable TextView Header -->
+                    <TextView
+                        style="@style/filter_expandable_header_textview"
+                        android:text="@string/filter_expandable_seats"
+                        android:tag="seats"/>
+                    <!-- Content to Toggle -->
+                    <LinearLayout
+                        android:id="@+id/ll_filter_expandable_seats"
+                        style="@style/filter_expandable_contents"
+                        android:orientation="vertical">
+                        <!-- Dynamic Switch's added here -->
+                    </LinearLayout>
+                </LinearLayout>
             </ScrollView>
             <Button
                 android:layout_width="match_parent"
