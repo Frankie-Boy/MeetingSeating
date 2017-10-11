@@ -31,7 +31,6 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -47,7 +46,7 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
                 serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
             }
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
         }
         DBHelper dbHelper = new DBHelper(mContext);
         long databaseTimestamp = dbHelper.getMetaTimestamp().getTimestamp();
