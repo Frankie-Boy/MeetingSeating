@@ -1,7 +1,6 @@
 package com.novoda.frankboylan.meetingseating;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 
@@ -21,12 +20,14 @@ class SwitchItemOnClickListener implements Switch.OnClickListener {
             if (newSwitch.isChecked()) {
                 // Room Switch was just checked - Add all Seats with matching roomId to seatList
                 seatListController.addSeatsWithMatchingId(newSwitch.getId());
-                Log.d(TAG, SeatActivity.seatList.toString());
-                return;
+                SeatActivity.updateSwitchUI();
+
+            } else if (!newSwitch.isChecked()) {
+                // Room Switch was just unchecked - Remove all Seats with matching roomId from seatList
+                seatListController.removeSeatsWithMatchingId(newSwitch.getId());
+                // Makes each Seat Switch with matching roomId turn off
+                SeatActivity.updateSwitchUI();
             }
-            // Room Switch was just unchecked - Remove all Seats with matching roomId from seatList
-            seatListController.removeSeatsWithMatchingId(newSwitch.getId());
-            Log.d(TAG, SeatActivity.seatList.toString());
         } else if (newSwitch.getTag().equals("Seat")) {
             if (newSwitch.isChecked()) {
                 // Seat Switch was just checked -  if Switch's with matching roomId are also checked, toggle Room Switch with matching roomId

@@ -28,14 +28,13 @@ class SeatListController {
         List<Seat> addSeatsList = sqliteDataManagement.getSeatsWithRoomId(roomId);
         seatList.addAll(addSeatsList);
         SeatActivity.updateLists();
-        Log.d(TAG, "ADDED" + seatList.toString());
+        Log.d(TAG, "AFTER ADDED" + seatList.toString());
     }
 
     void removeSeatsWithMatchingId(int roomId) {
         Iterator<Seat> i = seatList.iterator();
         while (i.hasNext()) {
             Seat seat = i.next();
-            Log.d(TAG, "comparing: " + seat.toString());
             if (seat.getRoomId() == roomId) {
                 i.remove();
                 Log.d(TAG, "removed: " + seat.toString());

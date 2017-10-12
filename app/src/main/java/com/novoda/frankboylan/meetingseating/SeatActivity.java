@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SeatActivity extends AppCompatActivity {
     private static final String TAG = "SeatActivity";
@@ -29,7 +30,8 @@ public class SeatActivity extends AppCompatActivity {
     static ArrayAdapter<Seat> adapter;
     ListView listViewSeats;
     RelativeLayout rlFilterView;
-    LinearLayout llRoomsExpandableContent, llSeatsExpandableContent;
+    LinearLayout llRoomsExpandableContent;
+    static LinearLayout llSeatsExpandableContent;
     MenuItem refreshItem, filterItem;
 
     @Override
@@ -184,8 +186,7 @@ public class SeatActivity extends AppCompatActivity {
             Switch newSwitch = new Switch(this);
             newSwitch.setChecked(true);
             newSwitch.setText(seat.toString());
-            newSwitch.setTag("Seat:" + seat.getSeatId() + ":" + seat.getRoomId()); // Sets metadata in Switch element
-            Log.d(TAG, "Seat:" + seat.getSeatId() + ":" + seat.getRoomId());
+            newSwitch.setTag(seat); // Sets metadata in Switch element
             newSwitch.setId(i);
             newSwitch.setMinimumHeight(100);
             newSwitch.setSwitchMinWidth(150);
@@ -195,8 +196,26 @@ public class SeatActivity extends AppCompatActivity {
         }
     }
 
-    public void updateSwitchUI() {
+    /**
+     * Syncs Switch status with seatList
+     */
+    public static void updateSwitchUI() {
+        Boolean found = false;
+        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+            Seat seatTag = (Seat) button.getTag();
 
+            for (Seat seat : seatList) {
+                if (Objects.equals(seat.getRoomId(), seatTag.getRoomId())) {
+                    button.setChecked(true);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                button.setChecked(false);
+            }
+        }
     }
 
     /**
