@@ -65,7 +65,7 @@ public class StatisticsActivity extends AppCompatActivity {
      */
     private void updateUI() {
         // Fetches Json RoomSeatData then Updates the SQLite DB
-        JSONParser jsonParser = new JSONParser(this);
-        jsonParser.execute();
+        SeatDataRetrievalTask task = new SeatDataRetrievalTask(this);
+        task.execute();
     }
 }

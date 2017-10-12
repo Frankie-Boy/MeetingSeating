@@ -13,12 +13,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-class JSONParser extends AsyncTask<Void, Void, Void> {
-    private static final String TAG = "JSONParser";
+class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
+    private static final String TAG = "SeatDataRetrievalTask";
 
     private Context mContext;
 
-    JSONParser(Context context) {
+    SeatDataRetrievalTask(Context context) {
         mContext = context;
     }
 

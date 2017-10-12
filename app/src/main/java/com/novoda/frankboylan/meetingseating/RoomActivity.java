@@ -55,8 +55,8 @@ public class RoomActivity extends AppCompatActivity {
                 // ToDo: Display heatmap layout
                 break;
             case R.id.action_refresh:
-                JSONParser jsonParser = new JSONParser(this);
-                jsonParser.execute();
+                SeatDataRetrievalTask task = new SeatDataRetrievalTask(this);
+                task.execute();
                 updateList();
                 break;
             case android.R.id.home:

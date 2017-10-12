@@ -90,8 +90,8 @@ public class SeatActivity extends AppCompatActivity {
                 cycleFilterUI();
                 break;
             case R.id.action_refresh:
-                JSONParser jsonParser = new JSONParser(this);
-                jsonParser.execute();
+                SeatDataRetrievalTask task = new SeatDataRetrievalTask(this);
+                task.execute();
                 setListAdapter();
                 updateLists();
                 break;
