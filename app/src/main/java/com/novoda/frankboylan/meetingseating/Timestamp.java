@@ -2,6 +2,7 @@ package com.novoda.frankboylan.meetingseating;
 
 public class Timestamp {
     private final Long timestamp;
+
     public Timestamp(Long timestamp) {
         this.timestamp = timestamp;
     }

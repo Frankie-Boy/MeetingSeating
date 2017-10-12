@@ -41,7 +41,8 @@ public class SeatActivity extends AppCompatActivity {
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
         drawerList.setAdapter(new ArrayAdapter<>(this,
-                R.layout.drawer_list_item, mDrawerOptions));
+                                                 R.layout.drawer_list_item, mDrawerOptions
+        ));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         toolbarSeat = findViewById(R.id.toolbar_seat);
@@ -55,7 +56,6 @@ public class SeatActivity extends AppCompatActivity {
 
         rlFilterView = findViewById(R.id.rl_filter);
         rlFilterView.setVisibility(View.GONE); // Hiding View
-
 
         llRoomsExpandableContent = findViewById(R.id.ll_filter_expandable_rooms);
         //llRoomsExpandableContent.setVisibility(View.GONE);
@@ -85,7 +85,7 @@ public class SeatActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_filter:
                 cycleFilterUI();
                 break;
@@ -96,7 +96,7 @@ public class SeatActivity extends AppCompatActivity {
                 updateLists();
                 break;
             case android.R.id.home:
-                if(rlFilterView.getVisibility() == View.VISIBLE) {
+                if (rlFilterView.getVisibility() == View.VISIBLE) {
                     cycleFilterUI();
                     break;
                 }
@@ -150,7 +150,7 @@ public class SeatActivity extends AppCompatActivity {
      */
     public void handlerExpandableToggle(View view) { // Ignore warning, this is being used (styles.xml)
         String contextTag = view.getTag().toString(); // Retrieves tag for context on what to toggle
-        switch(contextTag) {
+        switch (contextTag) {
             case "rooms": // Toggles the first TextViews content
                 cycleRoomsExpandableUI();
                 break;

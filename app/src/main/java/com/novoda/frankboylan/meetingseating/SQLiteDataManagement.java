@@ -8,18 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.META_TABLE;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.META_TIMESTAMP;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_ID;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_LOCATIONNAME;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_NAME;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_TABLE;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_UNITNAME;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_ID;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_ROOM_ID;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_TABLE;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_UNITTYPE;
-import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_VALUE;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.*;
 
 class SQLiteDataManagement {
     private SQLiteDataDefinition database;
@@ -31,7 +20,7 @@ class SQLiteDataManagement {
     void setMetaTimestamp(Long timestamp) {
         SQLiteDatabase db = database.getWritableDatabase();
         db.execSQL("INSERT INTO " + META_TABLE + "(" + META_TIMESTAMP +
-                ") VALUES (" + timestamp + ");");
+                           ") VALUES (" + timestamp + ");");
     }
 
     /**
@@ -41,7 +30,7 @@ class SQLiteDataManagement {
         Long timestamp;
         SQLiteDatabase db = database.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT " + META_TIMESTAMP + " FROM " + META_TABLE, null);
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             timestamp = cursor.getLong(0);
             return new Timestamp(timestamp);
         }
@@ -136,8 +125,7 @@ class SQLiteDataManagement {
     List<Seat> getSeatsWithRoomId(int roomId) {
         List<Seat> seatList = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM " + SEAT_TABLE +
-                " WHERE " + SEAT_ROOM_ID + " = " + roomId;
+        String selectQuery = "SELECT * FROM " + SEAT_TABLE + " WHERE " + SEAT_ROOM_ID + " = " + roomId;
 
         SQLiteDatabase db = database.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

@@ -12,7 +12,7 @@ class SeatListController {
     private static final String TAG = "SeatListController";
     private SQLiteDataManagement sqliteDataManagement;
 
-    SeatListController(Context context){
+    SeatListController(Context context) {
         sqliteDataManagement = new SQLiteDataManagement(context);
     }
 

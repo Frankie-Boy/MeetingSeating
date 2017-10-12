@@ -15,11 +15,10 @@ class SwitchItemOnClickListener implements Switch.OnClickListener {
         seatListController = new SeatListController(context);
     }
 
-
     @Override
     public void onClick(View v) {
         if (newSwitch.getTag().equals("Room")) {
-            if(newSwitch.isChecked()) {
+            if (newSwitch.isChecked()) {
                 // Room Switch was just checked - Add all Seats with matching roomId to seatList
                 seatListController.addSeatsWithMatchingId(newSwitch.getId());
                 Log.d(TAG, SeatActivity.seatList.toString());

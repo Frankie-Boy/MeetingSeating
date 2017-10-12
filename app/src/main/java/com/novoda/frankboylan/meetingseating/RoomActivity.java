@@ -27,7 +27,8 @@ public class RoomActivity extends AppCompatActivity {
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
         drawerList.setAdapter(new ArrayAdapter<>(this,
-                R.layout.drawer_list_item, mDrawerOptions));
+                                                 R.layout.drawer_list_item, mDrawerOptions
+        ));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         Toolbar toolbarRoom = findViewById(R.id.toolbar_room);
@@ -49,7 +50,7 @@ public class RoomActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.action_heat:
                 // ToDo: Display heatmap layout
                 break;

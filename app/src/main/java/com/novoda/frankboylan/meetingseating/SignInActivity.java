@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-public class SignInActivity extends AppCompatActivity{
+public class SignInActivity extends AppCompatActivity {
     private static final String TAG = "SignInActivity";
 
     @Override

@@ -1,24 +1,24 @@
 <resources>
-    <string name="app_name">MeetingSeating</string>
-    <string-array name="drawer_options">
-        <item>Statistics</item>
-        <item>Seat List</item>
-        <item>Room List</item>
-        <item>Settings</item>
-        <item>Logout</item>
-    </string-array>
-    <string name="action_toolbar_refresh">Refresh</string>
-    <string name="action_toolbar_filter">Filter</string>
-    <string name="action_toolbar_search">Search</string>
-    <string name="action_toolbar_heatmap">Heatmap</string>
-    <string name="toolbar_statistics_title">Statistics</string>
-    <string name="toolbar_room_title">Rooms</string>
-    <string name="toolbar_seat_title">Seats</string>
-    <string name="toolbar_seat_filter_title">Filter Menu</string>
-    <string name="nav_drawer_closed">Closed</string>
-    <string name="nav_drawer_open">Open</string>
-    <string name="drawer_greeting">Offline Mode</string>
-    <string name="button_filter_proceed">APPLY FILTERS</string>
-    <string name="filter_expandable_rooms">Rooms</string>
-    <string name="filter_expandable_seats">Seat</string>
+  <string name="app_name">MeetingSeating</string>
+  <string-array name="drawer_options">
+    <item>Statistics</item>
+    <item>Seat List</item>
+    <item>Room List</item>
+    <item>Settings</item>
+    <item>Logout</item>
+  </string-array>
+  <string name="action_toolbar_refresh">Refresh</string>
+  <string name="action_toolbar_filter">Filter</string>
+  <string name="action_toolbar_search">Search</string>
+  <string name="action_toolbar_heatmap">Heatmap</string>
+  <string name="toolbar_statistics_title">Statistics</string>
+  <string name="toolbar_room_title">Rooms</string>
+  <string name="toolbar_seat_title">Seats</string>
+  <string name="toolbar_seat_filter_title">Filter Menu</string>
+  <string name="nav_drawer_closed">Closed</string>
+  <string name="nav_drawer_open">Open</string>
+  <string name="drawer_greeting">Offline Mode</string>
+  <string name="button_filter_proceed">APPLY FILTERS</string>
+  <string name="filter_expandable_rooms">Rooms</string>
+  <string name="filter_expandable_seats">Seat</string>
 </resources>
