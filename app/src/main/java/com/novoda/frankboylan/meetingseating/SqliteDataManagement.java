@@ -8,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-class SqliteDML {
-    private static final String TAG = "SqliteDML";
+class SqliteDataManagement {
+    private static final String TAG = "SqliteDataManagement";
     // Database Strings
     private static final String TABLE_ROOM = "rooms";               // Room Table
     private static final String ROOM_ID = "room_id";
@@ -26,10 +26,10 @@ class SqliteDML {
     private static final String TABLE_META = "metadata";            // Meta-data Table
     private static final String META_TIMESTAMP = "meta_timestamp";
 
-    private SqliteDDL database;
+    private SqliteDataDefinition database;
 
-    SqliteDML(Context context) {
-        database = new SqliteDDL(context);
+    SqliteDataManagement(Context context) {
+        database = new SqliteDataDefinition(context);
     }
 
     void setMetaTimestamp(Long timestamp) {

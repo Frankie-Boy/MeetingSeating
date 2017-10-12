@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-class SqliteDDL extends SQLiteOpenHelper {
+class SqliteDataDefinition extends SQLiteOpenHelper {
     private static int DATABASE_VERSION = 17;
 
     // Database Strings
@@ -25,7 +25,7 @@ class SqliteDDL extends SQLiteOpenHelper {
     private static final String TABLE_META = "metadata";            // Meta-data Table
     private static final String META_TIMESTAMP = "meta_timestamp";
 
-    SqliteDDL(Context context) {
+    SqliteDataDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

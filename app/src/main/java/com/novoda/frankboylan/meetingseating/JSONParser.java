@@ -48,37 +48,37 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
         }
-        SqliteDML sqliteDML = new SqliteDML(mContext);
-        long databaseTimestamp = sqliteDML.getMetaTimestamp().getTimestamp();
+        SqliteDataManagement sqliteDataManagement = new SqliteDataManagement(mContext);
+        long databaseTimestamp = sqliteDataManagement.getMetaTimestamp().getTimestamp();
         if (serverResponseTimestamp < databaseTimestamp) {
             return null;
         }
-        SqliteDDL sqliteDDL = new SqliteDDL(mContext);
+        SqliteDataDefinition sqliteDataDefinition = new SqliteDataDefinition(mContext);
         if (roomSeatData.getRooms().isEmpty()) {
             Log.d(TAG, "No rooms found");
         } else {
-            sqliteDDL.clearData();
-            sqliteDML.setMetaTimestamp(serverResponseTimestamp);
+            sqliteDataDefinition.clearData();
+            sqliteDataManagement.setMetaTimestamp(serverResponseTimestamp);
             for (Room room : roomSeatData.getRooms()) {
-                sqliteDML.addRoom(room);
+                sqliteDataManagement.addRoom(room);
                 for (Seat seat : room.getSeats()) {
                     seat.setRoomId(room.getRoomId());
-                    sqliteDML.addSeat(seat);
+                    sqliteDataManagement.addSeat(seat);
                 }
             }
         }
-        debugLog(sqliteDML);
-        sqliteDDL.close();
+        debugLog(sqliteDataManagement);
+        sqliteDataDefinition.close();
         return null;
     }
 
-    private void debugLog(SqliteDML sqliteDML) {
+    private void debugLog(SqliteDataManagement sqliteDataManagement) {
         // Print DB
-        List<Seat> seatList = sqliteDML.getAllSeats();
+        List<Seat> seatList = sqliteDataManagement.getAllSeats();
         for (int i = 0; i < seatList.size(); i++) {
             Log.d("TABLE_SEAT", seatList.get(i).toString());
         }
-        List<Room> roomList = sqliteDML.getAllRooms();
+        List<Room> roomList = sqliteDataManagement.getAllRooms();
         for (int j = 0; j < roomList.size(); j++) {
             Log.d("TABLE_ROOM", roomList.get(j).toString());
         }
