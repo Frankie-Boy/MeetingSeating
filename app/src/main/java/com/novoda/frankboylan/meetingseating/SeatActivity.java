@@ -200,19 +200,21 @@ public class SeatActivity extends AppCompatActivity {
      * Syncs Switch status with seatList
      */
     public static void updateSwitchUI() {
-        Boolean found = false;
         for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+            Boolean found = false;
             Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
             Seat seatTag = (Seat) button.getTag();
 
             for (Seat seat : seatList) {
                 if (Objects.equals(seat.getRoomId(), seatTag.getRoomId())) {
+                    Log.d(TAG, "Match found: " + seat.getRoomId() + " : " + seatTag.getRoomId());
                     button.setChecked(true);
                     found = true;
                     break;
                 }
             }
             if (!found) {
+                Log.d(TAG, "Not found in seatList - Untoggling");
                 button.setChecked(false);
             }
         }
