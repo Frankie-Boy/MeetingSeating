@@ -1,6 +1,5 @@
 package com.novoda.frankboylan.meetingseating;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -15,10 +14,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SeatDataRetrievalTask";
 
-    private Context mContext;
+    private SQLiteDataManagement sqliteDataManagement;
+    private SQLiteDataDefinition sqliteDataDefinition;
 
-    SeatDataRetrievalTask(Context context) {
-        mContext = context;
+    SeatDataRetrievalTask(SQLiteDataManagement sqliteDataManagement, SQLiteDataDefinition sqliteDataDefinition) {
+        this.sqliteDataManagement = sqliteDataManagement;
+        this.sqliteDataDefinition = sqliteDataDefinition;
     }
 
     @Override
@@ -40,12 +41,11 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
         }
-        SQLiteDataManagement sqliteDataManagement = new SQLiteDataManagement(mContext);
+
         long databaseTimestamp = sqliteDataManagement.getMetaTimestamp().getTimestamp();
         if (serverResponseTimestamp < databaseTimestamp) {
             return null;
         }
-        SQLiteDataDefinition sqliteDataDefinition = new SQLiteDataDefinition(mContext);
         if (roomSeatData.getRooms().isEmpty()) {
             Log.d(TAG, "No rooms found");
         } else {

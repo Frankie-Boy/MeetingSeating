@@ -66,7 +66,7 @@ public class StatisticsActivity extends AppCompatActivity {
      */
     private void updateUI() {
         // Fetches Json RoomSeatData then Updates the SQLite DB
-        SeatDataRetrievalTask task = new SeatDataRetrievalTask(this);
+        SeatDataRetrievalTask task = new SeatDataRetrievalTask(new SQLiteDataManagement(this), new SQLiteDataDefinition(this));
         Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
         task.execute();
     }
