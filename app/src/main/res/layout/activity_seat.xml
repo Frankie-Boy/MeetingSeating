@@ -36,6 +36,7 @@
           <!-- First Expandable TextView Header -->
           <TextView
             style="@style/filter_expandable_header_textview"
+            android:onClick="handlerExpandableToggle"
             android:tag="rooms"
             android:text="@string/filter_expandable_rooms" />
           <!-- Content to toggle -->
@@ -48,6 +49,7 @@
           <!-- Second Expandable TextView Header -->
           <TextView
             style="@style/filter_expandable_header_textview"
+            android:onClick="handlerExpandableToggle"
             android:tag="seats"
             android:text="@string/filter_expandable_seats" />
           <!-- Content to Toggle -->

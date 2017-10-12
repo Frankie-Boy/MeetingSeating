@@ -150,7 +150,7 @@ public class SeatActivity extends AppCompatActivity {
     /**
      * Toggles expand on TextViews content depending on tag set in activity_seat.xml
      */
-    public void handlerExpandableToggle(View view) { // Ignore warning, this is being used (styles.xml)
+    public void handlerExpandableToggle(View view) {
         String contextTag = view.getTag().toString(); // Retrieves tag for context on what to toggle
         switch (contextTag) {
             case "rooms": // Toggles the first TextViews content
