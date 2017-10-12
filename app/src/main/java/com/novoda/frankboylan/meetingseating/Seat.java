@@ -2,7 +2,7 @@ package com.novoda.frankboylan.meetingseating;
 
 import com.squareup.moshi.Json;
 
-public class Seat {
+class Seat {
 
     @Json(name = "seatId")
     private Integer seatId;
@@ -12,35 +12,35 @@ public class Seat {
     @Json(name = "unitType")
     private String unitType;
 
-    public Integer getSeatId() {
+    Integer getSeatId() {
         return seatId;
     }
 
-    public void setSeatId(Integer seatId) {
+    void setSeatId(Integer seatId) {
         this.seatId = seatId;
     }
 
-    public Integer getValue() {
+    Integer getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    void setValue(Integer value) {
         this.value = value;
     }
 
-    public String getUnitType() {
+    String getUnitType() {
         return unitType;
     }
 
-    public void setUnitType(String unitType) {
+    void setUnitType(String unitType) {
         this.unitType = unitType;
     }
 
-    public Integer getRoomId() {
+    Integer getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Integer roomId) {
+    void setRoomId(Integer roomId) {
         this.roomId = roomId;
     }
 
