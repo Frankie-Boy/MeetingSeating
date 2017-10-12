@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 class SQLiteDataDefinition extends SQLiteOpenHelper {
-    private static int DATABASE_VERSION = 17;
+    private static int DATABASE_VERSION = 1;
 
     // Database Strings
     private static final String DATABASE_NAME = "meeting_seating_db";
