@@ -10,10 +10,10 @@ import static com.novoda.frankboylan.meetingseating.SeatActivity.seatList;
 
 class SeatListController {
     private static final String TAG = "SeatListController";
-    private SqliteDataManagement sqliteDataManagement;
+    private SQLiteDataManagement sqliteDataManagement;
 
     SeatListController(Context context){
-        sqliteDataManagement = new SqliteDataManagement(context);
+        sqliteDataManagement = new SQLiteDataManagement(context);
     }
 
     List<Seat> getAllSeats() {

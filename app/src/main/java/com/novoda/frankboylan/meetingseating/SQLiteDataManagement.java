@@ -8,24 +8,24 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.META_TABLE;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.META_TIMESTAMP;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_ID;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_LOCATIONNAME;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_NAME;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_TABLE;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_UNITNAME;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_ID;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_ROOM_ID;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_TABLE;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_UNITTYPE;
-import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_VALUE;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.META_TABLE;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.META_TIMESTAMP;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_ID;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_LOCATIONNAME;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_NAME;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_TABLE;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.ROOM_UNITNAME;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_ID;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_ROOM_ID;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_TABLE;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_UNITTYPE;
+import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.SEAT_VALUE;
 
-class SqliteDataManagement {
-    private SqliteDataDefinition database;
+class SQLiteDataManagement {
+    private SQLiteDataDefinition database;
 
-    SqliteDataManagement(Context context) {
-        database = new SqliteDataDefinition(context);
+    SQLiteDataManagement(Context context) {
+        database = new SQLiteDataDefinition(context);
     }
 
     void setMetaTimestamp(Long timestamp) {

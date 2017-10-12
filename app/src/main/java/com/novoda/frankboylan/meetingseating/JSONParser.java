@@ -48,12 +48,12 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
         } catch (IOException e) {
             throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
         }
-        SqliteDataManagement sqliteDataManagement = new SqliteDataManagement(mContext);
+        SQLiteDataManagement sqliteDataManagement = new SQLiteDataManagement(mContext);
         long databaseTimestamp = sqliteDataManagement.getMetaTimestamp().getTimestamp();
         if (serverResponseTimestamp < databaseTimestamp) {
             return null;
         }
-        SqliteDataDefinition sqliteDataDefinition = new SqliteDataDefinition(mContext);
+        SQLiteDataDefinition sqliteDataDefinition = new SQLiteDataDefinition(mContext);
         if (roomSeatData.getRooms().isEmpty()) {
             Log.d(TAG, "No rooms found");
         } else {
@@ -72,7 +72,7 @@ class JSONParser extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    private void debugLog(SqliteDataManagement sqliteDataManagement) {
+    private void debugLog(SQLiteDataManagement sqliteDataManagement) {
         // Print DB
         List<Seat> seatList = sqliteDataManagement.getAllSeats();
         for (int i = 0; i < seatList.size(); i++) {
