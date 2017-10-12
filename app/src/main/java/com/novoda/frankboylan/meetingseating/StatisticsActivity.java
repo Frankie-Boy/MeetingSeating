@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String TAG = "StatisticsActivity";
@@ -66,6 +67,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private void updateUI() {
         // Fetches Json RoomSeatData then Updates the SQLite DB
         SeatDataRetrievalTask task = new SeatDataRetrievalTask(this);
+        Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
         task.execute();
     }
 }

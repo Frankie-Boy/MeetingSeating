@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,7 @@ public class SeatActivity extends AppCompatActivity {
                 break;
             case R.id.action_refresh:
                 SeatDataRetrievalTask task = new SeatDataRetrievalTask(this);
+                Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
                 task.execute();
                 setListAdapter();
                 updateLists();

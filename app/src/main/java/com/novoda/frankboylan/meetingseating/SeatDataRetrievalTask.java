@@ -3,7 +3,6 @@ package com.novoda.frankboylan.meetingseating;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,12 +19,6 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
 
     SeatDataRetrievalTask(Context context) {
         mContext = context;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        Toast.makeText(mContext, "Fetching data", Toast.LENGTH_LONG).show();
     }
 
     @Override
