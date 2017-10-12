@@ -53,7 +53,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 updateUI();
                 break;
             case android.R.id.home:
-                drawerLayout.openDrawer(Gravity.LEFT);
+                drawerLayout.openDrawer(Gravity.START);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
