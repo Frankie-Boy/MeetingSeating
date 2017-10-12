@@ -125,6 +125,37 @@ class SqliteDML {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
+                Seat seat = new Seat(); // Optimise this cursor.
+                seat.setSeatId(cursor.getInt(0));
+                seat.setValue(cursor.getInt(1));
+                seat.setUnitType(cursor.getString(2));
+                seat.setRoomId(cursor.getInt(3));
+
+                seatList.add(seat);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return seatList;
+    }
+
+    void removeSeatsWithRoomId(int roomId) {
+        SQLiteDatabase db = database.getWritableDatabase();
+        db.execSQL("DELETE * FROM " + TABLE_SEAT +
+                " WHERE " + SEAT_ROOM_ID + " = " + roomId);
+    }
+
+    List<Seat> getSeatsWithRoomId(int roomId) {
+        List<Seat> seatList = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM " + TABLE_SEAT +
+                " WHERE " + SEAT_ROOM_ID + " = " + roomId;
+
+        SQLiteDatabase db = database.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
                 Seat seat = new Seat();
                 seat.setSeatId(cursor.getInt(0));
                 seat.setValue(cursor.getInt(1));

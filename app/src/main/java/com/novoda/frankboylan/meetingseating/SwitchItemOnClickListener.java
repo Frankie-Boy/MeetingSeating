@@ -1,30 +1,40 @@
 package com.novoda.frankboylan.meetingseating;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 
 class SwitchItemOnClickListener implements Switch.OnClickListener {
+    private static final String TAG = "SwitchItemOnClickListen";
     private Switch newSwitch;
+    private SeatListController seatListController;
 
-    SwitchItemOnClickListener(Switch newSwitch) {
+    SwitchItemOnClickListener(Switch newSwitch, Context context) {
         this.newSwitch = newSwitch;
+        seatListController = new SeatListController(context);
     }
+
 
     @Override
     public void onClick(View v) {
-        //If switch's name = room / if switch's name = seats / ischecked / !isChecked
-        if(newSwitch.getTag() == "Room") {
+        if (newSwitch.getTag().equals("Room")) {
             if(newSwitch.isChecked()) {
                 // Room Switch was just checked - Add all Seats with matching roomId to seatList
+                seatListController.addSeatsWithMatchingId(newSwitch.getId());
+                Log.d(TAG, SeatActivity.seatList.toString());
                 return;
             }
             // Room Switch was just unchecked - Remove all Seats with matching roomId from seatList
-        } else if (newSwitch.getTag() == "Seat") {
+            seatListController.removeSeatsWithMatchingId(newSwitch.getId());
+            Log.d(TAG, SeatActivity.seatList.toString());
+        } else if (newSwitch.getTag().equals("Seat")) {
             if (newSwitch.isChecked()) {
                 // Seat Switch was just checked -  if Switch's with matching roomId are also checked, toggle Room Switch with matching roomId
                 return;
             }
             // Seat Switch was just unchecked - Un-check Room Switch with matching roomId
+
         }
     }
 }

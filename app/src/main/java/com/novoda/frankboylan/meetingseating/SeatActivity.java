@@ -16,21 +16,20 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SeatActivity extends AppCompatActivity {
     private static final String TAG = "SeatActivity";
-    SqliteDML sqliteDML;
+    public static List<Seat> seatList;
+    public static List<Room> roomList;
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
+    static ArrayAdapter<Seat> adapter;
     ListView listViewSeats;
     RelativeLayout rlFilterView;
     LinearLayout llRoomsExpandableContent, llSeatsExpandableContent;
     MenuItem refreshItem, filterItem;
-    private List<Seat> seatsList;
-    private List<Room> roomsList;
-    boolean initialToggleSeats, initialToggleRooms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,6 @@ public class SeatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         listViewSeats = findViewById(R.id.listview_all_seats);
-        updateList();
 
         rlFilterView = findViewById(R.id.rl_filter);
         rlFilterView.setVisibility(View.GONE); // Hiding View
@@ -65,16 +63,15 @@ public class SeatActivity extends AppCompatActivity {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         //llSeatsExpandableContent.setVisibility(View.GONE);
 
-        initialToggleSeats = false;
-        initialToggleRooms = false;
+        SeatListController seatListController = new SeatListController(this);
+        seatList = new ArrayList<>();
+        seatList.addAll(seatListController.getAllSeats());
+        roomList = new ArrayList<>();
+        roomList.addAll(seatListController.getAllRooms());
+        Log.d(TAG, "INITIAL CREATE");
 
-        fillFitlerView();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateList();
+        setListAdapter();
+        fillFilterView();
     }
 
     @Override
@@ -95,7 +92,8 @@ public class SeatActivity extends AppCompatActivity {
             case R.id.action_refresh:
                 JSONParser jsonParser = new JSONParser(this);
                 jsonParser.execute();
-                updateList();
+                setListAdapter();
+                updateLists();
                 break;
             case android.R.id.home:
                 if(rlFilterView.getVisibility() == View.VISIBLE) {
@@ -109,17 +107,14 @@ public class SeatActivity extends AppCompatActivity {
         }
         return true;
     }
-    /**
-     * Refreshes ListViews with SQLite data
-     */
-    private void updateList() {
-        SeatListController seatListControllerController = new SeatListController(this);
-        seatsList = seatListControllerController.getAllSeats();
 
-        // ToDo: getAllRooms from RoomList.java
-
-        ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatsList);
+    public void setListAdapter() {
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
+    }
+
+    public static void updateLists() {
+        adapter.notifyDataSetChanged();
     }
 
     /**
@@ -136,8 +131,6 @@ public class SeatActivity extends AppCompatActivity {
             rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
-            displayRoomSwitches();
-            displaySeatSwitches();
             return;
         }
         // Hide Filter View
@@ -170,6 +163,41 @@ public class SeatActivity extends AppCompatActivity {
     }
 
     /**
+     * Initial create of filter Switch elements
+     */
+    private void fillFilterView() { // ToDo: refine this
+        for (Room room : roomList) {
+            Switch newSwitch = new Switch(this);
+            newSwitch.setChecked(true);
+            newSwitch.setText(room.toString());
+            newSwitch.setTag("Room");
+            newSwitch.setId(room.getRoomId()); // Could cause issues if roomIds are the same
+            newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
+            newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
+            llRoomsExpandableContent.addView(newSwitch);
+            newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, this));
+        }
+        int i = 0;
+        for (Seat seat : seatList) {
+            Switch newSwitch = new Switch(this);
+            newSwitch.setChecked(true);
+            newSwitch.setText(seat.toString());
+            newSwitch.setTag("Seat:" + seat.getSeatId() + ":" + seat.getRoomId()); // Sets metadata in Switch element
+            Log.d(TAG, "Seat:" + seat.getSeatId() + ":" + seat.getRoomId());
+            newSwitch.setId(i);
+            newSwitch.setMinimumHeight(100);
+            newSwitch.setSwitchMinWidth(150);
+            llSeatsExpandableContent.addView(newSwitch);
+            newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, this));
+            i++;
+        }
+    }
+
+    public void updateSwitchUI() {
+
+    }
+
+    /**
      * Toggles specifically the LinearLayout Expandable Rooms View
      */
     private void cycleRoomsExpandableUI() {
@@ -185,74 +213,6 @@ public class SeatActivity extends AppCompatActivity {
         }   // Otherwise load contents then show it
         llRoomsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_down_appear));
         llRoomsExpandableContent.setVisibility(View.VISIBLE);
-    }
-
-    private void fillFitlerView() {
-        for(Room room : roomsList) {
-            Switch newSwitch = new Switch(this);
-            newSwitch.setChecked(true);
-            newSwitch.setText(room.toString());
-            newSwitch.setTag("Room");
-            newSwitch.setId(room.getRoomId()); // Could cause issues if roomIds are the same
-            newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
-            newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
-            newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch));
-            llRoomsExpandableContent.addView(newSwitch);
-        }
-    }
-
-    // This method is actively being replaced.
-    private void displayRoomSwitches() {
-        llRoomsExpandableContent.removeAllViewsInLayout();
-        for(Room room : roomsList) {
-            final Switch newSwitch = new Switch(this);
-            if(!initialToggleRooms) {
-                newSwitch.setChecked(true);
-            }
-            newSwitch.setText(room.toString());
-            newSwitch.setId(room.getRoomId()); // Could cause issues if roomIds are the same
-            newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
-            newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
-            llRoomsExpandableContent.addView(newSwitch);
-            newSwitch.setOnClickListener(new View.OnClickListener() { // ToDo: Move this to its own method
-                @Override
-                public void onClick(View v) {
-                    if(newSwitch.isChecked()) {
-                        // ToDo: (NEW DML) Add specific seats to List (param: newSwitch.getId) (ROOMID)
-                        return;
-                    }
-                    Iterator<Seat> iterator = seatsList.iterator(); // Iterator used to avoid Concurrent Modification Exception
-                    while(iterator.hasNext()) {
-                        Seat seatCheck = iterator.next();
-                        if(seatCheck.getRoomId() == newSwitch.getId()) { // Indentation madness, refine this
-                            iterator.remove();
-                        }
-                    }
-                    initialToggleSeats = false;
-                    displaySeatSwitches();
-                }
-            });
-        }
-        initialToggleRooms = true;
-    }
-    // So is this one
-    private void displaySeatSwitches() {
-        llSeatsExpandableContent.removeAllViewsInLayout(); // Clears all of the Switches
-        int i = 0;
-        for(Seat seat : seatsList) {
-            Log.d(TAG, seatsList.get(i) + "");
-            Switch newSwitch = new Switch(this);
-            if(!initialToggleSeats) {
-                newSwitch.setChecked(true);
-            }
-            newSwitch.setText(seat.toString());
-            newSwitch.setId(i); // Could cause issues if roomIds are the same
-            newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
-            newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
-            llSeatsExpandableContent.addView(newSwitch);
-            i++;
-        }
-        initialToggleSeats = true;
     }
 
     /**
