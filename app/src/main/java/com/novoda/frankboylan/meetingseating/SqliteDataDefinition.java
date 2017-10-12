@@ -10,20 +10,20 @@ class SqliteDataDefinition extends SQLiteOpenHelper {
     // Database Strings
     private static final String DATABASE_NAME = "meeting_seating_db";
 
-    private static final String ROOM_TABLE = "rooms";
-    private static final String ROOM_ID = "room_id";
-    private static final String ROOM_NAME = "room_name";
-    private static final String ROOM_LOCATIONNAME = "room_locationname";
-    private static final String ROOM_UNITNAME = "room_unitname";
+    static final String ROOM_TABLE = "rooms";
+    static final String ROOM_ID = "room_id";
+    static final String ROOM_NAME = "room_name";
+    static final String ROOM_LOCATIONNAME = "room_locationname";
+    static final String ROOM_UNITNAME = "room_unitname";
 
-    private static final String SEAT_TABLE = "seats";
-    private static final String SEAT_ID = "seat_id";
-    private static final String SEAT_VALUE = "seat_value";
-    private static final String SEAT_UNITTYPE = "seat_unittype";
-    private static final String SEAT_ROOM_ID = "seat_roomid";
+    static final String SEAT_TABLE = "seats";
+    static final String SEAT_ID = "seat_id";
+    static final String SEAT_VALUE = "seat_value";
+    static final String SEAT_UNITTYPE = "seat_unittype";
+    static final String SEAT_ROOM_ID = "seat_roomid";
 
-    private static final String META_TABLE = "metadata";
-    private static final String META_TIMESTAMP = "meta_timestamp";
+    static final String META_TABLE = "metadata";
+    static final String META_TIMESTAMP = "meta_timestamp";
 
     SqliteDataDefinition(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

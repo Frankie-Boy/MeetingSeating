@@ -8,24 +8,20 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.META_TABLE;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.META_TIMESTAMP;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_ID;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_LOCATIONNAME;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_NAME;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_TABLE;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.ROOM_UNITNAME;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_ID;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_ROOM_ID;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_TABLE;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_UNITTYPE;
+import static com.novoda.frankboylan.meetingseating.SqliteDataDefinition.SEAT_VALUE;
+
 class SqliteDataManagement {
-    private static final String TAG = "SqliteDataManagement";
-    // Database Strings
-    private static final String TABLE_ROOM = "rooms";               // Room Table
-    private static final String ROOM_ID = "room_id";
-    private static final String ROOM_NAME = "room_name";
-    private static final String ROOM_LOCATIONNAME = "room_locationname";
-    private static final String ROOM_UNITNAME = "room_unitname";
-
-    private static final String TABLE_SEAT = "seats";               // Seats Table
-    private static final String SEAT_ID = "seat_id";
-    private static final String SEAT_VALUE = "seat_value";
-    private static final String SEAT_UNITTYPE = "seat_unittype";
-    private static final String SEAT_ROOM_ID = "seat_roomid";
-
-    private static final String TABLE_META = "metadata";            // Meta-data Table
-    private static final String META_TIMESTAMP = "meta_timestamp";
-
     private SqliteDataDefinition database;
 
     SqliteDataManagement(Context context) {
@@ -34,7 +30,7 @@ class SqliteDataManagement {
 
     void setMetaTimestamp(Long timestamp) {
         SQLiteDatabase db = database.getWritableDatabase();
-        db.execSQL("INSERT INTO " + TABLE_META + "(" + META_TIMESTAMP +
+        db.execSQL("INSERT INTO " + META_TABLE + "(" + META_TIMESTAMP +
                 ") VALUES (" + timestamp + ");");
     }
 
@@ -44,7 +40,7 @@ class SqliteDataManagement {
     Timestamp getMetaTimestamp() {
         Long timestamp;
         SQLiteDatabase db = database.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT " + META_TIMESTAMP + " FROM " + TABLE_META, null);
+        Cursor cursor = db.rawQuery("SELECT " + META_TIMESTAMP + " FROM " + META_TABLE, null);
         if(cursor.moveToFirst()) {
             timestamp = cursor.getLong(0);
             return new Timestamp(timestamp);
@@ -56,7 +52,6 @@ class SqliteDataManagement {
 
     /**
      * Insert a room row into the database, for back-end use only.
-     * @param room
      */
     void addRoom(Room room) {
         SQLiteDatabase db = database.getWritableDatabase();
@@ -67,14 +62,14 @@ class SqliteDataManagement {
         values.put(ROOM_LOCATIONNAME, room.getLocation());
         values.put(ROOM_UNITNAME, room.getUnitName());
 
-        db.insert(TABLE_ROOM, null, values);
+        db.insert(ROOM_TABLE, null, values);
         db.close();
     }
 
     List<Room> getAllRooms() {
         List<Room> roomList = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_ROOM;
+        String selectQuery = "SELECT  * FROM " + ROOM_TABLE;
 
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -98,7 +93,6 @@ class SqliteDataManagement {
 
     /**
      * Insert a new seat row into the database, for back-end use only.
-     * @param seat
      */
     void addSeat(Seat seat) {
         SQLiteDatabase db = database.getWritableDatabase();
@@ -109,7 +103,7 @@ class SqliteDataManagement {
         values.put(SEAT_UNITTYPE, seat.getUnitType());
         values.put(SEAT_ROOM_ID, seat.getRoomId());
 
-        db.insert(TABLE_SEAT, null, values);
+        db.insert(SEAT_TABLE, null, values);
 
         db.close();
     }
@@ -117,7 +111,7 @@ class SqliteDataManagement {
     List<Seat> getAllSeats() {
         List<Seat> seatList = new ArrayList<>();
 
-        String selectQuery = "SELECT  * FROM " + TABLE_SEAT;
+        String selectQuery = "SELECT  * FROM " + SEAT_TABLE;
 
         SQLiteDatabase db = database.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -139,16 +133,10 @@ class SqliteDataManagement {
         return seatList;
     }
 
-    void removeSeatsWithRoomId(int roomId) {
-        SQLiteDatabase db = database.getWritableDatabase();
-        db.execSQL("DELETE * FROM " + TABLE_SEAT +
-                " WHERE " + SEAT_ROOM_ID + " = " + roomId);
-    }
-
     List<Seat> getSeatsWithRoomId(int roomId) {
         List<Seat> seatList = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM " + TABLE_SEAT +
+        String selectQuery = "SELECT * FROM " + SEAT_TABLE +
                 " WHERE " + SEAT_ROOM_ID + " = " + roomId;
 
         SQLiteDatabase db = database.getReadableDatabase();
