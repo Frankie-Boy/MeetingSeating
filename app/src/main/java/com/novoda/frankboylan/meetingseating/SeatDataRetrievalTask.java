@@ -3,16 +3,13 @@ package com.novoda.frankboylan.meetingseating;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.io.IOException;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.moshi.MoshiConverterFactory;
 
 class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SeatDataRetrievalTask";
+    private SeatModel model;
 
     private SQLiteDataManagement sqliteDataManagement;
     private SQLiteDataDefinition sqliteDataDefinition;
@@ -24,24 +21,15 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AwsSeatMonitorService.BASE)
-                .addConverterFactory(MoshiConverterFactory.create())
-                .client(new OkHttpClient())
-                .build();
-        AwsSeatMonitorService awsSeatMonitorService = retrofit.create(AwsSeatMonitorService.class);
+        model = new SeatModelImpl();
         RoomSeatData roomSeatData;
         long serverResponseTimestamp = 0L;
-        try {
-            Response<RoomSeatData> response = awsSeatMonitorService.seatMonitorData().execute();
-            roomSeatData = response.body();
-            if (response.isSuccessful() && roomSeatData != null) {
-                serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
-            }
-        } catch (IOException e) {
-            throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
-        }
 
+        Response<RoomSeatData> response = model.retrieveData();
+        roomSeatData = response.body();
+        if (response.isSuccessful() && roomSeatData != null) {
+            serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
+        }
         long databaseTimestamp = sqliteDataManagement.getMetaTimestamp().getTimestamp();
         if (serverResponseTimestamp < databaseTimestamp) {
             return null;

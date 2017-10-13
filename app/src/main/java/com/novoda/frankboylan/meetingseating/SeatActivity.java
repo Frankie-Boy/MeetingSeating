@@ -21,26 +21,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class SeatActivity extends AppCompatActivity {
+public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     private static final String TAG = "SeatActivity";
     public static List<Seat> seatListFiltered;
     public static List<Room> roomList;
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
-    static ArrayAdapter<Seat> adapter;
     ListView listViewSeats;
     RelativeLayout rlFilterView;
     LinearLayout llRoomsExpandableContent;
     static LinearLayout llSeatsExpandableContent;
     MenuItem refreshItem, filterItem;
     List<Seat> seatList, seatListFull;
+    static ArrayAdapter adapter;
+    private SeatPresenter seatPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat);
 
+        // Get all Views
+
+        // Pass them into the Displayer
+
+
         ListView drawerList = findViewById(R.id.side_drawer);
+
         drawerLayout = findViewById(R.id.drawer_layout);
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
@@ -81,6 +88,11 @@ public class SeatActivity extends AppCompatActivity {
 
         setListAdapter();
         fillFilterView();
+
+        SQLiteDataDefinition definition = new SQLiteDataDefinition(this);
+        SQLiteDataManagement management = new SQLiteDataManagement(this);
+        seatPresenter = new SeatPresenter(definition, management, seatListController);
+        seatPresenter.bind(this);
     }
 
     @Override
@@ -99,15 +111,7 @@ public class SeatActivity extends AppCompatActivity {
                 cycleFilterUI();
                 break;
             case R.id.action_refresh:
-                SeatDataRetrievalTask task = new SeatDataRetrievalTask(new SQLiteDataManagement(this), new SQLiteDataDefinition(this));
-                task.execute();
-                SeatListController seatListController = new SeatListController(this);
-                seatList = seatListController.getAllSeats();
-                Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
-                setListAdapter();
-                seatListFull.clear();   // Re-makes the seatListFull from seatList's new data
-                seatListFull.addAll(seatList);
-                updateSeatList();
+                seatPresenter.onRefresh();
                 break;
             case android.R.id.home:
                 if (rlFilterView.getVisibility() == View.VISIBLE) {
@@ -274,5 +278,23 @@ public class SeatActivity extends AppCompatActivity {
         } // Otherwise load contents then show it
         llSeatsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_down_appear));
         llSeatsExpandableContent.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showFetchingDataToast() {
+        Toast.makeText(this, "Fetching data", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showSeats(List<Seat> seatList) {
+        this.seatList = seatList;
+        setListAdapter();
+        updateSeatList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        seatPresenter.unbind();
+        super.onDestroy();
     }
 }
