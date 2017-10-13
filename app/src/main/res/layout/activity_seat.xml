@@ -70,6 +70,7 @@
         android:background="@color/colorPrimary"
         android:text="@string/button_filter_proceed"
         android:textColor="@color/white"
+        android:onClick="handlerApplyFilter"
         android:textSize="20sp" />
     </RelativeLayout>
     <!-- List of Seats -->
