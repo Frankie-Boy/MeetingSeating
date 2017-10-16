@@ -13,6 +13,8 @@ interface SeatPresenter {
 
     void updateSwitchUI(LinearLayout linearLayout);
 
+    void resetAllSwitch(LinearLayout l1, LinearLayout l2);
+
     void fillSeatListFromDB();
 
     void fillRoomListFromDB();

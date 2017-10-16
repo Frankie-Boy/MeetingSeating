@@ -55,6 +55,18 @@ class SeatPresenterImpl implements SeatPresenter {
         }
     }
 
+    @Override
+    public void resetAllSwitch(LinearLayout llSeatsExpandableContent, LinearLayout llRoomsExpandableContent) {
+        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+            button.setChecked(true);
+        }
+        for (int i = 0; i < llRoomsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llRoomsExpandableContent.getChildAt(i);
+            button.setChecked(true);
+        }
+    }
+
     public void onRefresh() {
         model.execSeatDataRetrievalTask();
         fillSeatListFromDB();

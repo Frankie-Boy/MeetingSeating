@@ -11,4 +11,8 @@
     android:icon="@drawable/ic_action_filter"
     android:title="@string/action_toolbar_filter"
     app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/action_reset"
+    android:title="@string/action_toolbar_reset"
+    app:showAsAction="always" />
 </menu>

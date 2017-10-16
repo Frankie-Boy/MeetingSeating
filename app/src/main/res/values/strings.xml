@@ -22,4 +22,5 @@
   <string name="filter_expandable_rooms">Rooms</string>
   <string name="filter_expandable_seats">Seat</string>
   <string name="toast_fetching_data">Fetching data</string>
+  <string name="action_toolbar_reset">RESET</string>
 </resources>

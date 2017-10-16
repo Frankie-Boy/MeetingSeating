@@ -25,7 +25,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     RelativeLayout rlFilterView;
     LinearLayout llRoomsExpandableContent;
     LinearLayout llSeatsExpandableContent;
-    MenuItem refreshItem, filterItem;
+    MenuItem refreshItem, filterItem, resetItem;
     ArrayAdapter<Seat> adapter;
     private SeatPresenterImpl seatPresenter;
 
@@ -83,6 +83,8 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         getMenuInflater().inflate(R.menu.seat_toolbar_content, menu);
         refreshItem = menu.findItem(R.id.action_refresh);
         filterItem = menu.findItem(R.id.action_filter);
+        resetItem = menu.findItem(R.id.action_reset);
+        resetItem.setVisible(false);
         return true;
     }
 
@@ -101,6 +103,9 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
                     break;
                 }
                 drawerLayout.openDrawer(Gravity.START);
+                break;
+            case R.id.action_reset:
+                seatPresenter.resetAllSwitch(llSeatsExpandableContent, llRoomsExpandableContent);
                 break;
         }
         return true;
@@ -124,6 +129,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
             listViewSeats.setVisibility(View.GONE);
             refreshItem.setVisible(false); // Removing Toolbar items
             filterItem.setVisible(false);
+            resetItem.setVisible(true);
             rlFilterView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_on_left));
             rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
@@ -141,6 +147,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
         refreshItem.setVisible(true); // Adding Toolbar items
         filterItem.setVisible(true);
+        resetItem.setVisible(false);
     }
 
     /**
