@@ -4,4 +4,6 @@ import retrofit2.Response;
 
 public interface SeatModel {
     Response<RoomSeatData> retrieveData();
+
+    void execSeatDataRetrievalTask();
 }

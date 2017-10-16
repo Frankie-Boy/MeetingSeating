@@ -10,8 +10,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 class SeatModelImpl implements SeatModel {
 
     private AwsSeatMonitorService service;
+    private SQLiteDataManagement sqLiteDataManagement;
+    private SQLiteDataDefinition sqLiteDataDefinition;
 
-    SeatModelImpl() {
+    SeatModelImpl(SQLiteDataDefinition sqLiteDataDefinition, SQLiteDataManagement sqLiteDataManagement) {
+        this.sqLiteDataManagement = sqLiteDataManagement;
+        this.sqLiteDataDefinition = sqLiteDataDefinition;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -27,5 +31,11 @@ class SeatModelImpl implements SeatModel {
         } catch (IOException e) {
             throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
         }
+    }
+
+    @Override
+    public void execSeatDataRetrievalTask() {
+        SeatDataRetrievalTask task = new SeatDataRetrievalTask(sqLiteDataManagement, sqLiteDataDefinition);
+        task.execute();
     }
 }

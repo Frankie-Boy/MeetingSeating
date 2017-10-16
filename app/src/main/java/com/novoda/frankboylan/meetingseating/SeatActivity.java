@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +33,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     MenuItem refreshItem, filterItem;
     List<Seat> seatList, seatListFull;
     static ArrayAdapter adapter;
-    private SeatPresenter seatPresenter;
+    private SeatPresenterImpl seatPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,14 +83,14 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
         roomList = new ArrayList<>();
         roomList.addAll(seatListController.getAllRooms());
-        Log.d(TAG, "INITIAL CREATE");
 
         setListAdapter();
         fillFilterView();
 
-        SQLiteDataDefinition definition = new SQLiteDataDefinition(this);
-        SQLiteDataManagement management = new SQLiteDataManagement(this);
-        seatPresenter = new SeatPresenter(definition, management, seatListController);
+        SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
+        SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
+
+        seatPresenter = new SeatPresenterImpl(seatListController, this, new SeatModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
         seatPresenter.bind(this);
     }
 

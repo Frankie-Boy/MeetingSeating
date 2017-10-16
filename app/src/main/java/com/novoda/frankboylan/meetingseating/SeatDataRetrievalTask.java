@@ -21,7 +21,7 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        model = new SeatModelImpl();
+        model = new SeatModelImpl(sqliteDataDefinition, sqliteDataManagement);
         RoomSeatData roomSeatData;
         long serverResponseTimestamp = 0L;
 
