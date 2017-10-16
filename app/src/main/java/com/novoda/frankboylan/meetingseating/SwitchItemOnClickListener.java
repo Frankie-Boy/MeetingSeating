@@ -1,17 +1,19 @@
 package com.novoda.frankboylan.meetingseating;
 
-import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 
 class SwitchItemOnClickListener implements Switch.OnClickListener {
     private static final String TAG = "SwitchItemOnClickListen";
     private Switch newSwitch;
-    private SeatListController seatListController;
+    private SeatPresenter presenter;
+    private LinearLayout layout;
 
-    SwitchItemOnClickListener(Switch newSwitch, Context context) {
+    SwitchItemOnClickListener(Switch newSwitch, SeatPresenter presenter, LinearLayout layout) {
         this.newSwitch = newSwitch;
-        seatListController = new SeatListController(context);
+        this.presenter = presenter;
+        this.layout = layout;
     }
 
     @Override
@@ -19,15 +21,14 @@ class SwitchItemOnClickListener implements Switch.OnClickListener {
         if (newSwitch.getTag().equals("Room")) {
             if (newSwitch.isChecked()) {
                 // Room Switch was just checked - Add all Seats with matching roomId to seatList
-                seatListController.addSeatsWithMatchingId(newSwitch.getId());
-                SeatActivity.updateSwitchUI();
+                presenter.addSeatsWithMatchingId(newSwitch.getId());
 
             } else if (!newSwitch.isChecked()) {
                 // Room Switch was just unchecked - Remove all Seats with matching roomId from seatList
-                seatListController.removeSeatsWithMatchingId(newSwitch.getId());
+                presenter.removeSeatsWithMatchingId(newSwitch.getId());
                 // Makes each Seat Switch with matching roomId turn off
-                SeatActivity.updateSwitchUI();
             }
+            presenter.updateSwitchUI(layout);
         } else if (newSwitch.getTag().equals("Seat")) {
             if (newSwitch.isChecked()) {
                 // Seat Switch was just checked -  if Switch's with matching roomId are also checked, toggle Room Switch with matching roomId

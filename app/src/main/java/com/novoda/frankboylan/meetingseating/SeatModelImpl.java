@@ -1,6 +1,7 @@
 package com.novoda.frankboylan.meetingseating;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Response;
@@ -10,12 +11,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 class SeatModelImpl implements SeatModel {
 
     private AwsSeatMonitorService service;
-    private SQLiteDataManagement sqLiteDataManagement;
-    private SQLiteDataDefinition sqLiteDataDefinition;
+    private SQLiteDataManagement sqliteDataManagement;
+    private SQLiteDataDefinition sqliteDataDefinition;
 
-    SeatModelImpl(SQLiteDataDefinition sqLiteDataDefinition, SQLiteDataManagement sqLiteDataManagement) {
-        this.sqLiteDataManagement = sqLiteDataManagement;
-        this.sqLiteDataDefinition = sqLiteDataDefinition;
+    SeatModelImpl(SQLiteDataDefinition sqliteDataDefinition, SQLiteDataManagement sqliteDataManagement) {
+        this.sqliteDataManagement = sqliteDataManagement;
+        this.sqliteDataDefinition = sqliteDataDefinition;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -35,7 +36,19 @@ class SeatModelImpl implements SeatModel {
 
     @Override
     public void execSeatDataRetrievalTask() {
-        SeatDataRetrievalTask task = new SeatDataRetrievalTask(sqLiteDataManagement, sqLiteDataDefinition);
+        SeatDataRetrievalTask task = new SeatDataRetrievalTask(sqliteDataManagement, sqliteDataDefinition);
         task.execute();
+    }
+
+    public List<Seat> getAllSeats() {
+        return sqliteDataManagement.getAllSeats();
+    }
+
+    public List<Room> getAllRooms() {
+        return sqliteDataManagement.getAllRooms();
+    }
+
+    public List<Seat> getSeatsWithMatchingId(int roomId) {
+        return sqliteDataManagement.getSeatsWithRoomId(roomId);
     }
 }

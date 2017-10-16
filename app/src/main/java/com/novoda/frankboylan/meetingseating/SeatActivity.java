@@ -16,34 +16,23 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     private static final String TAG = "SeatActivity";
-    public static List<Seat> seatListFiltered;
-    public static List<Room> roomList;
+
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
     ListView listViewSeats;
     RelativeLayout rlFilterView;
     LinearLayout llRoomsExpandableContent;
-    static LinearLayout llSeatsExpandableContent;
+    LinearLayout llSeatsExpandableContent;
     MenuItem refreshItem, filterItem;
-    List<Seat> seatList, seatListFull;
-    static ArrayAdapter adapter;
+    ArrayAdapter<Seat> adapter;
     private SeatPresenterImpl seatPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat);
-
-        // Get all Views
-
-        // Pass them into the Displayer
-
 
         ListView drawerList = findViewById(R.id.side_drawer);
 
@@ -73,25 +62,19 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        SeatListController seatListController = new SeatListController(this);
-        seatList = new ArrayList<>();
-        seatList.addAll(seatListController.getAllSeats());
-        seatListFull = new ArrayList<>();
-        seatListFull.addAll(seatList);  // Making a full copy of seatList to use for displaying Filters
-
-        seatListFiltered = new ArrayList();
-
-        roomList = new ArrayList<>();
-        roomList.addAll(seatListController.getAllRooms());
-
         setListAdapter();
-        fillFilterView();
 
         SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
         SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
 
-        seatPresenter = new SeatPresenterImpl(seatListController, this, new SeatModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
+        seatPresenter = new SeatPresenterImpl(this, new SeatModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
         seatPresenter.bind(this);
+        seatPresenter.createAndFillLists();
+        seatPresenter.fillFilterView();
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatPresenter.getSeatList());
+
+        setListAdapter();
     }
 
     @Override
@@ -119,18 +102,15 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
                 }
                 drawerLayout.openDrawer(Gravity.START);
                 break;
-            default:
-                return super.onOptionsItemSelected(item);
         }
         return true;
     }
 
     public void setListAdapter() {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
     }
 
-    public static void updateSeatList() {
+    public void updateSeatList() {
         adapter.notifyDataSetChanged();
     }
 
@@ -148,10 +128,10 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
             rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
-            seatListFiltered.addAll(seatList);
+            seatPresenter.clearAndFillSeatListFilter();
             return;
         }
-        // Hide Filter View
+        // Else filter view is visible, so hide it!
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         rlFilterView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_off_right));
         rlFilterView.setVisibility(View.GONE); // Hiding View
@@ -183,63 +163,35 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     /**
      * Initial create of filter Switch elements
      */
-    private void fillFilterView() { // ToDo: refine this
-        for (Room room : roomList) {
-            Switch newSwitch = new Switch(this);
-            newSwitch.setChecked(true);
-            newSwitch.setText(room.toString());
-            newSwitch.setTag("Room");
-            newSwitch.setId(room.getRoomId()); // Could cause issues if roomIds are the same, alternative is to pass Room object in Tag
-            newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
-            newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
-            llRoomsExpandableContent.addView(newSwitch);
-            newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, this));
-        }
-        int i = 0;
-        for (Seat seat : seatListFull) {
-            Switch newSwitch = new Switch(this);
-            newSwitch.setChecked(true);
-            newSwitch.setText(seat.toString());
-            newSwitch.setTag(seat); // Sets metadata in Switch element
-            newSwitch.setId(i); // ToDo: Check switch.getId is used
-            newSwitch.setMinimumHeight(100);
-            newSwitch.setSwitchMinWidth(150);
-            llSeatsExpandableContent.addView(newSwitch);
-            newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, this));
-            i++;
-        }
+    public void addRoomSwitchElement(Room room) {
+        Switch newSwitch = new Switch(this);
+        newSwitch.setChecked(true);
+        newSwitch.setText(room.toString());
+        newSwitch.setTag("Room");
+        newSwitch.setId(room.getRoomId()); // Could cause issues if roomIds are the same, alternative is to pass Room object in Tag
+        newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
+        newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
+        llRoomsExpandableContent.addView(newSwitch);
+        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter, llSeatsExpandableContent));
     }
 
-    /**
-     * Syncs Switch status with seatList
-     */
-    public static void updateSwitchUI() {
-        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
-            Boolean found = false;
-            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
-            Seat seatTag = (Seat) button.getTag();
-
-            for (Seat seat : seatListFiltered) {
-                if (Objects.equals(seat.getRoomId(), seatTag.getRoomId())) {
-                    button.setChecked(true);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                button.setChecked(false);
-            }
-        }
+    public void addSeatSwitchElement(Seat seat) {
+        Switch newSwitch = new Switch(this);
+        newSwitch.setChecked(true);
+        newSwitch.setText(seat.toString());
+        newSwitch.setTag(seat); // Sets metadata in Switch element to seat object
+        newSwitch.setId(0);
+        newSwitch.setMinimumHeight(100);
+        newSwitch.setSwitchMinWidth(150);
+        llSeatsExpandableContent.addView(newSwitch);
+        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter, llRoomsExpandableContent));
     }
 
     /**
      * Removes data from original seatList, copies all data from seatListFiltered, then updates the adapter
      */
     public void handlerApplyFilter(View v) {
-        seatList.clear();
-        seatList.addAll(seatListFiltered);
-        seatListFiltered.clear();
-        updateSeatList();
+        seatPresenter.onApplyFitler();
         cycleFilterUI();
     }
 
@@ -280,15 +232,8 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     }
 
     @Override
-    public void showFetchingDataToast() {
-        Toast.makeText(this, "Fetching data", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showSeats(List<Seat> seatList) {
-        this.seatList = seatList;
-        setListAdapter();
-        updateSeatList();
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

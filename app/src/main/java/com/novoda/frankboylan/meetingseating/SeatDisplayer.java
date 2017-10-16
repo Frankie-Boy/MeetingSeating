@@ -1,9 +1,11 @@
 package com.novoda.frankboylan.meetingseating;
 
-import java.util.List;
+interface SeatDisplayer {
+    void showToast(String message);
 
-public interface SeatDisplayer {
-    void showFetchingDataToast();
+    void addRoomSwitchElement(Room room);
 
-    void showSeats(List<Seat> seatList);
+    void addSeatSwitchElement(Seat seat);
+
+    void updateSeatList();
 }

@@ -1,5 +1,9 @@
 package com.novoda.frankboylan.meetingseating;
 
+import android.widget.LinearLayout;
+
+import java.util.List;
+
 interface SeatPresenter {
     void bind(SeatDisplayer displayer);
 
@@ -7,10 +11,23 @@ interface SeatPresenter {
 
     void onRefresh();
 
-    void onResume();
+    void updateSwitchUI(LinearLayout linearLayout);
 
-    void onDestroy();
+    void fillSeatListFromDB();
 
-    void startPresenting();
+    void fillRoomListFromDB();
 
+    void removeSeatsWithMatchingId(int roomId);
+
+    void addSeatsWithMatchingId(int roomId);
+
+    void createAndFillLists();
+
+    void clearAndFillSeatListFilter();
+
+    void fillFilterView();
+
+    void onApplyFitler();
+
+    List<Seat> getSeatList();
 }
