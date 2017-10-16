@@ -47,8 +47,4 @@ class SeatModelImpl implements SeatModel {
     public List<Room> getAllRooms() {
         return sqliteDataManagement.getAllRooms();
     }
-
-    public List<Seat> getSeatsWithMatchingId(int roomId) {
-        return sqliteDataManagement.getSeatsWithRoomId(roomId);
-    }
 }

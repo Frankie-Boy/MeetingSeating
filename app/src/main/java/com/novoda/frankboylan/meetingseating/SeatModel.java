@@ -12,6 +12,4 @@ interface SeatModel {
     List<Seat> getAllSeats();
 
     List<Room> getAllRooms();
-
-    List<Seat> getSeatsWithMatchingId(int roomId);
 }
