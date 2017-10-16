@@ -11,21 +11,21 @@ interface SeatPresenter {
 
     void onRefresh();
 
-    void updateSwitchUI(LinearLayout linearLayout);
+    //void updateSwitchUI();
 
-    void resetAllSwitch(LinearLayout l1, LinearLayout l2);
+    void resetAllSwitch();
 
     void fillSeatListFromDB();
 
     void fillRoomListFromDB();
 
-    void removeSeatsWithMatchingId(int roomId);
+    void uncheckSeatsWithMatchingId(int roomId);
 
-    void addSeatsWithMatchingId(int roomId);
+    void checkSeatsWithMatchingId(int roomId);
 
     void createAndFillLists();
 
-    void clearAndFillSeatListFilter();
+    void setLinearLayouts(LinearLayout l1, LinearLayout l2);
 
     void fillFilterView();
 

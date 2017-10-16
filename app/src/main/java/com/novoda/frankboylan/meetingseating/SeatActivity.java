@@ -70,6 +70,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         seatPresenter = new SeatPresenterImpl(this, new SeatModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
         seatPresenter.bind(this);
         seatPresenter.createAndFillLists();
+        seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
         seatPresenter.fillFilterView();
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatPresenter.getSeatList());
@@ -105,7 +106,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
                 drawerLayout.openDrawer(Gravity.START);
                 break;
             case R.id.action_reset:
-                seatPresenter.resetAllSwitch(llSeatsExpandableContent, llRoomsExpandableContent);
+                seatPresenter.resetAllSwitch();
                 break;
         }
         return true;
@@ -134,7 +135,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
             rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
-            seatPresenter.clearAndFillSeatListFilter();
             return;
         }
         // Else filter view is visible, so hide it!
@@ -179,7 +179,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
         newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
         llRoomsExpandableContent.addView(newSwitch);
-        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter, llSeatsExpandableContent));
+        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter));
     }
 
     public void addSeatSwitchElement(Seat seat) {
@@ -191,7 +191,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         newSwitch.setMinimumHeight(100);
         newSwitch.setSwitchMinWidth(150);
         llSeatsExpandableContent.addView(newSwitch);
-        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter, llRoomsExpandableContent));
+        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter));
     }
 
     /**

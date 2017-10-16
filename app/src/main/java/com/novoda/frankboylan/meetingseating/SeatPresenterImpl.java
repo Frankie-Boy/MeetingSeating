@@ -5,9 +5,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 class SeatPresenterImpl implements SeatPresenter {
     private static final String TAG = "SeatPresenter";
@@ -15,6 +13,7 @@ class SeatPresenterImpl implements SeatPresenter {
     private SeatDisplayer displayer;
     private List<Seat> seatList, seatListFiltered, seatListFull;
     private List<Room> roomListFull;
+    private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
     SeatPresenterImpl(SeatDisplayer displayer, SeatModel model) {
         this.displayer = displayer;
@@ -29,17 +28,22 @@ class SeatPresenterImpl implements SeatPresenter {
         seatListFull.addAll(seatList);
 
         seatListFiltered = new ArrayList<>();
-        seatListFiltered.addAll(seatList);
 
         roomListFull = new ArrayList<>();
         fillRoomListFromDB();
     }
 
     @Override
-    public void updateSwitchUI(LinearLayout llSeatsExpandableContent) {
-        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+    public void setLinearLayouts(LinearLayout l1, LinearLayout l2) {
+        linearLayoutRooms = l1;
+        linearLayoutSeats = l2;
+    }
+
+    /*@Override
+    public void updateSwitchUI() {
+        for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
             Boolean found = false;
-            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+            Switch button = (Switch) linearLayoutSeats.getChildAt(i);
             Seat seatTag = (Seat) button.getTag();
 
             for (Seat seat : seatListFiltered) {
@@ -53,16 +57,16 @@ class SeatPresenterImpl implements SeatPresenter {
                 button.setChecked(false);
             }
         }
-    }
+    }   */
 
     @Override
-    public void resetAllSwitch(LinearLayout llSeatsExpandableContent, LinearLayout llRoomsExpandableContent) {
-        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
-            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+    public void resetAllSwitch() {
+        for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
+            Switch button = (Switch) linearLayoutSeats.getChildAt(i);
             button.setChecked(true);
         }
-        for (int i = 0; i < llRoomsExpandableContent.getChildCount(); i++) {
-            Switch button = (Switch) llRoomsExpandableContent.getChildAt(i);
+        for (int i = 0; i < linearLayoutRooms.getChildCount(); i++) {
+            Switch button = (Switch) linearLayoutRooms.getChildAt(i);
             button.setChecked(true);
         }
     }
@@ -86,20 +90,24 @@ class SeatPresenterImpl implements SeatPresenter {
         roomListFull = model.getAllRooms();
     }
 
-    public void removeSeatsWithMatchingId(int roomId) {
-        Iterator<Seat> i = seatListFiltered.iterator();
-        while (i.hasNext()) {
-            Seat seat = i.next();
+    public void uncheckSeatsWithMatchingId(int roomId) {
+        for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
+            Switch button = (Switch) linearLayoutSeats.getChildAt(i);
+            Seat seat = (Seat) button.getTag();
             if (seat.getRoomId().equals(roomId)) {
-                i.remove();
+                button.setChecked(false);
             }
         }
-        displayer.updateSeatList();
     }
 
-    public void addSeatsWithMatchingId(int roomId) {
-        seatListFiltered.addAll(model.getSeatsWithMatchingId(roomId));
-        displayer.updateSeatList();
+    public void checkSeatsWithMatchingId(int roomId) {
+        for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
+            Switch button = (Switch) linearLayoutSeats.getChildAt(i);
+            Seat seat = (Seat) button.getTag();
+            if (seat.getRoomId().equals(roomId)) {
+                button.setChecked(true);
+            }
+        }
     }
 
     public void bind(SeatDisplayer displayer) {
@@ -110,10 +118,6 @@ class SeatPresenterImpl implements SeatPresenter {
         displayer = null;
     }
 
-    public void clearAndFillSeatListFilter() {
-        seatListFiltered.clear();
-        seatListFiltered.addAll(seatList);
-    }
 
     @Override
     public void fillFilterView() {
@@ -127,8 +131,13 @@ class SeatPresenterImpl implements SeatPresenter {
 
     @Override
     public void onApplyFitler() {
-        Log.d(TAG, "seatList: " + seatList);
-        Log.d(TAG, "seatListFiltered: " + seatListFiltered);
+        for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
+            Switch button = (Switch) linearLayoutSeats.getChildAt(i);
+            if (button.isChecked()) {
+                seatListFiltered.add((Seat) button.getTag());
+            }
+        }
+        Log.d(TAG, seatListFiltered + "");
         seatList.clear();
         seatList.addAll(seatListFiltered);
         seatListFiltered.clear();
