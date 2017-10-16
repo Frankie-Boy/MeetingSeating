@@ -39,26 +39,6 @@ class SeatPresenterImpl implements SeatPresenter {
         linearLayoutSeats = l2;
     }
 
-    /*@Override
-    public void updateSwitchUI() {
-        for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
-            Boolean found = false;
-            Switch button = (Switch) linearLayoutSeats.getChildAt(i);
-            Seat seatTag = (Seat) button.getTag();
-
-            for (Seat seat : seatListFiltered) {
-                if (Objects.equals(seat.getRoomId(), seatTag.getRoomId())) {
-                    button.setChecked(true);
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                button.setChecked(false);
-            }
-        }
-    }   */
-
     @Override
     public void resetAllSwitch() {
         for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {

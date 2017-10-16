@@ -11,8 +11,6 @@ interface SeatPresenter {
 
     void onRefresh();
 
-    //void updateSwitchUI();
-
     void resetAllSwitch();
 
     void fillSeatListFromDB();
