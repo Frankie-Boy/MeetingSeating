@@ -57,6 +57,7 @@ class SeatPresenterImpl implements SeatPresenter {
         seatList.clear();
         fillSeatListFromDB();
         displayer.updateSeatList();
+        resetAllSwitch();
     }
 
     public List<Seat> getSeatList() {
