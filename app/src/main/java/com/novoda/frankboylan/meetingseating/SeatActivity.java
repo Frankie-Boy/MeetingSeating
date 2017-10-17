@@ -16,6 +16,8 @@ import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     private static final String TAG = "SeatActivity";
 
@@ -28,6 +30,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     MenuItem refreshItem, filterItem, resetItem;
     ArrayAdapter<Seat> adapter;
     private SeatPresenterImpl seatPresenter;
+    List<Seat> seatList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        setListAdapter();
+
 
         SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
         SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
@@ -73,9 +76,10 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
         seatPresenter.fillFilterView();
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatPresenter.getSeatList());
+        seatList = seatPresenter.getSeatList();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
+        listViewSeats.setAdapter(adapter);
 
-        setListAdapter();
     }
 
     @Override
@@ -112,11 +116,9 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         return true;
     }
 
-    public void setListAdapter() {
-        listViewSeats.setAdapter(adapter);
-    }
-
     public void updateSeatList() {
+        seatList.clear();
+        seatList.addAll(seatPresenter.getSeatList());
         adapter.notifyDataSetChanged();
     }
 

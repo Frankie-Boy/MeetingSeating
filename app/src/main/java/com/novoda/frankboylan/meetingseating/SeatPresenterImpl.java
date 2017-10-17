@@ -52,9 +52,10 @@ class SeatPresenterImpl implements SeatPresenter {
     }
 
     public void onRefresh() {
-        model.execSeatDataRetrievalTask();
-        fillSeatListFromDB();
         displayer.showToast("Fetching Data");
+        model.execSeatDataRetrievalTask();
+        seatList.clear();
+        fillSeatListFromDB();
         displayer.updateSeatList();
     }
 
