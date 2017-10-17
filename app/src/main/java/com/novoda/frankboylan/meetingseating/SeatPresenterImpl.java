@@ -92,10 +92,12 @@ class SeatPresenterImpl implements SeatPresenter {
         }
     }
 
+    @Override
     public void bind(SeatDisplayer displayer) {
         this.displayer = displayer;
     }
 
+    @Override
     public void unbind() {
         displayer = null;
     }
