@@ -10,22 +10,19 @@ class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Context context = view.getContext();
-        // ToDo: Tidy up switch statement
-        Intent intent;
+        Intent intent = new Intent();
         switch (position) {
             case 0: // Home
                 intent = new Intent(context, StatisticsActivity.class);
-                context.startActivity(intent);
                 break;
             case 1: // Seat list
                 intent = new Intent(context, SeatActivity.class);
-                context.startActivity(intent);
                 break;
             case 2: // Room list
                 intent = new Intent(context, RoomActivity.class);
-                context.startActivity(intent);
                 break;
             case 3: // Settings
+                intent = new Intent(context, SettingsActivity.class);
                 break;
             case 4: // Logout
                 intent = new Intent(context, SignInActivity.class);
@@ -34,5 +31,6 @@ class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickL
                 break;
             default: // Log a missing item
         }
+        context.startActivity(intent);
     }
 }
