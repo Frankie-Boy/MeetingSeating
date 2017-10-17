@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.*;
 
 class SQLiteDataManagement {
     private SQLiteDataDefinition database;
+    private static final String TAG = "SQLiteDataManagement";
 
     SQLiteDataManagement(Context context) {
         database = new SQLiteDataDefinition(context);
@@ -144,5 +146,27 @@ class SQLiteDataManagement {
         cursor.close();
         db.close();
         return seatList;
+    }
+
+    void replaceWithDataset(int i) {
+        database.clearData();
+        switch (i) {
+            case 0:
+                parseJSON("");
+                break;
+            case 1:
+
+                break;
+            case 2:
+
+                break;
+            default:
+                Log.d(TAG, "That dataset doesn't exist!");
+                break;
+        }
+    }
+
+    void parseJSON(String directory) {
+
     }
 }

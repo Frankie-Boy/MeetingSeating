@@ -9,7 +9,6 @@ import retrofit2.Response;
 
 class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SeatDataRetrievalTask";
-    private SeatModel model;
 
     private SQLiteDataManagement sqliteDataManagement;
     private SQLiteDataDefinition sqliteDataDefinition;
@@ -21,12 +20,13 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        model = new SeatModelImpl(sqliteDataDefinition, sqliteDataManagement);
+        SeatModel model = new SeatModelImpl(sqliteDataDefinition, sqliteDataManagement);
         RoomSeatData roomSeatData;
         long serverResponseTimestamp = 0L;
 
         Response<RoomSeatData> response = model.retrieveData();
         roomSeatData = response.body();
+
         if (response.isSuccessful() && roomSeatData != null) {
             serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
         }

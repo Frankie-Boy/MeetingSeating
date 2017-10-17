@@ -7,11 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SettingsDisplayer {
     DrawerLayout drawerLayout;
+    SettingsPresenterImpl settingsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbarSettings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
+        SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
+
+        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
+        settingsPresenter.bind(this);
     }
 
     @Override
@@ -51,5 +60,22 @@ public class SettingsActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    public void handlerLoadDatasetSml(View v) {
+        settingsPresenter.loadDataset(0);
+    }
+
+    public void handlerLoadDatasetMed(View v) {
+        settingsPresenter.loadDataset(1);
+    }
+
+    public void handlerLoadDatasetLrg(View v) {
+        settingsPresenter.loadDataset(2);
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
