@@ -1,6 +1,5 @@
 package com.novoda.frankboylan.meetingseating;
 
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -51,6 +50,7 @@ class SeatPresenterImpl implements SeatPresenter {
         }
     }
 
+    @Override
     public void onRefresh() {
         displayer.showToast("Fetching Data");
         model.execSeatDataRetrievalTask();
@@ -121,8 +121,8 @@ class SeatPresenterImpl implements SeatPresenter {
                 seatListFiltered.add((Seat) button.getTag());
             }
         }
-        Log.d(TAG, seatListFiltered + "");
         seatList.clear();
+        seatList = new ArrayList<>();
         seatList.addAll(seatListFiltered);
         seatListFiltered.clear();
         displayer.updateSeatList();

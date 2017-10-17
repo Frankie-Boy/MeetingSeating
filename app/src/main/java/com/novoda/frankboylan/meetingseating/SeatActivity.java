@@ -116,6 +116,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         return true;
     }
 
+    @Override
     public void updateSeatList() {
         seatList.clear();
         seatList.addAll(seatPresenter.getSeatList());
