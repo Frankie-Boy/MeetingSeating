@@ -2,21 +2,31 @@ package com.novoda.frankboylan.meetingseating;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.squareup.moshi.JsonAdapter;
+import com.squareup.moshi.Moshi;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import okio.Buffer;
 
 import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.*;
 
 class SQLiteDataManagement {
     private SQLiteDataDefinition database;
     private static final String TAG = "SQLiteDataManagement";
+    AssetManager assetManager;
 
     SQLiteDataManagement(Context context) {
         database = new SQLiteDataDefinition(context);
+        assetManager = context.getAssets();
     }
 
     void setMetaTimestamp(Long timestamp) {
@@ -152,10 +162,9 @@ class SQLiteDataManagement {
         database.clearData();
         switch (i) {
             case 0:
-                parseJSON("");
+                loadJSONFromFile("small.txt");
                 break;
             case 1:
-
                 break;
             case 2:
 
@@ -166,8 +175,21 @@ class SQLiteDataManagement {
         }
     }
 
-    void parseJSON(String directory) {
+    private void loadJSONFromFile(String directory) {
+        String json = null;
+        try {
+            InputStream input = assetManager.open(directory);
 
+            Moshi build = new Moshi.Builder().build();
+            JsonAdapter<RoomSeatData> adapter = build.adapter(RoomSeatData.class);
+            Buffer buffer = new Buffer();
+            buffer.readFrom(input);
+            RoomSeatData roomSeatData = adapter.fromJson(buffer);
+            insertDataset(roomSeatData);
+
+        } catch (IOException e) {
+            throw new IllegalStateException("Expected a file at " + directory + " but got nothing! FUBAR");
+        }
     }
 
     /**
@@ -188,7 +210,7 @@ class SQLiteDataManagement {
         if (roomSeatData.getRooms().isEmpty()) {
             Log.d(TAG, "No rooms found");
         } else {
-            database.clearData();
+            database.clearData();   // There is new data, and it isn't empty.
             setMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
             for (Room room : roomSeatData.getRooms()) {
                 addRoom(room);
