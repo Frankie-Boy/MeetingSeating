@@ -11,14 +11,13 @@ class SeatPresenterImpl implements SeatPresenter {
     private static final String TAG = "SeatPresenter";
     private SeatModel model;
     private SeatDisplayer displayer;
-    private List<Seat> seatList, seatListFiltered, cachedSeatList;
+    private List<Seat> seatList, cachedSeatList;
     private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
     SeatPresenterImpl(SeatDisplayer displayer, SeatModel model) {
         this.displayer = displayer;
         this.model = model;
         seatList = new ArrayList<>();
-        seatListFiltered = new ArrayList<>();
         cachedSeatList = new ArrayList<>();
     }
 
@@ -63,7 +62,7 @@ class SeatPresenterImpl implements SeatPresenter {
     }
 
     @Override
-    public void updateCachedList() {
+    public void updateAllLists() {
         List<Seat> cachedSeatList = model.getCachedList();
         if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
             createAndFillLists();
@@ -120,23 +119,20 @@ class SeatPresenterImpl implements SeatPresenter {
 
     @Override
     public void onApplyFilter() {
+        seatList.clear();
         model.clearSeatCache(); // clear the old cache
         for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
             Switch button = (Switch) linearLayoutSeats.getChildAt(i);
             if (button.isChecked()) {
-                seatListFiltered.add((Seat) button.getTag());
+                seatList.add((Seat) button.getTag());
             }
         }
 
-        // Makes a backup of seatListFiltered in the SQLite DB (SEAT_CACHE_TABLE)
-        for (Seat seat : seatListFiltered) {
+        // Makes a backup of seatList in the SQLite DB (SEAT_CACHE_TABLE)
+        for (Seat seat : seatList) {
             model.addSeatToCache(seat);
         }
 
-        seatList.clear();
-        seatList = new ArrayList<>();
-        seatList.addAll(seatListFiltered);
-        seatListFiltered.clear();
         displayer.updateSeatList(seatList);
     }
 

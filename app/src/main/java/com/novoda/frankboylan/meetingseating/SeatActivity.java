@@ -28,9 +28,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     LinearLayout llRoomsExpandableContent;
     LinearLayout llSeatsExpandableContent;
     MenuItem refreshItem, filterItem, resetItem;
-    ArrayAdapter<Seat> adapter;
     private SeatPresenterImpl seatPresenter;
-    List<Seat> seatList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +68,12 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
         seatPresenter = new SeatPresenterImpl(this, new SeatModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
         seatPresenter.bind(this);
-        seatPresenter.updateCachedList();
-        seatList = seatPresenter.getSeatList();
+        seatPresenter.updateAllLists();
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
         seatPresenter.fillFilterView();
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
+        List<Seat> seatList = seatPresenter.getSeatList();
+        ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
 
     }
@@ -116,9 +114,8 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
     @Override
     public void updateSeatList(List<Seat> seatList) {
-        this.seatList.clear();
-        this.seatList.addAll(seatList);
-        adapter.notifyDataSetChanged();
+        ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
+        listViewSeats.setAdapter(adapter);
     }
 
     /**
