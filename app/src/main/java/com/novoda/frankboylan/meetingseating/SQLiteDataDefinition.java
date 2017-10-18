@@ -22,6 +22,10 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
     static final String SEAT_UNITTYPE = "seat_unittype";
     static final String SEAT_ROOM_ID = "seat_roomid";
 
+    static final String SEAT_CACHE_TABLE = "seats_cache";
+    static final String SEAT_CACHE_ID = "seats_cache_id";
+    static final String SEAT_CACHE_ROOM_ID = "seats_cache_room_id";
+
     static final String META_TABLE = "metadata";
     static final String META_TIMESTAMP = "meta_timestamp";
 
@@ -49,6 +53,14 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
                 ");";
         db.execSQL(CREATE_TABLE_SEAT);
 
+        String CREATE_TABLE_SEAT_CACHE = "CREATE TABLE " + SEAT_CACHE_TABLE + "(" +
+                SEAT_CACHE_ID + " INTEGER, " +
+                SEAT_CACHE_ROOM_ID + " INTEGER, " +
+                " FOREIGN KEY (" + SEAT_CACHE_ROOM_ID + ") REFERENCES " + SEAT_TABLE + "(" + SEAT_ROOM_ID + ")" +
+                "PRIMARY KEY (" + SEAT_CACHE_ID + ", " + SEAT_CACHE_ROOM_ID + ")" +
+                ");";
+        db.execSQL(CREATE_TABLE_SEAT_CACHE);
+
         String CREATE_META_TABLE = "CREATE TABLE " + META_TABLE + "(" +
                 META_TIMESTAMP + " INTEGER PRIMARY KEY" +
                 ");";
@@ -60,6 +72,7 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + ROOM_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SEAT_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + META_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + SEAT_CACHE_TABLE);
         onCreate(db);
     }
 
