@@ -1,5 +1,6 @@
 package com.novoda.frankboylan.meetingseating;
 
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -10,25 +11,33 @@ class SeatPresenterImpl implements SeatPresenter {
     private static final String TAG = "SeatPresenter";
     private SeatModel model;
     private SeatDisplayer displayer;
-    private List<Seat> seatList, seatListFiltered, seatListFull;
+    private List<Seat> seatList, seatListFiltered, seatListFull, cachedSeatList;
     private List<Room> roomListFull;
     private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
     SeatPresenterImpl(SeatDisplayer displayer, SeatModel model) {
         this.displayer = displayer;
         this.model = model;
+        seatList = new ArrayList<>();
+        seatListFull = new ArrayList<>();
+        seatListFiltered = new ArrayList<>();
+        roomListFull = new ArrayList<>();
+        cachedSeatList = new ArrayList<>();
     }
 
     public void createAndFillLists() {
-        seatList = new ArrayList<>();
-        fillSeatListFromDB();
+        cachedSeatList = model.getCachedList();
+        Log.d(TAG, "Cached SeatList" + cachedSeatList.toString());
+        if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
+            seatList = model.getAllSeats();
+        } else {
+            seatList.clear();
+            seatList.addAll(cachedSeatList);
+            model.clearSeatCache();
+        }
 
-        seatListFull = new ArrayList<>();
-        seatListFull.addAll(seatList);
+        seatListFull.addAll(model.getAllSeats());
 
-        seatListFiltered = new ArrayList<>();
-
-        roomListFull = new ArrayList<>();
         fillRoomListFromDB();
     }
 
@@ -60,8 +69,15 @@ class SeatPresenterImpl implements SeatPresenter {
         resetAllSwitch();
     }
 
-    public List<Seat> getSeatList() {
-        return seatList;
+    @Override
+    public void updateCachedList() {
+        List<Seat> cachedSeatList = model.getCachedList();
+        if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
+            createAndFillLists();
+            return;
+        }
+        seatList.clear();
+        seatList.addAll(cachedSeatList);
     }
 
     public void fillSeatListFromDB() {
@@ -115,16 +131,27 @@ class SeatPresenterImpl implements SeatPresenter {
 
     @Override
     public void onApplyFilter() {
+        model.clearSeatCache(); // clear the old cache
         for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
             Switch button = (Switch) linearLayoutSeats.getChildAt(i);
             if (button.isChecked()) {
                 seatListFiltered.add((Seat) button.getTag());
             }
         }
+
+        // Makes a backup of seatListFiltered in the SQLite DB (SEAT_CACHE_TABLE)
+        for (Seat seat : seatListFiltered) {
+            model.addSeatToCache(seat);
+        }
+
         seatList.clear();
         seatList = new ArrayList<>();
         seatList.addAll(seatListFiltered);
         seatListFiltered.clear();
         displayer.updateSeatList(seatList);
+    }
+
+    public List<Seat> getSeatList() {
+        return seatList;
     }
 }

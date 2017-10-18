@@ -134,30 +134,6 @@ class SQLiteDataManagement {
         return seatList;
     }
 
-    List<Seat> getSeatsWithRoomId(int roomId) {
-        List<Seat> seatList = new ArrayList<>();
-
-        String selectQuery = "SELECT * FROM " + SEAT_TABLE + " WHERE " + SEAT_ROOM_ID + " = " + roomId;
-
-        SQLiteDatabase db = database.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Seat seat = new Seat();
-                seat.setSeatId(cursor.getInt(0));
-                seat.setValue(cursor.getInt(1));
-                seat.setUnitType(cursor.getString(2));
-                seat.setRoomId(cursor.getInt(3));
-
-                seatList.add(seat);
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        db.close();
-        return seatList;
-    }
-
     void replaceWithDataset(int i) {
         database.clearData();
         switch (i) {
@@ -167,7 +143,6 @@ class SQLiteDataManagement {
             case 1:
                 break;
             case 2:
-
                 break;
             default:
                 Log.d(TAG, "That dataset doesn't exist!");
@@ -176,7 +151,6 @@ class SQLiteDataManagement {
     }
 
     private void loadJSONFromFile(String directory) {
-        String json = null;
         try {
             InputStream input = assetManager.open(directory);
 
@@ -186,7 +160,6 @@ class SQLiteDataManagement {
             buffer.readFrom(input);
             RoomSeatData roomSeatData = adapter.fromJson(buffer);
             insertDataset(roomSeatData);
-
         } catch (IOException e) {
             throw new IllegalStateException("Expected a file at " + directory + " but got nothing! FUBAR");
         }
@@ -221,5 +194,48 @@ class SQLiteDataManagement {
             }
         }
         debugLog();
+    }
+
+    public void addSeatToCache(Seat seat) {
+        SQLiteDatabase db = database.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(SEAT_CACHE_ID, seat.getSeatId());
+        values.put(SEAT_CACHE_ROOM_ID, seat.getRoomId());
+
+        db.insert(SEAT_CACHE_TABLE, null, values);
+
+        db.close();
+    }
+
+    public void clearSeatCache() {
+        SQLiteDatabase db = database.getWritableDatabase();
+        db.execSQL("DELETE FROM " + SEAT_CACHE_TABLE);
+        db.close();
+    }
+
+    public List<Seat> getCachedList() {
+        List<Seat> cachedSeatList = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM " + SEAT_CACHE_TABLE;
+
+        SQLiteDatabase db = database.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Seat seat = new Seat(); // Optimise this cursor.
+                seat.setSeatId(cursor.getInt(0));
+                seat.setValue(cursor.getInt(1));
+                seat.setUnitType(cursor.getString(2));
+                seat.setRoomId(cursor.getInt(3));
+
+                cachedSeatList.add(seat);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return cachedSeatList;
     }
 }

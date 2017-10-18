@@ -24,6 +24,8 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
 
     static final String SEAT_CACHE_TABLE = "seats_cache";
     static final String SEAT_CACHE_ID = "seats_cache_id";
+    static final String SEAT_CACHE_VALUE = "seats_cache_value";
+    static final String SEAT_CACHE_UNITTYPE = "seats_cache_unittype";
     static final String SEAT_CACHE_ROOM_ID = "seats_cache_room_id";
 
     static final String META_TABLE = "metadata";
@@ -56,6 +58,8 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
         String CREATE_TABLE_SEAT_CACHE = "CREATE TABLE " + SEAT_CACHE_TABLE + "(" +
                 SEAT_CACHE_ID + " INTEGER, " +
                 SEAT_CACHE_ROOM_ID + " INTEGER, " +
+                SEAT_CACHE_VALUE + " DECIMAL(5,2), " +
+                SEAT_CACHE_UNITTYPE + " VARCHAR(5), " +
                 " FOREIGN KEY (" + SEAT_CACHE_ROOM_ID + ") REFERENCES " + SEAT_TABLE + "(" + SEAT_ROOM_ID + ")" +
                 "PRIMARY KEY (" + SEAT_CACHE_ID + ", " + SEAT_CACHE_ROOM_ID + ")" +
                 ");";

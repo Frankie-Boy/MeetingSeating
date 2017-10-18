@@ -47,4 +47,20 @@ class SeatModelImpl implements SeatModel {
     public List<Room> getAllRooms() {
         return sqliteDataManagement.getAllRooms();
     }
+
+    @Override
+    public void addSeatToCache(Seat seat) {
+        sqliteDataManagement.addSeatToCache(seat);
+    }
+
+    @Override
+    public void clearSeatCache() {
+        sqliteDataManagement.clearSeatCache();
+    }
+
+    @Override
+    public List<Seat> getCachedList() {
+        return sqliteDataManagement.getCachedList();
+    }
+
 }

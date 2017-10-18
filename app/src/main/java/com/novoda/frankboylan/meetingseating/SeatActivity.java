@@ -65,18 +65,16 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-
-
         SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
         SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
 
         seatPresenter = new SeatPresenterImpl(this, new SeatModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
         seatPresenter.bind(this);
-        seatPresenter.createAndFillLists();
+        seatPresenter.updateCachedList();
+        seatList = seatPresenter.getSeatList();
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
         seatPresenter.fillFilterView();
 
-        seatList = seatPresenter.getSeatList();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
 

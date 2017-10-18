@@ -29,5 +29,7 @@ interface SeatPresenter {
 
     void onApplyFilter();
 
+    void updateCachedList();
+
     List<Seat> getSeatList();
 }
