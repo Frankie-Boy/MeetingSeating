@@ -15,8 +15,6 @@ interface SeatPresenter {
 
     void fillSeatListFromDB();
 
-    void fillRoomListFromDB();
-
     void uncheckSeatsWithMatchingId(int roomId);
 
     void checkSeatsWithMatchingId(int roomId);

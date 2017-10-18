@@ -11,17 +11,14 @@ class SeatPresenterImpl implements SeatPresenter {
     private static final String TAG = "SeatPresenter";
     private SeatModel model;
     private SeatDisplayer displayer;
-    private List<Seat> seatList, seatListFiltered, seatListFull, cachedSeatList;
-    private List<Room> roomListFull;
+    private List<Seat> seatList, seatListFiltered, cachedSeatList;
     private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
     SeatPresenterImpl(SeatDisplayer displayer, SeatModel model) {
         this.displayer = displayer;
         this.model = model;
         seatList = new ArrayList<>();
-        seatListFull = new ArrayList<>();
         seatListFiltered = new ArrayList<>();
-        roomListFull = new ArrayList<>();
         cachedSeatList = new ArrayList<>();
     }
 
@@ -35,10 +32,6 @@ class SeatPresenterImpl implements SeatPresenter {
             seatList.addAll(cachedSeatList);
             model.clearSeatCache();
         }
-
-        seatListFull.addAll(model.getAllSeats());
-
-        fillRoomListFromDB();
     }
 
     @Override
@@ -84,10 +77,6 @@ class SeatPresenterImpl implements SeatPresenter {
         seatList = model.getAllSeats();
     }
 
-    public void fillRoomListFromDB() {
-        roomListFull = model.getAllRooms();
-    }
-
     public void uncheckSeatsWithMatchingId(int roomId) {
         for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
             Switch button = (Switch) linearLayoutSeats.getChildAt(i);
@@ -121,10 +110,10 @@ class SeatPresenterImpl implements SeatPresenter {
 
     @Override
     public void fillFilterView() {
-        for (Room room : roomListFull) {
+        for (Room room : model.getAllRooms()) {
             displayer.addRoomSwitchElement(room);
         }
-        for (Seat seat : seatListFull) {
+        for (Seat seat : model.getAllSeats()) {
             displayer.addSeatSwitchElement(seat);
         }
     }
