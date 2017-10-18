@@ -2,11 +2,9 @@ package com.novoda.frankboylan.meetingseating;
 
 class SettingsModelImpl implements SettingsModel {
 
-    private SQLiteDataDefinition sqliteDataDefinition;
     private SQLiteDataManagement sqLiteDataManagement;
 
-    SettingsModelImpl(SQLiteDataDefinition sqliteDataDefinition, SQLiteDataManagement sqLiteDataManagement) {
-        this.sqliteDataDefinition = sqliteDataDefinition;
+    SettingsModelImpl(SQLiteDataManagement sqLiteDataManagement) {
         this.sqLiteDataManagement = sqLiteDataManagement;
     }
 

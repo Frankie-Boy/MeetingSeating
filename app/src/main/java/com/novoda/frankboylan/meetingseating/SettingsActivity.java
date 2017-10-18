@@ -41,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsDispl
         SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
         SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
 
-        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
+        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(sqLiteDataManagement));
         settingsPresenter.bind(this);
     }
 
