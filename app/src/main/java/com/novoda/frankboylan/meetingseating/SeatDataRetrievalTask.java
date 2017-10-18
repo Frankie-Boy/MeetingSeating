@@ -1,9 +1,6 @@
 package com.novoda.frankboylan.meetingseating;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import java.util.List;
 
 import retrofit2.Response;
 
@@ -21,47 +18,18 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         SeatModel model = new SeatModelImpl(sqliteDataDefinition, sqliteDataManagement);
-        RoomSeatData roomSeatData;
-        long serverResponseTimestamp = 0L;
-
         Response<RoomSeatData> response = model.retrieveData();
-        roomSeatData = response.body();
+        RoomSeatData roomSeatData = response.body();
+        long serverResponseTimestamp = 0L;
 
         if (response.isSuccessful() && roomSeatData != null) {
             serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
         }
         long databaseTimestamp = sqliteDataManagement.getMetaTimestamp().getTimestamp();
-        if (serverResponseTimestamp < databaseTimestamp) {
-            return null;
+
+        if (serverResponseTimestamp > databaseTimestamp) {  // Checking data is newer than stored version.
+            sqliteDataManagement.insertDataset(roomSeatData);
         }
-        if (roomSeatData.getRooms().isEmpty()) {
-            Log.d(TAG, "No rooms found");
-        } else {
-            sqliteDataDefinition.clearData();
-            sqliteDataManagement.setMetaTimestamp(serverResponseTimestamp);
-            for (Room room : roomSeatData.getRooms()) {
-                sqliteDataManagement.addRoom(room);
-                for (Seat seat : room.getSeats()) {
-                    seat.setRoomId(room.getRoomId());
-                    sqliteDataManagement.addSeat(seat);
-                }
-            }
-        }
-        debugLog(sqliteDataManagement);
-        sqliteDataDefinition.close();
         return null;
     }
-
-    private void debugLog(SQLiteDataManagement sqliteDataManagement) {
-        // Print DB
-        List<Seat> seatList = sqliteDataManagement.getAllSeats();
-        for (int i = 0; i < seatList.size(); i++) {
-            Log.d("TABLE_SEAT", seatList.get(i).toString());
-        }
-        List<Room> roomList = sqliteDataManagement.getAllRooms();
-        for (int j = 0; j < roomList.size(); j++) {
-            Log.d("TABLE_ROOM", roomList.get(j).toString());
-        }
-    }
-
 }

@@ -169,4 +169,35 @@ class SQLiteDataManagement {
     void parseJSON(String directory) {
 
     }
+
+    /**
+     * Prints currents data from DB. (Seat & Room tables only)
+     */
+    private void debugLog() {
+        List<Seat> seatList = getAllSeats();
+        for (int i = 0; i < seatList.size(); i++) {
+            Log.d("TABLE_SEAT", seatList.get(i).toString());
+        }
+        List<Room> roomList = getAllRooms();
+        for (int j = 0; j < roomList.size(); j++) {
+            Log.d("TABLE_ROOM", roomList.get(j).toString());
+        }
+    }
+
+    public void insertDataset(RoomSeatData roomSeatData) {
+        if (roomSeatData.getRooms().isEmpty()) {
+            Log.d(TAG, "No rooms found");
+        } else {
+            database.clearData();
+            setMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
+            for (Room room : roomSeatData.getRooms()) {
+                addRoom(room);
+                for (Seat seat : room.getSeats()) {
+                    seat.setRoomId(room.getRoomId());
+                    addSeat(seat);
+                }
+            }
+        }
+        debugLog();
+    }
 }
