@@ -46,6 +46,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsDispl
     }
 
     @Override
+    protected void onDestroy() {
+        settingsPresenter.unbind();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.settings_toolbar_content, menu);
