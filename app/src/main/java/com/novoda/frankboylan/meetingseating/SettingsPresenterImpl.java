@@ -23,6 +23,7 @@ public class SettingsPresenterImpl implements SettingsPresenter {
 
     @Override
     public void loadDataset(int i) {
-
+        model.replaceWithDataset(i);
+        displayer.showToast("Dataset #" + i + 1 + " loaded.");
     }
 }
