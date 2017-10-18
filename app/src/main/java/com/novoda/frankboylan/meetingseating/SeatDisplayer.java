@@ -10,4 +10,6 @@ interface SeatDisplayer {
     void addSeatSwitchElement(Seat seat);
 
     void updateSeatList(List<Seat> seatList);
+
+    void updateSwitchList(List<Seat> cachedSeatList);
 }

@@ -53,4 +53,37 @@ class Seat {
                 ", unitType='" + unitType + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Seat seat = (Seat) o;
+
+        if (seatId != null ? !seatId.equals(seat.seatId) : seat.seatId != null) {
+            return false;
+        }
+        if (roomId != null ? !roomId.equals(seat.roomId) : seat.roomId != null) {
+            return false;
+        }
+        if (value != null ? !value.equals(seat.value) : seat.value != null) {
+            return false;
+        }
+        return unitType != null ? unitType.equals(seat.unitType) : seat.unitType == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = seatId != null ? seatId.hashCode() : 0;
+        result = 31 * result + (roomId != null ? roomId.hashCode() : 0);
+        result = 31 * result + (value != null ? value.hashCode() : 0);
+        result = 31 * result + (unitType != null ? unitType.hashCode() : 0);
+        return result;
+    }
 }

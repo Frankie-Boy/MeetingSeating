@@ -139,4 +139,9 @@ class SeatPresenterImpl implements SeatPresenter {
     public List<Seat> getSeatList() {
         return seatList;
     }
+
+    public void onFilterPressed() {
+        List<Seat> cachedSeatList = model.getCachedList();
+        displayer.updateSwitchList(cachedSeatList);
+    }
 }

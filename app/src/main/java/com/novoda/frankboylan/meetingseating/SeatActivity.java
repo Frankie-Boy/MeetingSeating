@@ -118,6 +118,16 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         listViewSeats.setAdapter(adapter);
     }
 
+    @Override
+    public void updateSwitchList(List<Seat> cachedSeatList) {
+        for (Seat seat : cachedSeatList) {
+            Switch v = llSeatsExpandableContent.findViewWithTag(seat);
+            if (v != null) {
+                v.setChecked(true);
+            }
+        }
+    }
+
     /**
      * Updates UI - View, Toolbar, Icons, Titles, & Nav Drawer
      */
@@ -133,6 +143,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
             rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
+            seatPresenter.onFilterPressed();
             return;
         }
         // Else filter view is visible, so hide it!
