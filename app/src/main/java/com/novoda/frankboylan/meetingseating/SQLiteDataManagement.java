@@ -162,7 +162,7 @@ class SQLiteDataManagement {
         database.clearData();
         switch (i) {
             case 0:
-                loadJSONFromFile("small.txt");
+                loadJSONFromFile("europe.txt");
                 break;
             case 1:
                 break;
