@@ -1,5 +1,7 @@
 package com.novoda.frankboylan.meetingseating;
 
+import java.util.List;
+
 interface SeatDisplayer {
     void showToast(String message);
 
@@ -7,5 +9,5 @@ interface SeatDisplayer {
 
     void addSeatSwitchElement(Seat seat);
 
-    void updateSeatList();
+    void updateSeatList(List<Seat> seatList);
 }

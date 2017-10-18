@@ -117,9 +117,9 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     }
 
     @Override
-    public void updateSeatList() {
-        seatList.clear();
-        seatList.addAll(seatPresenter.getSeatList());
+    public void updateSeatList(List<Seat> seatList) {
+        this.seatList.clear();
+        this.seatList.addAll(seatList);
         adapter.notifyDataSetChanged();
     }
 
@@ -201,7 +201,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
      * Removes data from original seatList, copies all data from seatListFiltered, then updates the adapter
      */
     public void handlerApplyFilter(View v) {
-        seatPresenter.onApplyFitler();
+        seatPresenter.onApplyFilter();
         cycleFilterUI();
     }
 

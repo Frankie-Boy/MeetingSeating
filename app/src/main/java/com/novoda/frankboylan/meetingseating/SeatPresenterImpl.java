@@ -56,7 +56,7 @@ class SeatPresenterImpl implements SeatPresenter {
         model.execSeatDataRetrievalTask();
         seatList.clear();
         fillSeatListFromDB();
-        displayer.updateSeatList();
+        displayer.updateSeatList(seatList);
         resetAllSwitch();
     }
 
@@ -114,7 +114,7 @@ class SeatPresenterImpl implements SeatPresenter {
     }
 
     @Override
-    public void onApplyFitler() {
+    public void onApplyFilter() {
         for (int i = 0; i < linearLayoutSeats.getChildCount(); i++) {
             Switch button = (Switch) linearLayoutSeats.getChildAt(i);
             if (button.isChecked()) {
@@ -125,6 +125,6 @@ class SeatPresenterImpl implements SeatPresenter {
         seatList = new ArrayList<>();
         seatList.addAll(seatListFiltered);
         seatListFiltered.clear();
-        displayer.updateSeatList();
+        displayer.updateSeatList(seatList);
     }
 }

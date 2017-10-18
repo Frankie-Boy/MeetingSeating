@@ -27,7 +27,7 @@ interface SeatPresenter {
 
     void fillFilterView();
 
-    void onApplyFitler();
+    void onApplyFilter();
 
     List<Seat> getSeatList();
 }
