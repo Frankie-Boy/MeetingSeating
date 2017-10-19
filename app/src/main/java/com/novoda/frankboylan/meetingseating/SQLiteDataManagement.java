@@ -141,6 +141,7 @@ class SQLiteDataManagement {
                 loadJSONFromFile("europe.txt");
                 break;
             case 1:
+                loadJSONFromFile("continents.txt");
                 break;
             case 2:
                 break;
