@@ -83,6 +83,7 @@ class SQLiteDataManagement {
                 room.setRoomName(cursor.getString(1));
                 room.setLocation(cursor.getString(2));
                 room.setUnitName(cursor.getString(3));
+                room.setSeats(getSeatsWithMatchingId(cursor.getInt(0)));
 
                 roomList.add(room);
             } while (cursor.moveToNext());
@@ -90,6 +91,31 @@ class SQLiteDataManagement {
         cursor.close();
         db.close();
         return roomList;
+    }
+
+    private List<Seat> getSeatsWithMatchingId(int roomId) {
+        List<Seat> seatList = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM " + SEAT_TABLE + " WHERE " + SEAT_ROOM_ID + " = " + roomId;
+
+        SQLiteDatabase db = database.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Seat seat = new Seat(); // Optimise this cursor.
+                seat.setSeatId(cursor.getInt(0));
+                seat.setValue(cursor.getInt(1));
+                seat.setUnitType(cursor.getString(2));
+                seat.setRoomId(cursor.getInt(3));
+
+                seatList.add(seat);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return seatList;
     }
 
     /**
@@ -188,6 +214,7 @@ class SQLiteDataManagement {
             setMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
             for (Room room : roomSeatData.getRooms()) {
                 addRoom(room);
+                Log.d(TAG, room.getSeats().toString());
                 for (Seat seat : room.getSeats()) {
                     seat.setRoomId(room.getRoomId());
                     addSeat(seat);

@@ -76,7 +76,6 @@ public class RoomActivity extends AppCompatActivity {
     private void updateList() {
         SQLiteDataManagement sqliteDataManagement = new SQLiteDataManagement(this);
         List<Room> roomList = sqliteDataManagement.getAllRooms();
-        ArrayAdapter<Room> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, roomList);
-        listViewRooms.setAdapter(adapter);
+        listViewRooms.setAdapter(new CustomRoomAdapter(this, roomList));
     }
 }
