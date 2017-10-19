@@ -46,12 +46,7 @@ class Seat {
 
     @Override
     public String toString() {
-        return "Seat{" +
-                "seatId=" + seatId +
-                ", roomId=" + roomId +
-                ", value=" + value +
-                ", unitType='" + unitType + '\'' +
-                '}';
+        return String.format("%5s%s%20s%-2s%20s%-2s%s", "SeatId) ", seatId, "RoomId: ", roomId, " Weight:", value, unitType);
     }
 
     @Override
