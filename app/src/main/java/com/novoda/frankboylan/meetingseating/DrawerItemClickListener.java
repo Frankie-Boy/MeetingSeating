@@ -25,7 +25,7 @@ class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickL
                 intent = new Intent(context, SettingsActivity.class);
                 break;
             case 4: // Logout
-                intent = new Intent(context, SignInActivity.class);
+                intent = new Intent(context, LoginActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
                 break;

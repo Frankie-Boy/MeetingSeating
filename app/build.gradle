@@ -32,5 +32,5 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
     testCompile 'junit:junit:4.12'
-    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'com.google.gms.google-services' // This needs to be applied at the END of the dependencies.
 }
