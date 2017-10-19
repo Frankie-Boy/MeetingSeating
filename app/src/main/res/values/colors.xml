@@ -6,4 +6,6 @@
   <color name="lightGrey">#CCCCCC</color>
   <color name="white">#FFFFFF</color>
   <color name="black">#000000</color>
+  <color name="novoda_blue">#00a3e9</color>
+  <color name="novoda_orange">#ff8724</color>
 </resources>

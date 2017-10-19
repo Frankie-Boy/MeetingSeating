@@ -24,4 +24,9 @@
   <string name="toast_fetching_data">Fetching data</string>
   <string name="action_toolbar_reset">RESET</string>
   <string name="toolbar_settings_title">Settings</string>
+  <string name="login_remember_me">Remember Me</string>
+  <string name="login_signin_button">Login</string>
+  <string name="login_newacct_button">Create One</string>
+  <string name="login_newacct_text">Need an Account?</string>
+  <string name="login_offline_button">Offline Mode</string>
 </resources>
