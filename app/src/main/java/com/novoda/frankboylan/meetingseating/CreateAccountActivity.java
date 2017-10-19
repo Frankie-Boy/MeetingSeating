@@ -3,7 +3,7 @@ package com.novoda.frankboylan.meetingseating;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class SignUpActivity extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

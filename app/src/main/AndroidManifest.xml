@@ -24,7 +24,7 @@
     <activity android:name=".SeatActivity" />
     <activity android:name=".RoomActivity" />
     <activity android:name=".SettingsActivity" />
-    <activity android:name=".SignUpActivity"></activity>
+    <activity android:name=".CreateAccountActivity"></activity>
   </application>
 
 </manifest>

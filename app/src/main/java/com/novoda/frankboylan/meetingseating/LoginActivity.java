@@ -15,9 +15,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * Button Handler method - Login
+     */
+    public void handlerLogin(View v) {
+        // Authenticate with Firebase -> Feedback to user
+    }
+
+    /**
+     * Button Handler method - Create Account
+     */
+    public void handlerCreateAccount(View v) {
+        // ToDo: clear any EditText data.
+        Intent intent = new Intent(this, CreateAccountActivity.class);
+        startActivity(intent);
+    }
+
+    /**
      * Button Handler method - Offline Mode
      */
-    public void handlerOfflineLogin(View view) {
+    public void handlerOfflineLogin(View v) {
         Intent intent = new Intent(this, StatisticsActivity.class);
         startActivity(intent);
         finish();
