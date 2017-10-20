@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -26,6 +28,7 @@ class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickL
                 break;
             case 4: // Logout
                 intent = new Intent(context, LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
                 break;
             default: // Log a missing item
         }
