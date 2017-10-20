@@ -1,8 +1,13 @@
 package com.novoda.frankboylan.meetingseating;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -23,16 +28,54 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        auth = FirebaseAuth.getInstance();
-
-        if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(LoginActivity.this, StatisticsActivity.class));
-            finish();
-        }
-
         tvEmail = findViewById(R.id.tv_login_email);
         tvPassword = findViewById(R.id.tv_login_password);
 
+        checkNetworkState();
+    }
+
+    private void checkNetworkState() {
+        if (isNetworkAvailable()) {
+            // ToDo: Enable buttons
+
+            Snackbar.make(findViewById(R.id.cl_login_activity), "Connected", Snackbar.LENGTH_SHORT).show();
+
+            auth = FirebaseAuth.getInstance();
+
+            if (auth.getCurrentUser() != null) {
+                startActivity(new Intent(LoginActivity.this, StatisticsActivity.class));
+                finish();
+            }
+        } else {
+            // ToDo: Disable Buttons
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (isNetworkAvailable()) {
+                        checkNetworkState();
+                    } else {
+                        handler.postDelayed(this, 5000);
+                    }
+                }
+            }, 5000);
+
+            Snackbar.make(findViewById(R.id.cl_login_activity), "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Offline Mode", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            handlerOfflineLogin(v);
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
     /**

@@ -7,7 +7,8 @@
   android:background="@color/novoda_blue"
   tools:context="com.novoda.frankboylan.meetingseating.LoginActivity"
   tools:layout_editor_absoluteY="25dp"
-  tools:layout_editor_absoluteX="0dp">
+  tools:layout_editor_absoluteX="0dp"
+  android:id="@+id/cl_login_activity">
 
   <android.support.constraint.ConstraintLayout
     android:layout_width="wrap_content"
