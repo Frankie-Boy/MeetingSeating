@@ -48,6 +48,15 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // ToDo: Disable Buttons
 
+            Snackbar.make(findViewById(R.id.cl_login_activity), "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Offline Mode", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            handlerOfflineLogin(v);
+                        }
+                    })
+                    .show();
+
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -60,14 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }, 5000);
 
-            Snackbar.make(findViewById(R.id.cl_login_activity), "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Offline Mode", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            handlerOfflineLogin(v);
-                        }
-                    })
-                    .show();
         }
     }
 
