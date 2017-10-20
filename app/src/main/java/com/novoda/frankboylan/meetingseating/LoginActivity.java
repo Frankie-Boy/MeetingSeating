@@ -30,6 +30,12 @@ public class LoginActivity extends AppCompatActivity {
 
         tvEmail = findViewById(R.id.tv_login_email);
         tvPassword = findViewById(R.id.tv_login_password);
+        if (getIntent().getExtras() != null) {
+            tvEmail.setText(getIntent().getExtras().getString("email"));
+        }
+
+        auth = FirebaseAuth.getInstance();
+        auth.signOut();
 
         checkNetworkState();
     }
@@ -39,13 +45,6 @@ public class LoginActivity extends AppCompatActivity {
             // ToDo: Enable buttons
 
             Snackbar.make(findViewById(R.id.cl_login_activity), "Connected", Snackbar.LENGTH_SHORT).show();
-
-            auth = FirebaseAuth.getInstance();
-
-            if (auth.getCurrentUser() != null) {
-                startActivity(new Intent(LoginActivity.this, StatisticsActivity.class));
-                finish();
-            }
         } else {
             // ToDo: Disable Buttons
 

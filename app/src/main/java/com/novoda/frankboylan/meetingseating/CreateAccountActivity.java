@@ -46,7 +46,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Account Creation was a success (ToDo: maybe pass the email into the LoginActivity)
-                            startActivity(new Intent(CreateAccountActivity.this, LoginActivity.class));
+                            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+                            intent.putExtra("email", newEmail.getText().toString());
+                            startActivity(intent);
                             finish();
                         } else {
                             // Account Creation failed!
