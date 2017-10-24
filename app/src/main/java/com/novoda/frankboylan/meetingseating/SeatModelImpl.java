@@ -34,12 +34,6 @@ class SeatModelImpl implements SeatModel {
         }
     }
 
-    @Override
-    public void execSeatDataRetrievalTask() {
-        SeatDataRetrievalTask task = new SeatDataRetrievalTask(sqliteDataManagement, sqliteDataDefinition);
-        task.execute();
-    }
-
     public List<Seat> getAllSeats() {
         return sqliteDataManagement.getAllSeats();
     }

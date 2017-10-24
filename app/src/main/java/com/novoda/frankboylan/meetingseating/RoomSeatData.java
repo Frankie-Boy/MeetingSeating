@@ -7,11 +7,11 @@ import java.util.List;
 
 class RoomSeatData {
     @Json(name = "lastUpdateTimestamp")
-    String lastUpdateTimestamp;
+    private String lastUpdateTimestamp;
     @Json(name = "rooms")
-    List<Room> rooms = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
 
-    public String getLastUpdateTimestamp() {
+    String getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
     }
 

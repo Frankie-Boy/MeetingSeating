@@ -22,14 +22,14 @@ import static com.novoda.frankboylan.meetingseating.SQLiteDataDefinition.*;
 class SQLiteDataManagement {
     private SQLiteDataDefinition database;
     private static final String TAG = "SQLiteDataManagement";
-    AssetManager assetManager;
+    private AssetManager assetManager;
 
     SQLiteDataManagement(Context context) {
         database = new SQLiteDataDefinition(context);
         assetManager = context.getAssets();
     }
 
-    void setMetaTimestamp(Long timestamp) {
+    private void setMetaTimestamp(Long timestamp) {
         SQLiteDatabase db = database.getWritableDatabase();
         db.execSQL("INSERT INTO " + META_TABLE + "(" + META_TIMESTAMP +
                            ") VALUES (" + timestamp + ");");
@@ -54,7 +54,7 @@ class SQLiteDataManagement {
     /**
      * Insert a room row into the database, for back-end use only.
      */
-    void addRoom(Room room) {
+    private void addRoom(Room room) {
         SQLiteDatabase db = database.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -121,7 +121,7 @@ class SQLiteDataManagement {
     /**
      * Insert a new seat row into the database, for back-end use only.
      */
-    void addSeat(Seat seat) {
+    private void addSeat(Seat seat) {
         SQLiteDatabase db = database.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -206,7 +206,7 @@ class SQLiteDataManagement {
         }
     }
 
-    public void insertDataset(RoomSeatData roomSeatData) {
+    void insertDataset(RoomSeatData roomSeatData) {
         if (roomSeatData.getRooms().isEmpty()) {
             Log.d(TAG, "No rooms found");
         } else {
@@ -224,7 +224,7 @@ class SQLiteDataManagement {
         debugLog();
     }
 
-    public void addSeatToCache(Seat seat) {
+    void addSeatToCache(Seat seat) {
         SQLiteDatabase db = database.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -238,13 +238,13 @@ class SQLiteDataManagement {
         db.close();
     }
 
-    public void clearSeatCache() {
+    void clearSeatCache() {
         SQLiteDatabase db = database.getWritableDatabase();
         db.execSQL("DELETE FROM " + SEAT_CACHE_TABLE);
         db.close();
     }
 
-    public List<Seat> getCachedList() {
+    List<Seat> getCachedList() {
         List<Seat> cachedSeatList = new ArrayList<>();
 
         String selectQuery = "SELECT  * FROM " + SEAT_CACHE_TABLE;

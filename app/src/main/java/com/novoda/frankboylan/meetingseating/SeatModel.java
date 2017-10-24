@@ -7,8 +7,6 @@ import retrofit2.Response;
 interface SeatModel {
     Response<RoomSeatData> retrieveData();
 
-    void execSeatDataRetrievalTask();
-
     List<Seat> getAllSeats();
 
     List<Room> getAllRooms();

@@ -54,7 +54,6 @@ class SeatPresenterImpl implements SeatPresenter {
     @Override
     public void onRefresh() {
         displayer.showToast("Fetching Data");
-        model.execSeatDataRetrievalTask();
         seatList.clear();
         fillSeatListFromDB();
         displayer.updateSeatList(seatList);
@@ -140,7 +139,7 @@ class SeatPresenterImpl implements SeatPresenter {
         return seatList;
     }
 
-    public void onFilterPressed() {
+    void onFilterPressed() {
         List<Seat> cachedSeatList = model.getCachedList();
         displayer.updateSwitchList(cachedSeatList);
     }

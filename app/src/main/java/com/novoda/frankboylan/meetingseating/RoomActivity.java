@@ -82,9 +82,7 @@ public class RoomActivity extends AppCompatActivity {
                 // ToDo: Display heatmap layout
                 break;
             case R.id.action_refresh:
-                SeatDataRetrievalTask task = new SeatDataRetrievalTask(new SQLiteDataManagement(this), new SQLiteDataDefinition(this));
                 Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
-                task.execute();
                 updateList();
                 break;
             case android.R.id.home:
