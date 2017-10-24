@@ -37,6 +37,10 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void handlerCreateAccountSubmit(View v) {
+        if (!ConnectionStatus.hasActiveInternetConnection()) {
+            makeToast("You're not connected to the Internet!");
+            return;
+        }
         if (!formsAreValid()) {
             return;
         }
@@ -101,7 +105,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     private void makeToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     public void handlerCreateAccountCancel(View v) {
