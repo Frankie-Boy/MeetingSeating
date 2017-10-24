@@ -57,9 +57,9 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
 
         String CREATE_TABLE_SEAT_CACHE = "CREATE TABLE " + SEAT_CACHE_TABLE + "(" +
                 SEAT_CACHE_ID + " INTEGER, " +
-                SEAT_CACHE_ROOM_ID + " INTEGER, " +
                 SEAT_CACHE_VALUE + " DECIMAL(5,2), " +
                 SEAT_CACHE_UNITTYPE + " VARCHAR(5), " +
+                SEAT_CACHE_ROOM_ID + " INTEGER, " +
                 " FOREIGN KEY (" + SEAT_CACHE_ROOM_ID + ") REFERENCES " + SEAT_TABLE + "(" + SEAT_ROOM_ID + ")" +
                 "PRIMARY KEY (" + SEAT_CACHE_ID + ", " + SEAT_CACHE_ROOM_ID + ")" +
                 ");";

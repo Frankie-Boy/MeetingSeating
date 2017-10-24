@@ -229,6 +229,8 @@ class SQLiteDataManagement {
 
         ContentValues values = new ContentValues();
         values.put(SEAT_CACHE_ID, seat.getSeatId());
+        values.put(SEAT_CACHE_VALUE, seat.getValue());
+        values.put(SEAT_CACHE_UNITTYPE, seat.getUnitType());
         values.put(SEAT_CACHE_ROOM_ID, seat.getRoomId());
 
         db.insert(SEAT_CACHE_TABLE, null, values);
