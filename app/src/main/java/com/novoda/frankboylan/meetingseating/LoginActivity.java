@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private FirebaseAuth auth;
     TextView tvEmail, tvPassword;
+    String snackbarShown = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,41 +36,44 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         auth.signOut();
 
-        checkNetworkState();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkNetworkState();
+                handler.postDelayed(this, 2000);
+            }
+        }, 300);
     }
 
     private void checkNetworkState() {
         Button btnLogin = findViewById(R.id.btn_login);
         Button btnSignup = findViewById(R.id.btn_signup);
+
         if (isNetworkAvailable()) {
             btnLogin.setEnabled(true);
             btnSignup.setEnabled(true);
-            Snackbar.make(findViewById(R.id.cl_login_activity), "Connected", Snackbar.LENGTH_SHORT).show();
+
+            if (!snackbarShown.equals("connected")) {
+                Snackbar.make(findViewById(R.id.cl_login_activity), "Connected", Snackbar.LENGTH_SHORT).show();
+                snackbarShown = "connected";
+            }
+
         } else {
             btnLogin.setEnabled(false);
             btnSignup.setEnabled(false);
 
-            Snackbar.make(findViewById(R.id.cl_login_activity), "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Offline Mode", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            handlerOfflineLogin(v);
-                        }
-                    })
-                    .show();
-
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (isNetworkAvailable()) {
-                        checkNetworkState();
-                    } else {
-                        handler.postDelayed(this, 3500);
-                    }
-                }
-            }, 3500);
-
+            if (!snackbarShown.equals("offline")) {
+                Snackbar.make(findViewById(R.id.cl_login_activity), "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Offline Mode", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                handlerOfflineLogin(v);
+                            }
+                        })
+                        .show();
+                snackbarShown = "offline";
+            }
         }
     }
 
