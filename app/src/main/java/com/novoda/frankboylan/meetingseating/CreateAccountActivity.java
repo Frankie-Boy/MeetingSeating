@@ -12,6 +12,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.regex.Pattern;
 
@@ -51,6 +53,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Account Creation was a success
+
+                            DatabaseReference fb = FirebaseDatabase.getInstance().getReference();
+
+                            fb.child("users").child(auth.getUid()).child("email").setValue(newEmail.getText().toString()); // Uid has just been created, so won't be null
+                            fb.child("users").child(auth.getUid()).child("firstname").setValue(newFirstname.getText().toString());
+                            fb.child("users").child(auth.getUid()).child("surname").setValue(newSurname.getText().toString());
+
                             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
                             intent.putExtra("email", newEmail.getText().toString());
                             startActivity(intent);
