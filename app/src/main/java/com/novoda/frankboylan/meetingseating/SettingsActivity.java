@@ -64,7 +64,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsDispl
         setSupportActionBar(toolbarSettings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
         SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
 
         settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(sqLiteDataManagement));
