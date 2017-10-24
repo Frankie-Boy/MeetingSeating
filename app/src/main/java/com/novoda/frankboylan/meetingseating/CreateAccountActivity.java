@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.regex.Pattern;
+
 public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     EditText newEmail, newPassword, newFirstname, newSurname;
@@ -28,7 +30,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         newPassword = findViewById(R.id.et_new_password);
         newFirstname = findViewById(R.id.et_new_firstname);
         newSurname = findViewById(R.id.et_new_surname);
-
     }
 
     @Override
@@ -49,7 +50,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Account Creation was a success (ToDo: maybe pass the email into the LoginActivity)
+                            // Account Creation was a success
                             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
                             intent.putExtra("email", newEmail.getText().toString());
                             startActivity(intent);
@@ -90,6 +91,11 @@ public class CreateAccountActivity extends AppCompatActivity {
             makeToast("Email must be longer than 9 characters!");
             return false;
         }
+        Pattern emailRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE); // Non RFC 822 compliant regex validation
+        if (!emailRegex.matcher(email).matches()) {
+            makeToast("Invalid Email!");
+            return false;
+        }
         if (!email.endsWith("@novoda.com") && !email.endsWith("@novoda.co.uk")) {
             makeToast("Email must be a Novoda email!");
             return false;
@@ -100,16 +106,11 @@ public class CreateAccountActivity extends AppCompatActivity {
             return false;
         }
 
-
+        // User data passes all validation checks.
         return true;
     }
 
     private void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    public void handlerCreateAccountCancel(View v) {
-        startActivity(new Intent(CreateAccountActivity.this, LoginActivity.class));
-        finish();
     }
 }
