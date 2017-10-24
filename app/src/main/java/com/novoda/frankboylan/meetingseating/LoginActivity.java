@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             startActivity(new Intent(LoginActivity.this, StatisticsActivity.class));
                             finish();
+                            return;
                         }
                         makeToast("Username & Password Combo not recognised!");
                     }
