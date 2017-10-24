@@ -1,9 +1,6 @@
 package com.novoda.frankboylan.meetingseating;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -68,18 +65,16 @@ public class LoginActivity extends AppCompatActivity {
                     if (isNetworkAvailable()) {
                         checkNetworkState();
                     } else {
-                        handler.postDelayed(this, 5000);
+                        handler.postDelayed(this, 3500);
                     }
                 }
-            }, 5000);
+            }, 3500);
 
         }
     }
 
     private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
+        return ConnectionStatus.hasActiveInternetConnection();
     }
 
     /**
