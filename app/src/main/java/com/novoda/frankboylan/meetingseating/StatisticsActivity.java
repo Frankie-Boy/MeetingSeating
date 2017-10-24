@@ -62,7 +62,15 @@ public class StatisticsActivity extends AppCompatActivity {
         setSupportActionBar(toolbarStats);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        updateUI();
+        if (ConnectionStatus.hasActiveInternetConnection()) {
+            updateUI();
+        } else {
+            makeToast("In Offline Mode, you won't have access to the latest data!");
+        }
+    }
+
+    private void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
