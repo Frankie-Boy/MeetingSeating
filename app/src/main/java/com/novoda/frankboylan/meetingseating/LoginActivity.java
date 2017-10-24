@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 checkNetworkState();
-                handler.postDelayed(this, 2000);
+                handler.postDelayed(this, 4000);
             }
         }, 300);
     }

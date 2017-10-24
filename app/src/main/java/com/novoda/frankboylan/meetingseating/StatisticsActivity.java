@@ -9,7 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String TAG = "StatisticsActivity";
@@ -20,8 +28,26 @@ public class StatisticsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+
         ListView drawerList = findViewById(R.id.side_drawer);
         drawerLayout = findViewById(R.id.drawer_layout);
+
+        final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
+
+        DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
+        firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
+                tvLoggedUser.setText("Welcome, " + firstname + "!");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
         drawerList.setAdapter(new ArrayAdapter<>(this,
