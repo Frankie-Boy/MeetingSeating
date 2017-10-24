@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +42,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkNetworkState() {
+        Button btnLogin = findViewById(R.id.btn_login);
+        Button btnSignup = findViewById(R.id.btn_signup);
         if (isNetworkAvailable()) {
-            // ToDo: Enable buttons
-
+            btnLogin.setEnabled(true);
+            btnSignup.setEnabled(true);
             Snackbar.make(findViewById(R.id.cl_login_activity), "Connected", Snackbar.LENGTH_SHORT).show();
         } else {
-            // ToDo: Disable Buttons
+            btnLogin.setEnabled(false);
+            btnSignup.setEnabled(false);
 
             Snackbar.make(findViewById(R.id.cl_login_activity), "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
                     .setAction("Offline Mode", new View.OnClickListener() {
