@@ -33,22 +33,6 @@ public class StatisticsActivity extends AppCompatActivity {
         ListView drawerList = findViewById(R.id.side_drawer);
         drawerLayout = findViewById(R.id.drawer_layout);
 
-        final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
-
-        DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
-        firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
-                tvLoggedUser.setText("Welcome, " + firstname + "!");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
         drawerList.setAdapter(new ArrayAdapter<>(this,
                                                  R.layout.drawer_list_item, mDrawerOptions
@@ -62,7 +46,29 @@ public class StatisticsActivity extends AppCompatActivity {
         setSupportActionBar(toolbarStats);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         if (ConnectionStatus.hasActiveInternetConnection()) {
+
+            DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
+            firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String email = dataSnapshot.child("users").child(auth.getUid()).child("email").getValue().toString();
+                    String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
+                    String surname = dataSnapshot.child("users").child(auth.getUid()).child("lastname").getValue().toString();
+
+                    // ToDo: Create static user for session.
+
+                    final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
+                    tvLoggedUser.setText("Welcome, " + firstname + "!");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
             updateUI();
         } else {
             makeToast("In Offline Mode, you won't have access to the latest data!");
