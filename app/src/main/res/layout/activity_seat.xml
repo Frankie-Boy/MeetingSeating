@@ -74,6 +74,14 @@
         android:textSize="20sp" />
     </RelativeLayout>
     <!-- List of Seats -->
+    <TextView
+      android:id="@+id/tv_list_text"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="@string/seats_no_list_items"
+      android:textAlignment="center"
+      android:textSize="24sp" />
+
     <ListView
       android:id="@+id/listview_all_seats"
       android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 package com.novoda.frankboylan.meetingseating;
 
-import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -23,7 +22,6 @@ class SeatPresenterImpl implements SeatPresenter {
 
     public void createAndFillLists() {
         cachedSeatList = model.getCachedList();
-        Log.d(TAG, "Cached SeatList" + cachedSeatList.toString());
         if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
             seatList = model.getAllSeats();
         } else {

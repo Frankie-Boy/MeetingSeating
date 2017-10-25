@@ -29,4 +29,5 @@
   <string name="login_newacct_button">Create One</string>
   <string name="login_newacct_text">Need an Account?</string>
   <string name="login_offline_button">Offline Mode</string>
+  <string name="seats_no_list_items">Nothing here! =(</string>
 </resources>

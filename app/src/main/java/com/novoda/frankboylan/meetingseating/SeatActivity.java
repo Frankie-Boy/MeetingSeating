@@ -36,6 +36,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
     LinearLayout llRoomsExpandableContent;
     LinearLayout llSeatsExpandableContent;
     MenuItem refreshItem, filterItem, resetItem;
+    TextView tvEmptyList;
     private SeatPresenterImpl seatPresenter;
 
     @Override
@@ -99,6 +100,14 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         seatPresenter.fillFilterView();
 
         List<Seat> seatList = seatPresenter.getSeatList();
+        tvEmptyList = findViewById(R.id.tv_list_text);
+
+        if (seatList.isEmpty()) {
+            tvEmptyList.setVisibility(View.VISIBLE);
+        } else {
+            tvEmptyList.setVisibility(View.GONE);
+        }
+
         ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
 
@@ -140,6 +149,11 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
     @Override
     public void updateSeatList(List<Seat> seatList) {
+        if (seatList.isEmpty()) {
+            tvEmptyList.setVisibility(View.VISIBLE);
+        } else {
+            tvEmptyList.setVisibility(View.GONE);
+        }
         ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
         listViewSeats.setAdapter(adapter);
     }
@@ -178,6 +192,9 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         rlFilterView.setVisibility(View.GONE); // Hiding View
         listViewSeats.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_on_right));
         listViewSeats.setVisibility(View.VISIBLE);
+        if (tvEmptyList.getVisibility() == View.VISIBLE) {
+            tvEmptyList.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_on_right));
+        }
         toolbarSeat.setTitle(R.string.toolbar_seat_title);
         toolbarSeat.setNavigationIcon(R.drawable.ic_action_burger);
         refreshItem.setVisible(true); // Adding Toolbar items
