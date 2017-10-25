@@ -55,7 +55,7 @@ public class StatisticsActivity extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     String email = dataSnapshot.child("users").child(auth.getUid()).child("email").getValue().toString();
                     String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
-                    String surname = dataSnapshot.child("users").child(auth.getUid()).child("lastname").getValue().toString();
+                    String surname = dataSnapshot.child("users").child(auth.getUid()).child("surname").getValue().toString();
 
                     // ToDo: Create static user for session.
 

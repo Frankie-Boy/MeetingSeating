@@ -1,6 +1,7 @@
 package com.novoda.frankboylan.meetingseating;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -8,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     TextView tvEmail, tvPassword;
     String snackbarShown = "";
+    CheckBox cbRememberMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,16 @@ public class LoginActivity extends AppCompatActivity {
 
         tvEmail = findViewById(R.id.tv_login_email);
         tvPassword = findViewById(R.id.tv_login_password);
+        cbRememberMe = findViewById(R.id.cb_remember_me);
+
+        SharedPreferences loginPrefs = getSharedPreferences("saveLogin", MODE_PRIVATE);
+
+        if (loginPrefs.getBoolean("saveLogin", false)) {
+            tvEmail.setText(loginPrefs.getString("email", ""));
+            tvPassword.setText(loginPrefs.getString("password", ""));
+            cbRememberMe.setChecked(true);
+        }
+
         if (getIntent().getExtras() != null) {
             tvEmail.setText(getIntent().getExtras().getString("email"));
         }
@@ -85,8 +98,8 @@ public class LoginActivity extends AppCompatActivity {
      * Button Handler method - Login
      */
     public void handlerLogin(View v) {
-        String email = tvEmail.getText().toString();
-        String pass = tvPassword.getText().toString();
+        final String email = tvEmail.getText().toString();
+        final String pass = tvPassword.getText().toString();
 
         if (email.isEmpty() || pass.isEmpty()) {
             makeToast("Missing fields!");
@@ -98,11 +111,22 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            SharedPreferences loginPrefs = getSharedPreferences("saveLogin", MODE_PRIVATE);
+                            SharedPreferences.Editor loginPrefsEditor = loginPrefs.edit();
+                            if (cbRememberMe.isChecked()) { // Save user data to SharedPreferences
+                                loginPrefsEditor.putBoolean("saveLogin", true);
+                                loginPrefsEditor.putString("email", email);
+                                loginPrefsEditor.putString("password", pass);
+                                loginPrefsEditor.commit();
+                            } else { // Clear any stored SharedPreferences
+                                loginPrefsEditor.clear();
+                                loginPrefsEditor.commit();
+                            }
                             startActivity(new Intent(LoginActivity.this, StatisticsActivity.class));
                             finish();
                             return;
                         }
-                        makeToast("Username & Password Combo not recognised!");
+                        makeToast("Email & Password combo not recognised!");
                     }
                 });
 
@@ -116,7 +140,6 @@ public class LoginActivity extends AppCompatActivity {
      * Button Handler method - Create Account
      */
     public void handlerCreateAccount(View v) {
-        // ToDo: clear any EditText data.
         Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
     }

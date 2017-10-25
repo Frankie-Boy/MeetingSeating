@@ -79,7 +79,7 @@
       app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-      android:id="@+id/checkBox"
+      android:id="@+id/cb_remember_me"
       android:layout_width="0dp"
       android:layout_height="45dp"
       android:layout_marginEnd="8dp"
