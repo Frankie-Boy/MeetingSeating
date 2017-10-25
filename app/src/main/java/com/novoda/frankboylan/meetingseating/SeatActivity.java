@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 
 import java.util.List;
 
@@ -90,10 +93,11 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        SQLiteDataDefinition sqLiteDataDefinition = new SQLiteDataDefinition(this);
-        SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
+        SQLiteRead sqliteRead = new SQLiteRead(this);
+        SQLiteDelete sqliteDelete = new SQLiteDelete(this);
+        SQLiteInsert sqliteInsert = new SQLiteInsert(this);
 
-        seatPresenter = new SeatPresenterImpl(this, new SeatModelImpl(sqLiteDataDefinition, sqLiteDataManagement));
+        seatPresenter = new SeatPresenterImpl(this, new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert));
         seatPresenter.bind(this);
         seatPresenter.updateAllLists();
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);

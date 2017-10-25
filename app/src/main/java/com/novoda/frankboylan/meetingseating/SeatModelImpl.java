@@ -1,5 +1,9 @@
 package com.novoda.frankboylan.meetingseating;
 
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -11,12 +15,14 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 class SeatModelImpl implements SeatModel {
 
     private AwsSeatMonitorService service;
-    private SQLiteDataManagement sqliteDataManagement;
-    private SQLiteDataDefinition sqliteDataDefinition;
+    private SQLiteRead sqliteRead;
+    private SQLiteDelete sqliteDelete;
+    private SQLiteInsert sqliteInsert;
 
-    SeatModelImpl(SQLiteDataDefinition sqliteDataDefinition, SQLiteDataManagement sqliteDataManagement) {
-        this.sqliteDataManagement = sqliteDataManagement;
-        this.sqliteDataDefinition = sqliteDataDefinition;
+    SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert) {
+        this.sqliteRead = sqliteRead;
+        this.sqliteDelete = sqliteDelete;
+        this.sqliteInsert = sqliteInsert;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -30,31 +36,30 @@ class SeatModelImpl implements SeatModel {
         try {
             return service.seatMonitorData().execute();
         } catch (IOException e) {
-            throw new IllegalStateException(e); // response throws an IOException when devices wifi is offline.
+            throw new IllegalStateException(e);
         }
     }
 
     public List<Seat> getAllSeats() {
-        return sqliteDataManagement.getAllSeats();
+        return sqliteRead.getAllSeats();
     }
 
     public List<Room> getAllRooms() {
-        return sqliteDataManagement.getAllRooms();
+        return sqliteRead.getAllRooms();
     }
 
     @Override
     public void addSeatToCache(Seat seat) {
-        sqliteDataManagement.addSeatToCache(seat);
+        sqliteInsert.addSeatToCache(seat);
     }
 
     @Override
     public void clearSeatCache() {
-        sqliteDataManagement.clearSeatCache();
+        sqliteDelete.clearSeatCache();
     }
 
     @Override
     public List<Seat> getCachedList() {
-        return sqliteDataManagement.getCachedList();
+        return sqliteRead.getCachedList();
     }
-
 }

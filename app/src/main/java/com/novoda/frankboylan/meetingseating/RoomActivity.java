@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 
 import java.util.List;
 
@@ -98,8 +99,7 @@ public class RoomActivity extends AppCompatActivity {
      * Refreshes ListViews with SQLite data
      */
     private void updateList() {
-        SQLiteDataManagement sqliteDataManagement = new SQLiteDataManagement(this);
-        List<Room> roomList = sqliteDataManagement.getAllRooms();
+        List<Room> roomList = new SQLiteRead(this).getAllRooms();
         listViewRooms.setAdapter(new CustomRoomAdapter(this, roomList));
     }
 }

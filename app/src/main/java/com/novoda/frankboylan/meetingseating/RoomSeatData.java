@@ -5,13 +5,13 @@ import com.squareup.moshi.Json;
 import java.util.ArrayList;
 import java.util.List;
 
-class RoomSeatData {
+public class RoomSeatData {
     @Json(name = "lastUpdateTimestamp")
     private String lastUpdateTimestamp;
     @Json(name = "rooms")
     private List<Room> rooms = new ArrayList<>();
 
-    String getLastUpdateTimestamp() {
+    public String getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
     }
 

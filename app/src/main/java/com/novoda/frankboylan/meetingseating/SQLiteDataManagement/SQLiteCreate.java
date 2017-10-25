@@ -1,10 +1,12 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.SQLiteDataManagement;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-class SQLiteDataDefinition extends SQLiteOpenHelper {
+public class SQLiteCreate extends SQLiteOpenHelper {
+    private static final String TAG = "SQLiteCreate";
     private static int DATABASE_VERSION = 1;
 
     // Database Strings
@@ -31,7 +33,7 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
     static final String META_TABLE = "metadata";
     static final String META_TIMESTAMP = "meta_timestamp";
 
-    SQLiteDataDefinition(Context context) {
+    public SQLiteCreate(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -69,6 +71,8 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
                 META_TIMESTAMP + " INTEGER PRIMARY KEY" +
                 ");";
         db.execSQL(CREATE_META_TABLE);
+
+        Log.d(TAG, "Tables Created!");
     }
 
     @Override
@@ -78,13 +82,5 @@ class SQLiteDataDefinition extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + META_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SEAT_CACHE_TABLE);
         onCreate(db);
-    }
-
-    /**
-     * Deletes, then Re-creates both ROOM_TABLE & SEAT_TABLE
-     */
-    void clearData() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        onUpgrade(db, 0, 1);
     }
 }

@@ -1,23 +1,33 @@
 package com.novoda.frankboylan.meetingseating;
 
 import android.os.AsyncTask;
+import android.util.Log;
+
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
 
 import retrofit2.Response;
 
 class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SeatDataRetrievalTask";
 
-    private SQLiteDataManagement sqliteDataManagement;
-    private SQLiteDataDefinition sqliteDataDefinition;
+    private SQLiteRead sqliteRead;
+    private SQLiteDelete sqliteDelete;
+    private SQLiteInsert sqliteInsert;
+    private SQLiteUpdate sqliteUpdate;
 
-    SeatDataRetrievalTask(SQLiteDataManagement sqliteDataManagement, SQLiteDataDefinition sqliteDataDefinition) {
-        this.sqliteDataManagement = sqliteDataManagement;
-        this.sqliteDataDefinition = sqliteDataDefinition;
+    SeatDataRetrievalTask(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, SQLiteUpdate sqliteUpdate) {
+        this.sqliteRead = sqliteRead;
+        this.sqliteDelete = sqliteDelete;
+        this.sqliteInsert = sqliteInsert;
+        this.sqliteUpdate = sqliteUpdate;
     }
 
     @Override
     protected Void doInBackground(Void... params) {
-        SeatModel model = new SeatModelImpl(sqliteDataDefinition, sqliteDataManagement);
+        SeatModel model = new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert);
         Response<RoomSeatData> response = model.retrieveData();
         RoomSeatData roomSeatData = response.body();
         long serverResponseTimestamp = 0L;
@@ -25,10 +35,23 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
         if (response.isSuccessful() && roomSeatData != null) {
             serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
         }
-        long databaseTimestamp = sqliteDataManagement.getMetaTimestamp().getTimestamp();
+        long databaseTimestamp = sqliteRead.getMetaTimestamp().getTimestamp();
 
-        if (serverResponseTimestamp > databaseTimestamp) {  // Checking data is newer than stored version.
-            sqliteDataManagement.insertDataset(roomSeatData);
+        if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
+            if (roomSeatData.getRooms().isEmpty()) {
+                Log.d(TAG, "No rooms found");
+            } else {
+                sqliteDelete.clearRoomSeatData();
+                sqliteUpdate.updateMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
+                for (Room room : roomSeatData.getRooms()) {
+                    sqliteInsert.addRoom(room);
+                    for (Seat seat : room.getSeats()) {
+                        seat.setRoomId(room.getRoomId());
+                        sqliteInsert.addSeat(seat);
+                    }
+                }
+            }
+            sqliteRead.debugLog();
         }
         return null;
     }

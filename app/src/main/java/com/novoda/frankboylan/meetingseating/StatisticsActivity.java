@@ -18,6 +18,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String TAG = "StatisticsActivity";
@@ -45,7 +49,6 @@ public class StatisticsActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbarStats);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         if (ConnectionStatus.hasActiveInternetConnection()) {
 
@@ -105,8 +108,7 @@ public class StatisticsActivity extends AppCompatActivity {
      * Fetches Json data, refreshes ListViews with SQLite data
      */
     private void updateUI() {
-        // Fetches Json RoomSeatData then Updates the SQLite DB
-        SeatDataRetrievalTask task = new SeatDataRetrievalTask(new SQLiteDataManagement(this), new SQLiteDataDefinition(this));
+        SeatDataRetrievalTask task = new SeatDataRetrievalTask(new SQLiteRead(this), new SQLiteDelete(this), new SQLiteInsert(this), new SQLiteUpdate(this));
         Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
         task.execute();
     }

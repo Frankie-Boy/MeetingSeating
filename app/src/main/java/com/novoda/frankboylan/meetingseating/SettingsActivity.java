@@ -1,5 +1,6 @@
 package com.novoda.frankboylan.meetingseating;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsDisplayer {
     DrawerLayout drawerLayout;
@@ -64,9 +69,13 @@ public class SettingsActivity extends AppCompatActivity implements SettingsDispl
         setSupportActionBar(toolbarSettings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SQLiteDataManagement sqLiteDataManagement = new SQLiteDataManagement(this);
+        SQLiteDelete sqliteDelete = new SQLiteDelete(this);
+        SQLiteInsert sqliteInsert = new SQLiteInsert(this);
+        SQLiteUpdate sqliteUpdate = new SQLiteUpdate(this);
+        SQLiteRead sqliteRead = new SQLiteRead(this);
+        AssetManager assetManager = this.getAssets();
 
-        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(sqLiteDataManagement));
+        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(sqliteDelete, sqliteInsert, sqliteUpdate, sqliteRead, assetManager));
         settingsPresenter.bind(this);
     }
 
