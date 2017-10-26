@@ -15,14 +15,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-class SeatModelImpl implements SeatModel {
+public class SeatModelImpl implements SeatModel {
 
     private AwsSeatMonitorService service;
     private SQLiteRead sqliteRead;
     private SQLiteDelete sqliteDelete;
     private SQLiteInsert sqliteInsert;
 
-    SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert) {
+    public SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert) {
         this.sqliteRead = sqliteRead;
         this.sqliteDelete = sqliteDelete;
         this.sqliteInsert = sqliteInsert;

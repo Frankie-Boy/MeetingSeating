@@ -7,7 +7,7 @@ import java.util.List;
 
 import retrofit2.Response;
 
-interface SeatModel {
+public interface SeatModel {
     Response<RoomSeatData> retrieveData();
 
     List<Seat> getAllSeats();

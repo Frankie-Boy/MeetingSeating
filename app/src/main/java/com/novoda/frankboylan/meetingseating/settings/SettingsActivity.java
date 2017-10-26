@@ -26,6 +26,7 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.seats.RoomDatabaseWriter;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsDisplayer {
     DrawerLayout drawerLayout;
@@ -79,8 +80,9 @@ public class SettingsActivity extends AppCompatActivity implements SettingsDispl
         SQLiteUpdate sqliteUpdate = new SQLiteUpdate(this);
         SQLiteRead sqliteRead = new SQLiteRead(this);
         AssetManager assetManager = this.getAssets();
+        RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
 
-        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(sqliteDelete, sqliteInsert, sqliteUpdate, sqliteRead, assetManager));
+        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(assetManager, roomDatabaseWriter));
         settingsPresenter.bind(this);
     }
 

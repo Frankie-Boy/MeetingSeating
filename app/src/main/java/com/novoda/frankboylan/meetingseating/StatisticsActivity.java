@@ -22,7 +22,10 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.seats.RoomDatabaseWriter;
 import com.novoda.frankboylan.meetingseating.seats.SeatDataRetrievalTask;
+import com.novoda.frankboylan.meetingseating.seats.SeatModel;
+import com.novoda.frankboylan.meetingseating.seats.SeatModelImpl;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String TAG = "StatisticsActivity";
@@ -109,7 +112,16 @@ public class StatisticsActivity extends AppCompatActivity {
      * Fetches Json data, refreshes ListViews with SQLite data
      */
     private void updateUI() {
-        SeatDataRetrievalTask task = new SeatDataRetrievalTask(new SQLiteRead(this), new SQLiteDelete(this), new SQLiteInsert(this), new SQLiteUpdate(this));
+        SQLiteDelete sqliteDelete = new SQLiteDelete(this);
+        SQLiteUpdate sqliteUpdate = new SQLiteUpdate(this);
+        SQLiteRead sqliteRead = new SQLiteRead(this);
+        SQLiteInsert sqliteInsert = new SQLiteInsert(this);
+        RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
+
+        SeatModel seatModel = new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert);
+
+        SeatDataRetrievalTask task = new SeatDataRetrievalTask(seatModel, sqliteRead, roomDatabaseWriter);
+
         Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
         task.execute();
     }
