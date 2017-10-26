@@ -1,0 +1,17 @@
+package com.novoda.frankboylan.meetingseating.seats.model;
+
+import android.content.Context;
+
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+
+public final class SeatModelFactory {
+    public static SeatModel build(Context context) {
+        SQLiteDelete sqliteDelete = new SQLiteDelete(context);
+        SQLiteInsert sqliteInsert = new SQLiteInsert(context);
+        SQLiteRead sqliteRead = new SQLiteRead(context);
+
+        return new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert);
+    }
+}
