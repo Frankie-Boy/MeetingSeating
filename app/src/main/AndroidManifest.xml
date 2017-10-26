@@ -25,7 +25,7 @@
       </intent-filter>
     </activity>
     <activity android:name=".seats.SeatActivity" />
-    <activity android:name=".RoomActivity" />
+    <activity android:name=".HeatmapActivity" />
     <activity android:name=".settings.SettingsActivity" />
     <activity android:name=".CreateAccountActivity" />
   </application>

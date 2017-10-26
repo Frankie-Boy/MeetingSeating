@@ -22,8 +22,8 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 
 import java.util.List;
 
-public class RoomActivity extends AppCompatActivity {
-    private static final String TAG = "RoomActivity";
+public class HeatmapActivity extends AppCompatActivity {
+    private static final String TAG = "HeatmapActivity";
     private ListView listViewRooms;
     DrawerLayout drawerLayout;
 
@@ -79,9 +79,6 @@ public class RoomActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_heat:
-                // ToDo: Display heatmap layout
-                break;
             case R.id.action_refresh:
                 Toast.makeText(this, "Fetching data", Toast.LENGTH_LONG).show();
                 updateList();

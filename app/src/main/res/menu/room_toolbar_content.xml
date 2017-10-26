@@ -6,9 +6,4 @@
     android:icon="@drawable/ic_action_refresh"
     android:title="@string/action_toolbar_refresh"
     app:showAsAction="ifRoom" />
-  <item
-    android:id="@+id/action_heat"
-    android:icon="@drawable/ic_action_heat"
-    android:title="@string/action_toolbar_heatmap"
-    app:showAsAction="ifRoom" />
 </menu>

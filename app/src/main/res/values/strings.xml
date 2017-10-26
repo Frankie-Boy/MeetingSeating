@@ -3,7 +3,7 @@
   <string-array name="drawer_options">
     <item>Statistics</item>
     <item>Seat List</item>
-    <item>Room List</item>
+    <item>Heatmap</item>
     <item>Settings</item>
     <item>Logout</item>
   </string-array>
