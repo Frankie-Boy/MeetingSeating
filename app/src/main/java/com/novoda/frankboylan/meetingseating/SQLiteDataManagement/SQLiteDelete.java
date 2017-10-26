@@ -16,6 +16,7 @@ public class SQLiteDelete extends SQLiteCreate {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + ROOM_TABLE);
         db.execSQL("DELETE FROM " + SEAT_TABLE);
+        db.execSQL("DELETE FROM " + META_TABLE);
         db.close();
     }
 

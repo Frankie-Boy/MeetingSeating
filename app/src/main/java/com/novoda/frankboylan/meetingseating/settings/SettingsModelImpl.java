@@ -47,6 +47,7 @@ class SettingsModelImpl implements SettingsModel {
             Buffer buffer = new Buffer();
             buffer.readFrom(input);
             roomDatabaseWriter.add(adapter.fromJson(buffer));
+
         } catch (IOException e) {
             throw new IllegalStateException("Expected a file at " + directory + " but got nothing! FUBAR");
         }

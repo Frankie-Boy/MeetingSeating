@@ -1,5 +1,7 @@
 package com.novoda.frankboylan.meetingseating.seats.model;
 
+import android.util.Log;
+
 import com.novoda.frankboylan.meetingseating.AwsSeatMonitorService;
 import com.novoda.frankboylan.meetingseating.Room;
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
@@ -18,7 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 class SeatModelImpl implements SeatModel {
-
+    private static final String TAG = "SeatModelImpl";
     private AwsSeatMonitorService service;
     private SQLiteRead sqliteRead;
     private SQLiteDelete sqliteDelete;
@@ -41,6 +43,7 @@ class SeatModelImpl implements SeatModel {
     @Override
     public void retrieveData() {
         service.seatMonitorData().enqueue(new Callback<RoomSeatData>() {
+
             @Override
             public void onResponse(Call<RoomSeatData> call, Response<RoomSeatData> response) {
                 RoomSeatData roomSeatData = response.body();
@@ -50,7 +53,7 @@ class SeatModelImpl implements SeatModel {
                     serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
                 }
                 long databaseTimestamp = sqliteRead.getMetaTimestamp().getTimestamp();
-
+                Log.d(TAG, "local: " + databaseTimestamp + ": server: " + serverResponseTimestamp);
                 if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
                     seatDataRetrievalTask.execute(roomSeatData);
                 }

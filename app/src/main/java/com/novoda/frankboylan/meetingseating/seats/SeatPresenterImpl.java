@@ -42,7 +42,6 @@ class SeatPresenterImpl implements SeatPresenter {
 
     @Override
     public void onRefresh() {
-        displayer.showToast("Fetching Data");
         seatList.clear();
         fillSeatListFromDB();
         displayer.updateSeatList(seatList);
@@ -109,7 +108,6 @@ class SeatPresenterImpl implements SeatPresenter {
         for (Seat seat : seatList) {
             model.addSeatToCache(seat);
         }
-
         displayer.updateSeatList(seatList);
     }
 
