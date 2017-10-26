@@ -113,7 +113,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
             });
             seatModel.retrieveData();
             showToast("Fetching Data...");
-            task.execute();
         }
 
         seatPresenter = new SeatPresenterImpl(this, seatModel);

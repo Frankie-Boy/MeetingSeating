@@ -8,10 +8,11 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.seats.Seat;
 
-import java.io.IOException;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -38,24 +39,28 @@ public class SeatModelImpl implements SeatModel {
     }
 
     @Override
-    public Response<RoomSeatData> retrieveData() {
-        try {
-            Response<RoomSeatData> response = service.seatMonitorData().execute();
-            RoomSeatData roomSeatData = response.body();
-            long serverResponseTimestamp = 0L;
+    public void retrieveData() {
+        service.seatMonitorData().enqueue(new Callback<RoomSeatData>() {
+            @Override
+            public void onResponse(Call<RoomSeatData> call, Response<RoomSeatData> response) {
+                RoomSeatData roomSeatData = response.body();
+                long serverResponseTimestamp = 0L;
 
-            if (response.isSuccessful() && roomSeatData != null) {
-                serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
-            }
-            long databaseTimestamp = sqliteRead.getMetaTimestamp().getTimestamp();
+                if (response.isSuccessful() && roomSeatData != null) {
+                    serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
+                }
+                long databaseTimestamp = sqliteRead.getMetaTimestamp().getTimestamp();
 
-            if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
-                seatDataRetrievalTask.doInBackground(roomSeatData);
+                if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
+                    seatDataRetrievalTask.execute(roomSeatData);
+                }
             }
-            return response;
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
+
+            @Override
+            public void onFailure(Call<RoomSeatData> call, Throwable t) {
+                throw new IllegalStateException(t);
+            }
+        });
     }
 
     public List<Seat> getAllSeats() {

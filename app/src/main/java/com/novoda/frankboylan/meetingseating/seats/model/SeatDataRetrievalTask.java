@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class SeatDataRetrievalTask extends AsyncTask<RoomSeatData, Void, Void> {
     private final RoomDatabaseWriter roomDatabaseWriter;
 
@@ -13,7 +16,8 @@ public class SeatDataRetrievalTask extends AsyncTask<RoomSeatData, Void, Void> {
 
     @Override
     protected Void doInBackground(RoomSeatData... roomSeatData) {
-        roomDatabaseWriter.add(roomSeatData[0]);
+        List<RoomSeatData> roomSeatData1 = Arrays.asList(roomSeatData);
+        roomDatabaseWriter.add(roomSeatData1.get(0));
         return null;
     }
 }
