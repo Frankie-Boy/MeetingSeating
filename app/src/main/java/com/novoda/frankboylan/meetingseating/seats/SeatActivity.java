@@ -106,22 +106,11 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         seatPresenter = new SeatPresenterImpl(this, seatModel);
         seatPresenter.bind(this);
 
-        seatPresenter.updateAllLists();
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
         seatPresenter.fillFilterView();
-
-        List<Seat> seatList = seatPresenter.getSeatList();
         tvEmptyList = findViewById(R.id.tv_list_text);
 
-        if (seatList.isEmpty()) {
-            tvEmptyList.setVisibility(View.VISIBLE);
-        } else {
-            tvEmptyList.setVisibility(View.GONE);
-        }
-
-        ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
-        listViewSeats.setAdapter(adapter);
-
+        seatPresenter.startPresenting();
     }
 
     @Override

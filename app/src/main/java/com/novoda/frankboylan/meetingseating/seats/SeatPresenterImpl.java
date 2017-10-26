@@ -13,25 +13,13 @@ class SeatPresenterImpl implements SeatPresenter {
     private static final String TAG = "SeatPresenter";
     private SeatModel model;
     private SeatDisplayer displayer;
-    private List<Seat> seatList, cachedSeatList;
+    private List<Seat> seatList;
     private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
     SeatPresenterImpl(SeatDisplayer displayer, SeatModel model) {
         this.displayer = displayer;
         this.model = model;
         seatList = new ArrayList<>();
-        cachedSeatList = new ArrayList<>();
-    }
-
-    public void createAndFillLists() {
-        cachedSeatList = model.getCachedList();
-        if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
-            seatList = model.getAllSeats();
-        } else {
-            seatList.clear();
-            seatList.addAll(cachedSeatList);
-            model.clearSeatCache();
-        }
     }
 
     @Override
@@ -59,17 +47,6 @@ class SeatPresenterImpl implements SeatPresenter {
         fillSeatListFromDB();
         displayer.updateSeatList(seatList);
         resetAllSwitch();
-    }
-
-    @Override
-    public void updateAllLists() {
-        List<Seat> cachedSeatList = model.getCachedList();
-        if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
-            createAndFillLists();
-            return;
-        }
-        seatList.clear();
-        seatList.addAll(cachedSeatList);
     }
 
     public void fillSeatListFromDB() {
@@ -136,8 +113,17 @@ class SeatPresenterImpl implements SeatPresenter {
         displayer.updateSeatList(seatList);
     }
 
-    public List<Seat> getSeatList() {
-        return seatList;
+    @Override
+    public void startPresenting() {
+        List<Seat> cachedSeatList = model.getCachedList();
+        if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
+            seatList = model.getAllSeats();
+            displayer.updateSeatList(seatList);
+            return;
+        }
+        seatList.clear();
+        seatList.addAll(cachedSeatList);
+        displayer.updateSeatList(seatList);
     }
 
     void onFilterPressed() {

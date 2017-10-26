@@ -28,6 +28,7 @@ class SettingsPresenterImpl implements SettingsPresenter {
         } else {
             model.replaceWithDataset(i);
             displayer.showToast("Dataset #" + (i + 1) + " loaded.");
+
         }
     }
 }

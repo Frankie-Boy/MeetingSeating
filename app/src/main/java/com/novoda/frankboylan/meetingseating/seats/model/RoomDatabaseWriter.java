@@ -30,6 +30,7 @@ public class RoomDatabaseWriter {
             return;
         }
         sqliteDelete.clearRoomSeatData();
+        sqliteDelete.clearSeatCache();
         sqliteUpdate.updateMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
         for (Room room : roomSeatData.getRooms()) {
             room.updateSeatRoomIds();
