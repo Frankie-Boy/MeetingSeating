@@ -29,6 +29,7 @@ import com.novoda.frankboylan.meetingseating.Room;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatModelImpl;
 
 import java.util.List;
 

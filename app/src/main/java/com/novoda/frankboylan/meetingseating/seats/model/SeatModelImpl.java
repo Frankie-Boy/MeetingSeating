@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.seats;
+package com.novoda.frankboylan.meetingseating.seats.model;
 
 import com.novoda.frankboylan.meetingseating.AwsSeatMonitorService;
 import com.novoda.frankboylan.meetingseating.Room;
@@ -6,6 +6,7 @@ import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.seats.Seat;
 
 import java.io.IOException;
 import java.util.List;

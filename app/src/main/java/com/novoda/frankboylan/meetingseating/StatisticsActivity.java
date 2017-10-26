@@ -23,9 +23,9 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
 import com.novoda.frankboylan.meetingseating.seats.RoomDatabaseWriter;
-import com.novoda.frankboylan.meetingseating.seats.SeatDataRetrievalTask;
-import com.novoda.frankboylan.meetingseating.seats.SeatModel;
-import com.novoda.frankboylan.meetingseating.seats.SeatModelImpl;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatDataRetrievalTask;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatModelImpl;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String TAG = "StatisticsActivity";

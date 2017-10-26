@@ -1,9 +1,10 @@
-package com.novoda.frankboylan.meetingseating.seats;
+package com.novoda.frankboylan.meetingseating.seats.model;
 
 import android.os.AsyncTask;
 
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.seats.RoomDatabaseWriter;
 
 import retrofit2.Response;
 
