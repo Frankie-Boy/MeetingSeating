@@ -24,7 +24,7 @@
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
-    <activity android:name=".SeatActivity" />
+    <activity android:name=".seats.SeatActivity" />
     <activity android:name=".RoomActivity" />
     <activity android:name=".settings.SettingsActivity" />
     <activity android:name=".CreateAccountActivity" />

@@ -3,7 +3,7 @@ package com.novoda.frankboylan.meetingseating;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-interface AwsSeatMonitorService {
+public interface AwsSeatMonitorService {
     String BASE = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com/";
     String ENV = "prod/";
     String SEAT_MONITOR = "seat-monitor-data/";

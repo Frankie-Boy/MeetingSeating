@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.novoda.frankboylan.meetingseating.seats.SeatActivity;
 import com.novoda.frankboylan.meetingseating.settings.SettingsActivity;
 
 public class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {

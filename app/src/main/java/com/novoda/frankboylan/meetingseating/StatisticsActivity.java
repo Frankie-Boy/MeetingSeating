@@ -22,6 +22,7 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.seats.SeatDataRetrievalTask;
 
 public class StatisticsActivity extends AppCompatActivity {
     private static final String TAG = "StatisticsActivity";

@@ -1,8 +1,10 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.seats;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.novoda.frankboylan.meetingseating.Room;
+import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
@@ -10,7 +12,7 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
 
 import retrofit2.Response;
 
-class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
+public class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
     private static final String TAG = "SeatDataRetrievalTask";
 
     private SQLiteRead sqliteRead;
@@ -18,7 +20,7 @@ class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
     private SQLiteInsert sqliteInsert;
     private SQLiteUpdate sqliteUpdate;
 
-    SeatDataRetrievalTask(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, SQLiteUpdate sqliteUpdate) {
+    public SeatDataRetrievalTask(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, SQLiteUpdate sqliteUpdate) {
         this.sqliteRead = sqliteRead;
         this.sqliteDelete = sqliteDelete;
         this.sqliteInsert = sqliteInsert;

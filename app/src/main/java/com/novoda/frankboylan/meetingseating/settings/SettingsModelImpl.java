@@ -9,7 +9,7 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
-import com.novoda.frankboylan.meetingseating.Seat;
+import com.novoda.frankboylan.meetingseating.seats.Seat;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 

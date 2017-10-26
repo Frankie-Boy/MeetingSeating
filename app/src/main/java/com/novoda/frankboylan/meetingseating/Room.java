@@ -1,5 +1,6 @@
 package com.novoda.frankboylan.meetingseating;
 
+import com.novoda.frankboylan.meetingseating.seats.Seat;
 import com.squareup.moshi.Json;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.seats;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
+import com.novoda.frankboylan.meetingseating.R;
+import com.novoda.frankboylan.meetingseating.Room;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;

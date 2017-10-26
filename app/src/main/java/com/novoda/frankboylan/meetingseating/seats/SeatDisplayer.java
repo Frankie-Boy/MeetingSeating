@@ -1,4 +1,6 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.seats;
+
+import com.novoda.frankboylan.meetingseating.Room;
 
 import java.util.List;
 

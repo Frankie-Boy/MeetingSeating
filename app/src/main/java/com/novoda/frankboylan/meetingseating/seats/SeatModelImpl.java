@@ -1,5 +1,8 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.seats;
 
+import com.novoda.frankboylan.meetingseating.AwsSeatMonitorService;
+import com.novoda.frankboylan.meetingseating.Room;
+import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
@@ -12,7 +15,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-class SeatModelImpl implements SeatModel {
+public class SeatModelImpl implements SeatModel {
 
     private AwsSeatMonitorService service;
     private SQLiteRead sqliteRead;

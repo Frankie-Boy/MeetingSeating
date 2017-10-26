@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.novoda.frankboylan.meetingseating.Room;
-import com.novoda.frankboylan.meetingseating.Seat;
+import com.novoda.frankboylan.meetingseating.seats.Seat;
 
 import static com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteCreate.*;
 

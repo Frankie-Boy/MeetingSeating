@@ -1,7 +1,9 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.seats;
 
 import android.widget.LinearLayout;
 import android.widget.Switch;
+
+import com.novoda.frankboylan.meetingseating.Room;
 
 import java.util.ArrayList;
 import java.util.List;
