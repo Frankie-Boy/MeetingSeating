@@ -1,12 +1,15 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.settings;
 
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.novoda.frankboylan.meetingseating.Room;
+import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.Seat;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 

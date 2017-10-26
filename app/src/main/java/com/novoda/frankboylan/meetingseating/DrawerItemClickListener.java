@@ -7,8 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.novoda.frankboylan.meetingseating.settings.SettingsActivity;
 
-class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
+public class DrawerItemClickListener implements android.widget.AdapterView.OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Context context = view.getContext();

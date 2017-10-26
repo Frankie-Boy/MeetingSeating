@@ -1,6 +1,6 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.settings;
 
-public class SettingsPresenterImpl implements SettingsPresenter {
+class SettingsPresenterImpl implements SettingsPresenter {
 
     private SettingsDisplayer displayer;
     private SettingsModel model;

@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.settings;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
+import com.novoda.frankboylan.meetingseating.R;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
@@ -45,6 +47,9 @@ public class SettingsActivity extends AppCompatActivity implements SettingsDispl
         firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if (auth.getUid() == null) {
+                    throw new IllegalStateException("Never expected UserID to be null. Fix quick.");
+                }
                 String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
                 tvLoggedUser.setText("Welcome, " + firstname + "!");
             }
