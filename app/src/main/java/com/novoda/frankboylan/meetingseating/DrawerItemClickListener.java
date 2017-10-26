@@ -16,19 +16,16 @@ public class DrawerItemClickListener implements android.widget.AdapterView.OnIte
         Context context = view.getContext();
         Intent intent = new Intent();
         switch (position) {
-            case 0: // Home
-                intent = new Intent(context, StatisticsActivity.class);
-                break;
-            case 1: // Seat list
+            case 0: // Seat list
                 intent = new Intent(context, SeatActivity.class);
                 break;
-            case 2: // Room list
+            case 1: // Heatmap
                 intent = new Intent(context, HeatmapActivity.class);
                 break;
-            case 3: // Settings
+            case 2: // Settings
                 intent = new Intent(context, SettingsActivity.class);
                 break;
-            case 4: // Logout
+            case 3: // Logout
                 intent = new Intent(context, LoginActivity.class);
                 FirebaseAuth.getInstance().signOut();
                 break;

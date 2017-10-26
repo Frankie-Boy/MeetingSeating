@@ -23,12 +23,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
 import com.novoda.frankboylan.meetingseating.R;
 import com.novoda.frankboylan.meetingseating.Room;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatDataRetrievalTask;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModelImpl;
 
 import java.util.List;
@@ -59,19 +63,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
         final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
 
-        DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
-        firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
-                tvLoggedUser.setText("Welcome, " + firstname + "!");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
         drawerList.setAdapter(new ArrayAdapter<>(this,
@@ -97,12 +88,37 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        SQLiteRead sqliteRead = new SQLiteRead(this);
         SQLiteDelete sqliteDelete = new SQLiteDelete(this);
+        SQLiteUpdate sqliteUpdate = new SQLiteUpdate(this);
+        SQLiteRead sqliteRead = new SQLiteRead(this);
         SQLiteInsert sqliteInsert = new SQLiteInsert(this);
+        RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
 
-        seatPresenter = new SeatPresenterImpl(this, new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert));
+        SeatModel seatModel = new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert);
+
+        if (ConnectionStatus.hasActiveInternetConnection()) {
+            DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
+            firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
+                    tvLoggedUser.setText("Welcome, " + firstname + "!");
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+            SeatDataRetrievalTask task = new SeatDataRetrievalTask(seatModel, sqliteRead, roomDatabaseWriter);
+            showToast("Fetching Data...");
+            task.execute();
+        }
+
+        seatPresenter = new SeatPresenterImpl(this, seatModel);
         seatPresenter.bind(this);
+
         seatPresenter.updateAllLists();
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
         seatPresenter.fillFilterView();

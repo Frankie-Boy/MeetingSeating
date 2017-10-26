@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
+import com.novoda.frankboylan.meetingseating.seats.SeatActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -128,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                                 loginPrefsEditor.clear();
                                 loginPrefsEditor.commit();
                             }
-                            startActivity(new Intent(LoginActivity.this, StatisticsActivity.class));
+                            startActivity(new Intent(LoginActivity.this, SeatActivity.class));
                             finish();
                             return;
                         }
@@ -154,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
      * Button Handler method - Offline Mode
      */
     public void handlerOfflineLogin(View v) {
-        Intent intent = new Intent(this, StatisticsActivity.class);
+        Intent intent = new Intent(this, SeatActivity.class);
         startActivity(intent);
         finish();
     }
