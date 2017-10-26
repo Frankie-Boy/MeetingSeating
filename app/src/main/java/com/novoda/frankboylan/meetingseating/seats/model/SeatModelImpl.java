@@ -22,11 +22,13 @@ public class SeatModelImpl implements SeatModel {
     private SQLiteRead sqliteRead;
     private SQLiteDelete sqliteDelete;
     private SQLiteInsert sqliteInsert;
+    private SeatDataRetrievalTask seatDataRetrievalTask;
 
-    public SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert) {
+    public SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, SeatDataRetrievalTask seatDataRetrievalTask) {
         this.sqliteRead = sqliteRead;
         this.sqliteDelete = sqliteDelete;
         this.sqliteInsert = sqliteInsert;
+        this.seatDataRetrievalTask = seatDataRetrievalTask;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -38,7 +40,19 @@ public class SeatModelImpl implements SeatModel {
     @Override
     public Response<RoomSeatData> retrieveData() {
         try {
-            return service.seatMonitorData().execute();
+            Response<RoomSeatData> response = service.seatMonitorData().execute();
+            RoomSeatData roomSeatData = response.body();
+            long serverResponseTimestamp = 0L;
+
+            if (response.isSuccessful() && roomSeatData != null) {
+                serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
+            }
+            long databaseTimestamp = sqliteRead.getMetaTimestamp().getTimestamp();
+
+            if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
+                seatDataRetrievalTask.doInBackground(roomSeatData);
+            }
+            return response;
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }

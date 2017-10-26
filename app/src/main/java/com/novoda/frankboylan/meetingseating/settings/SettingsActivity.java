@@ -26,7 +26,7 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
-import com.novoda.frankboylan.meetingseating.seats.RoomDatabaseWriter;
+import com.novoda.frankboylan.meetingseating.seats.model.RoomDatabaseWriter;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsDisplayer {
     DrawerLayout drawerLayout;

@@ -31,6 +31,7 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.seats.model.RoomDatabaseWriter;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatDataRetrievalTask;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModelImpl;
@@ -93,8 +94,8 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         SQLiteRead sqliteRead = new SQLiteRead(this);
         SQLiteInsert sqliteInsert = new SQLiteInsert(this);
         RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
-
-        SeatModel seatModel = new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert);
+        SeatDataRetrievalTask task = new SeatDataRetrievalTask(roomDatabaseWriter);
+        SeatModel seatModel = new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, task);
 
         if (ConnectionStatus.hasActiveInternetConnection()) {
             DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
@@ -110,8 +111,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
                 }
             });
-
-            SeatDataRetrievalTask task = new SeatDataRetrievalTask(seatModel, sqliteRead, roomDatabaseWriter);
+            seatModel.retrieveData();
             showToast("Fetching Data...");
             task.execute();
         }

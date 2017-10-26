@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.seats;
+package com.novoda.frankboylan.meetingseating.seats.model;
 
 import android.util.Log;
 

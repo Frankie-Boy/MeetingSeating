@@ -4,7 +4,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
-import com.novoda.frankboylan.meetingseating.seats.RoomDatabaseWriter;
+import com.novoda.frankboylan.meetingseating.seats.model.RoomDatabaseWriter;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
