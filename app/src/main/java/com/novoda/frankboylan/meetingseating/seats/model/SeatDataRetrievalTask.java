@@ -7,10 +7,10 @@ import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import java.util.Arrays;
 import java.util.List;
 
-public class SeatDataRetrievalTask extends AsyncTask<RoomSeatData, Void, Void> {
+class SeatDataRetrievalTask extends AsyncTask<RoomSeatData, Void, Void> {
     private final RoomDatabaseWriter roomDatabaseWriter;
 
-    public SeatDataRetrievalTask(RoomDatabaseWriter roomDatabaseWriter) {
+    SeatDataRetrievalTask(RoomDatabaseWriter roomDatabaseWriter) {
         this.roomDatabaseWriter = roomDatabaseWriter;
     }
 

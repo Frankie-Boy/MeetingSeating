@@ -27,14 +27,8 @@ import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
 import com.novoda.frankboylan.meetingseating.R;
 import com.novoda.frankboylan.meetingseating.Room;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
-import com.novoda.frankboylan.meetingseating.seats.model.RoomDatabaseWriter;
-import com.novoda.frankboylan.meetingseating.seats.model.SeatDataRetrievalTask;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
-import com.novoda.frankboylan.meetingseating.seats.model.SeatModelImpl;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 
 import java.util.List;
 
@@ -89,13 +83,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        SQLiteDelete sqliteDelete = new SQLiteDelete(this);
-        SQLiteUpdate sqliteUpdate = new SQLiteUpdate(this);
-        SQLiteRead sqliteRead = new SQLiteRead(this);
-        SQLiteInsert sqliteInsert = new SQLiteInsert(this);
-        RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
-        SeatDataRetrievalTask task = new SeatDataRetrievalTask(roomDatabaseWriter);
-        SeatModel seatModel = new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, task);
+        SeatModel seatModel = SeatModelFactory.build(this);
 
         if (ConnectionStatus.hasActiveInternetConnection()) {
             DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
