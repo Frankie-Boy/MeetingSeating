@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -29,6 +30,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        // Clear any cached data
+        SQLiteDelete sqliteDelete = new SQLiteDelete(this);
+        sqliteDelete.clearSeatCache();
+        sqliteDelete.close();
 
         tvEmail = findViewById(R.id.tv_login_email);
         tvPassword = findViewById(R.id.tv_login_password);
