@@ -42,16 +42,14 @@ public class SeatDataRetrievalTask extends AsyncTask<Void, Void, Void> {
         if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
             if (roomSeatData.getRooms().isEmpty()) {
                 Log.d(TAG, "No rooms found");
-            } else {
-                sqliteDelete.clearRoomSeatData();
-                sqliteUpdate.updateMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
-                for (Room room : roomSeatData.getRooms()) {
-                    sqliteInsert.addRoom(room);
-                    for (Seat seat : room.getSeats()) {
-                        seat.setRoomId(room.getRoomId());
-                        sqliteInsert.addSeat(seat);
-                    }
-                }
+                return null;
+            }
+            sqliteDelete.clearRoomSeatData();
+            sqliteDelete.clearSeatCache();
+            sqliteUpdate.updateMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
+            for (Room room : roomSeatData.getRooms()) {
+                room.updateSeatRoomIds();
+                sqliteInsert.addRoom(room);
             }
             sqliteRead.debugLog();
         }

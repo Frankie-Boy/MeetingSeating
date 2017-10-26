@@ -28,6 +28,9 @@ public class SQLiteInsert {
         values.put(ROOM_NAME, room.getRoomName());
         values.put(ROOM_LOCATIONNAME, room.getLocation());
         values.put(ROOM_UNITNAME, room.getUnitName());
+        for (Seat seat : room.getSeats()) {
+            addSeat(seat);
+        }
 
         db.insert(ROOM_TABLE, null, values);
         db.close();
@@ -36,7 +39,7 @@ public class SQLiteInsert {
     /**
      * Insert a new seat row into the database, for back-end use only.
      */
-    public void addSeat(Seat seat) {
+    private void addSeat(Seat seat) {
         SQLiteDatabase db = database.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -46,8 +49,6 @@ public class SQLiteInsert {
         values.put(SEAT_ROOM_ID, seat.getRoomId());
 
         db.insert(SEAT_TABLE, null, values);
-
-        db.close();
     }
 
     /**

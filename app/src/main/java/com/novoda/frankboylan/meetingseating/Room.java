@@ -59,6 +59,12 @@ public class Room {
         this.seats = seats;
     }
 
+    public void updateSeatRoomIds() {
+        for (Seat seat : seats) {
+            seat.setRoomId(roomId);
+        }
+    }
+
     @Override
     public String toString() {
         return "Room{" +

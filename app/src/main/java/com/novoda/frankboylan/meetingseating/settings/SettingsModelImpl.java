@@ -9,7 +9,6 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
-import com.novoda.frankboylan.meetingseating.seats.Seat;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 
@@ -61,16 +60,13 @@ class SettingsModelImpl implements SettingsModel {
 
             if (roomSeatData.getRooms().isEmpty()) {
                 Log.d(TAG, "No rooms found");
-            } else {
-                sqliteDelete.clearRoomSeatData();
-                sqliteUpdate.updateMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
-                for (Room room : roomSeatData.getRooms()) {
-                    sqliteInsert.addRoom(room);
-                    for (Seat seat : room.getSeats()) {
-                        seat.setRoomId(room.getRoomId());
-                        sqliteInsert.addSeat(seat);
-                    }
-                }
+                return;
+            }
+            sqliteDelete.clearRoomSeatData();
+            sqliteUpdate.updateMetaTimestamp(Long.valueOf(roomSeatData.getLastUpdateTimestamp()));
+            for (Room room : roomSeatData.getRooms()) {
+                room.updateSeatRoomIds();
+                sqliteInsert.addRoom(room);
             }
             sqliteRead.debugLog();
         } catch (IOException e) {

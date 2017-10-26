@@ -23,7 +23,7 @@ public class DrawerItemClickListener implements android.widget.AdapterView.OnIte
                 intent = new Intent(context, SeatActivity.class);
                 break;
             case 2: // Room list
-                intent = new Intent(context, RoomActivity.class);
+                intent = new Intent(context, HeatmapActivity.class);
                 break;
             case 3: // Settings
                 intent = new Intent(context, SettingsActivity.class);
