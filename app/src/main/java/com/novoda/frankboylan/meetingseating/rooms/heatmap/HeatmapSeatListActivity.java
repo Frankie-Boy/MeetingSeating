@@ -6,10 +6,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.novoda.frankboylan.meetingseating.R;
 
-public class HeatmapSeatListActivity extends AppCompatActivity {
+public class HeatmapSeatListActivity extends AppCompatActivity implements HeatmapSeatListDisplayer {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,5 +44,10 @@ public class HeatmapSeatListActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT);
     }
 }
