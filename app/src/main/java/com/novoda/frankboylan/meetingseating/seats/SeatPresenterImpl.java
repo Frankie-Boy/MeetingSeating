@@ -1,5 +1,6 @@
 package com.novoda.frankboylan.meetingseating.seats;
 
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -42,13 +43,9 @@ class SeatPresenterImpl implements SeatPresenter {
     @Override
     public void onRefresh() {
         seatList.clear();
-        fillSeatListFromDB();
-        displayer.updateSeatList(seatList);
-        resetAllSwitch();
-    }
-
-    public void fillSeatListFromDB() {
         seatList = model.getAllSeats();
+        resetAllSwitch();
+        displayer.updateSeatList(seatList);
     }
 
     public void uncheckSeatsWithMatchingId(int roomId) {
@@ -115,6 +112,7 @@ class SeatPresenterImpl implements SeatPresenter {
         List<Seat> cachedSeatList = model.getCachedList();
         if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
             seatList = model.getAllSeats();
+            Log.d(TAG, seatList.toString());
             displayer.updateSeatList(seatList);
             return;
         }

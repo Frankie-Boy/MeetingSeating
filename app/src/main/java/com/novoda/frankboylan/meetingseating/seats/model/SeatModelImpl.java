@@ -1,7 +1,5 @@
 package com.novoda.frankboylan.meetingseating.seats.model;
 
-import android.util.Log;
-
 import com.novoda.frankboylan.meetingseating.AwsSeatMonitorService;
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
@@ -53,7 +51,6 @@ class SeatModelImpl implements SeatModel {
                     serverResponseTimestamp = Long.valueOf(roomSeatData.getLastUpdateTimestamp());
                 }
                 long databaseTimestamp = sqliteRead.getMetaTimestamp().getTimestamp();
-                Log.d(TAG, "local: " + databaseTimestamp + ": server: " + serverResponseTimestamp);
                 if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
                     seatDataRetrievalTask.execute(roomSeatData);
                 }
