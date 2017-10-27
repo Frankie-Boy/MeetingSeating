@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.novoda.frankboylan.meetingseating.R;
 
 public class HeatmapSeatListActivity extends AppCompatActivity implements HeatmapSeatListDisplayer {
+    HeatmapSeatListPresenterImpl heatmapSeatListPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,9 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView seatList = findViewById(R.id.lv_seat_heatmap);
+
+        heatmapSeatListPresenter = new HeatmapSeatListPresenterImpl();
+        heatmapSeatListPresenter.bind(this);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
                 // ToDo: Toggle Heatmap Colours & update listView
                 break;
             case android.R.id.home:
+                heatmapSeatListPresenter.unbind();
                 finish();
                 break;
         }
