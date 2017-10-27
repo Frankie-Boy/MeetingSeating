@@ -83,10 +83,11 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        SeatModel seatModel = SeatModelFactory.build(this);
+        final SeatModel seatModel = SeatModelFactory.build(this);
 
         if (ConnectionStatus.hasActiveInternetConnection()) {
-            seatModel.retrieveData();
+
+            seatModel.retrieveData(); // ToDo: make sure this response is returned before startPresenting();
             showToast("Fetching Data...");
 
             DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
@@ -294,7 +295,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
     @Override
     public void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

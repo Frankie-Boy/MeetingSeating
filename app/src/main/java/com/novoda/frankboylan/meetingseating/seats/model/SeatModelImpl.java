@@ -53,6 +53,8 @@ class SeatModelImpl implements SeatModel {
                 long databaseTimestamp = sqliteRead.getMetaTimestamp().getTimestamp();
                 if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
                     seatDataRetrievalTask.execute(roomSeatData);
+                    // ToDo: update UI
+                    
                 }
             }
 
