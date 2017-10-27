@@ -24,8 +24,8 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 
 import java.util.List;
 
-public class HeatmapListListActivity extends AppCompatActivity implements HeatmapListDisplayer {
-    private static final String TAG = "HeatmapListListActivity";
+public class HeatmapListActivity extends AppCompatActivity implements HeatmapListDisplayer {
+    private static final String TAG = "HeatmapListActivity";
     private ListView listViewRooms;
     DrawerLayout drawerLayout;
 

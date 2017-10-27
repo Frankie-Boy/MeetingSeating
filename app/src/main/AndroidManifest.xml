@@ -23,7 +23,7 @@
       </intent-filter>
     </activity>
     <activity android:name=".seats.SeatActivity" />
-    <activity android:name=".heatmap.HeatmapListListActivity" />
+    <activity android:name=".heatmap.HeatmapListActivity" />
     <activity android:name=".settings.SettingsActivity" />
     <activity android:name=".CreateAccountActivity" />
     <activity android:name=".heatmap.HeatmapRoomActivity"></activity>
