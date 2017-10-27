@@ -11,7 +11,7 @@
   <string name="action_toolbar_search">Search</string>
   <string name="action_toolbar_heatmap">Heatmap</string>
   <string name="toolbar_statistics_title">Statistics</string>
-  <string name="toolbar_room_title">Rooms</string>
+  <string name="toolbar_room_title">Room List</string>
   <string name="toolbar_seat_title">Seats</string>
   <string name="toolbar_seat_filter_title">Filter Menu</string>
   <string name="nav_drawer_closed">Closed</string>
@@ -29,4 +29,5 @@
   <string name="login_newacct_text">Need an Account?</string>
   <string name="login_offline_button">Offline Mode</string>
   <string name="seats_no_list_items">Nothing here! =(</string>
+  <string name="toolbar_heatmap_title">Heatmap View</string>
 </resources>

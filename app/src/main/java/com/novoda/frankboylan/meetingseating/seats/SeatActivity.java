@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
 import com.novoda.frankboylan.meetingseating.R;
-import com.novoda.frankboylan.meetingseating.Room;
+import com.novoda.frankboylan.meetingseating.heatmap.Room;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 
@@ -57,7 +57,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         drawerLayout = findViewById(R.id.drawer_layout);
 
         final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
-
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
         drawerList.setAdapter(new ArrayAdapter<>(this,

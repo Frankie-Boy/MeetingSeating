@@ -1,20 +1,23 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.heatmap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.novoda.frankboylan.meetingseating.R;
+
 import java.util.List;
 
-class CustomRoomAdapter extends ArrayAdapter<Room> implements View.OnClickListener {
+class CustomRoomAdapter extends ArrayAdapter<Room> {
     private static String TAG = "CustomRoomAdapter";
     private List<Room> roomList;
     private Context context;
 
-    public CustomRoomAdapter(Context context, List<Room> roomList) {
+    CustomRoomAdapter(Context context, List<Room> roomList) {
         super(context, -1, roomList);
         this.context = context;
         this.roomList = roomList;
@@ -30,6 +33,7 @@ class CustomRoomAdapter extends ArrayAdapter<Room> implements View.OnClickListen
         TextView tvSeatCount = rowView.findViewById(R.id.tv_room_seatcount);
 
         Room room = roomList.get(position);
+        rowView.setTag(room.getRoomId());
         tvRoomName.setText(room.getRoomName());
         tvLocation.setText(room.getLocation());
         tvUnitName.setText(room.getUnitName());
@@ -40,11 +44,15 @@ class CustomRoomAdapter extends ArrayAdapter<Room> implements View.OnClickListen
             tvSeatCount.setText(String.valueOf(seatCount));
         }
 
-        return rowView;
-    }
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, HeatmapRoomActivity.class);
+                intent.putExtra("roomId", v.getTag().toString());
+                context.startActivity(intent);
+            }
+        });
 
-    @Override
-    public void onClick(View v) {
-        // ToDo: launch inner view for Room statistics
+        return rowView;
     }
 }

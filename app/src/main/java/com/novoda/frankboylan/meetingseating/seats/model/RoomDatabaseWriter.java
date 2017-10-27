@@ -2,12 +2,12 @@ package com.novoda.frankboylan.meetingseating.seats.model;
 
 import android.util.Log;
 
-import com.novoda.frankboylan.meetingseating.Room;
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.heatmap.Room;
 
 public class RoomDatabaseWriter {
 

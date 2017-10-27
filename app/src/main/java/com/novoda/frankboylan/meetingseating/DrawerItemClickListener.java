@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.novoda.frankboylan.meetingseating.heatmap.HeatmapListListActivity;
 import com.novoda.frankboylan.meetingseating.seats.SeatActivity;
 import com.novoda.frankboylan.meetingseating.settings.SettingsActivity;
 
@@ -20,7 +21,7 @@ public class DrawerItemClickListener implements android.widget.AdapterView.OnIte
                 intent = new Intent(context, SeatActivity.class);
                 break;
             case 1: // Heatmap
-                intent = new Intent(context, HeatmapActivity.class);
+                intent = new Intent(context, HeatmapListListActivity.class);
                 break;
             case 2: // Settings
                 intent = new Intent(context, SettingsActivity.class);

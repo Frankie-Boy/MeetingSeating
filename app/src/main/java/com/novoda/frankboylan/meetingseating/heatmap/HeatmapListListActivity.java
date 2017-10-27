@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.heatmap;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -18,12 +18,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
+import com.novoda.frankboylan.meetingseating.R;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 
 import java.util.List;
 
-public class HeatmapActivity extends AppCompatActivity {
-    private static final String TAG = "HeatmapActivity";
+public class HeatmapListListActivity extends AppCompatActivity implements HeatmapListDisplayer {
+    private static final String TAG = "HeatmapListListActivity";
     private ListView listViewRooms;
     DrawerLayout drawerLayout;
 
@@ -98,5 +100,10 @@ public class HeatmapActivity extends AppCompatActivity {
     private void updateList() {
         List<Room> roomList = new SQLiteRead(this).getAllRooms();
         listViewRooms.setAdapter(new CustomRoomAdapter(this, roomList));
+    }
+
+    @Override
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

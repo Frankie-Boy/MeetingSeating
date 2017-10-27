@@ -5,7 +5,6 @@
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
   <application
     android:name=".MyApplication"
     android:allowBackup="true"
@@ -24,9 +23,10 @@
       </intent-filter>
     </activity>
     <activity android:name=".seats.SeatActivity" />
-    <activity android:name=".HeatmapActivity" />
+    <activity android:name=".heatmap.HeatmapListListActivity" />
     <activity android:name=".settings.SettingsActivity" />
     <activity android:name=".CreateAccountActivity" />
+    <activity android:name=".heatmap.HeatmapRoomActivity"></activity>
   </application>
 
 </manifest>
