@@ -16,8 +16,7 @@ class SeatPresenterImpl implements SeatPresenter {
     private List<Seat> seatList;
     private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
-    SeatPresenterImpl(SeatDisplayer displayer, SeatModel model) {
-        this.displayer = displayer;
+    SeatPresenterImpl(SeatModel model) {
         this.model = model;
         seatList = new ArrayList<>();
     }

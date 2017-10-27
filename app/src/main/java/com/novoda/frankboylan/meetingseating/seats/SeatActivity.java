@@ -102,7 +102,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
             showToast("Fetching Data...");
         }
 
-        seatPresenter = new SeatPresenterImpl(this, seatModel);
+        seatPresenter = new SeatPresenterImpl(seatModel);
         seatPresenter.bind(this);
 
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
