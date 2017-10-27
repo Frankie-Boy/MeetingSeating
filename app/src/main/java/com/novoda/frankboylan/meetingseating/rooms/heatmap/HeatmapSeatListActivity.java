@@ -1,14 +1,15 @@
-package com.novoda.frankboylan.meetingseating.heatmap;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.novoda.frankboylan.meetingseating.R;
 
-public class HeatmapRoomActivity extends AppCompatActivity {
+public class HeatmapSeatListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +21,14 @@ public class HeatmapRoomActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbarHeatmap);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ListView seatList = findViewById(R.id.lv_seat_heatmap);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.heatmap_toolbar_content, menu);
-        MenuItem heatmapItem = menu.findItem(R.id.action_heatmap);
         return true;
     }
 

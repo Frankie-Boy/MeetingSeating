@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.novoda.frankboylan.meetingseating.Timestamp;
-import com.novoda.frankboylan.meetingseating.heatmap.Room;
+import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.Seat;
 
 import java.util.ArrayList;

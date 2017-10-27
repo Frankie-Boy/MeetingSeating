@@ -1,6 +1,6 @@
 package com.novoda.frankboylan.meetingseating.seats.model;
 
-import com.novoda.frankboylan.meetingseating.heatmap.Room;
+import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.Seat;
 
 import java.util.List;

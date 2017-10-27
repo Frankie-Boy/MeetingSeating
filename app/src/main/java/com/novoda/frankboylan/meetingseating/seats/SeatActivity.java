@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
 import com.novoda.frankboylan.meetingseating.R;
-import com.novoda.frankboylan.meetingseating.heatmap.Room;
+import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 

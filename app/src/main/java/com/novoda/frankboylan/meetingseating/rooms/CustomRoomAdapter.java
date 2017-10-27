@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.heatmap;
+package com.novoda.frankboylan.meetingseating.rooms;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.novoda.frankboylan.meetingseating.R;
+import com.novoda.frankboylan.meetingseating.rooms.heatmap.HeatmapSeatListActivity;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ class CustomRoomAdapter extends ArrayAdapter<Room> {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, HeatmapRoomActivity.class);
+                Intent intent = new Intent(context, HeatmapSeatListActivity.class);
                 intent.putExtra("roomId", v.getTag().toString());
                 context.startActivity(intent);
             }

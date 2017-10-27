@@ -3,7 +3,7 @@ package com.novoda.frankboylan.meetingseating.seats;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
-import com.novoda.frankboylan.meetingseating.heatmap.Room;
+import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
 
 import java.util.ArrayList;

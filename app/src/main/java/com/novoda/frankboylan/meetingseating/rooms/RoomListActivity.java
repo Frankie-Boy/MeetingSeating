@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.heatmap;
+package com.novoda.frankboylan.meetingseating.rooms;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -24,8 +24,8 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 
 import java.util.List;
 
-public class HeatmapListActivity extends AppCompatActivity implements HeatmapListDisplayer {
-    private static final String TAG = "HeatmapListActivity";
+public class RoomListActivity extends AppCompatActivity implements RoomListDisplayer {
+    private static final String TAG = "RoomListActivity";
     private ListView listViewRooms;
     DrawerLayout drawerLayout;
 

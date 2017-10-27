@@ -4,10 +4,23 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="com.novoda.frankboylan.meetingseating.heatmap.HeatmapRoomActivity">
+  tools:context="com.novoda.frankboylan.meetingseating.rooms.heatmap.HeatmapSeatListActivity">
 
   <android.support.v7.widget.Toolbar
     android:id="@+id/toolbar_heatmap"
     style="@style/AppToolbar"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+  <ListView
+    android:id="@+id/lv_seat_heatmap"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar_heatmap"
+    app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>
