@@ -48,6 +48,6 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
 
     @Override
     public void makeToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
