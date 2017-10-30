@@ -27,7 +27,7 @@ class CustomRoomAdapter extends ArrayAdapter<Room> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.seat_list_item, parent, false);
+        View rowView = inflater.inflate(R.layout.room_list_item, parent, false);
         TextView tvRoomName = rowView.findViewById(R.id.tv_room_name);
         TextView tvLocation = rowView.findViewById(R.id.tv_room_location);
         TextView tvUnitName = rowView.findViewById(R.id.tv_room_unitname);

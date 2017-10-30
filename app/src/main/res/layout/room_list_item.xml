@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="wrap_content">
-
-  <ImageButton
-    android:id="@+id/btn_room_next"
-    android:layout_width="wrap_content"
-    android:layout_height="100dp"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentTop="true"
-    android:background="@color/lightGrey"
-    app:srcCompat="@drawable/ic_chevron_right_black_24dp" />
 
   <TextView
     android:id="@+id/tv_room_name"
@@ -39,13 +29,12 @@
     android:id="@+id/tv_room_seatcount_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_alignStart="@+id/tv_room_seatcount"
+    android:layout_below="@+id/tv_room_seatcount"
     android:text="rooms"
     android:textAlignment="center"
     android:textColor="@color/black"
-    android:textSize="20sp"
-    android:layout_below="@+id/tv_room_seatcount"
-    android:layout_toStartOf="@+id/btn_room_next"
-    android:layout_marginEnd="43dp" />
+    android:textSize="20sp" />
 
   <TextView
     android:id="@+id/tv_room_unitname"
@@ -61,8 +50,9 @@
     android:id="@+id/tv_room_seatcount"
     android:layout_width="55dp"
     android:layout_height="wrap_content"
-    android:layout_alignEnd="@+id/tv_room_seatcount_title"
+    android:layout_alignParentEnd="true"
     android:layout_alignTop="@+id/tv_room_name"
+    android:layout_marginEnd="13dp"
     android:text="#"
     android:textAlignment="center"
     android:textColor="@color/black"
