@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.R;
 
 public class HeatmapSeatListActivity extends AppCompatActivity implements HeatmapSeatListDisplayer {
@@ -28,6 +29,11 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
 
         heatmapSeatListPresenter = new HeatmapSeatListPresenterImpl();
         heatmapSeatListPresenter.bind(this);
+
+        if (ConnectionStatus.hasActiveInternetConnection()) {
+            heatmapSeatListPresenter.getData();
+        }
+
         heatmapSeatListPresenter.startPresenting();
     }
 

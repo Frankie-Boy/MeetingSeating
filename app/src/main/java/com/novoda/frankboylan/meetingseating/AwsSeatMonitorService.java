@@ -7,8 +7,12 @@ public interface AwsSeatMonitorService {
     String BASE = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com/";
     String ENV = "prod/";
     String SEAT_MONITOR = "seat-monitor-data/";
-    String ENDPOINT_SEAT_MONITOR = BASE + ENV + SEAT_MONITOR; // RoomSeatData end-point URL
+    String HEATMAP_BASE = "https://w62twg41g1.execute-api.eu-west-1.amazonaws.com/";
+    String HEATMAP = "seat-heat-map-data?roomId=234&start=1234&end=4321";
 
     @GET(AwsSeatMonitorService.ENV + AwsSeatMonitorService.SEAT_MONITOR)
     Call<RoomSeatData> seatMonitorData();
+
+    @GET(AwsSeatMonitorService.ENV + AwsSeatMonitorService.HEATMAP)
+    Call<HeatmapSeatData> seatHeatmapData();
 }

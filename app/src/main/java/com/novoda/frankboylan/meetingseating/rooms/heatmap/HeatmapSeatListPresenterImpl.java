@@ -7,6 +7,7 @@ class HeatmapSeatListPresenterImpl implements HeatMapSeatListPresenter {
     @Override
     public void bind(HeatmapSeatListDisplayer displayer) {
         this.displayer = displayer;
+        model = new HeatmapSeatListModelImpl();
     }
 
     @Override
@@ -17,5 +18,11 @@ class HeatmapSeatListPresenterImpl implements HeatMapSeatListPresenter {
     @Override
     public void startPresenting() {
 
+    }
+
+    @Override
+    public void getData() {
+        // ToDo: update Lists
+        model.retrieveData();
     }
 }

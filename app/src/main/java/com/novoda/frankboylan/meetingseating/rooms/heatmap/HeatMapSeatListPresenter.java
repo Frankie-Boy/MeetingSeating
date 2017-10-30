@@ -6,4 +6,6 @@ interface HeatMapSeatListPresenter {
     void unbind();
 
     void startPresenting();
+
+    void getData();
 }
