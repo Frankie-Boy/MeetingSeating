@@ -21,7 +21,7 @@
     android:ems="10"
     android:hint="Enter your email "
     android:inputType="textEmailAddress"
-    android:text="testing@novoda.com"
+    android:text="testing@novoda.co.uk"
     android:textColor="@color/white"
     android:textSize="20sp"
     app:layout_constraintLeft_toLeftOf="parent"
