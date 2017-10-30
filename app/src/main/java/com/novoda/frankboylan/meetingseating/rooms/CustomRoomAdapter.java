@@ -41,18 +41,18 @@ class CustomRoomAdapter extends ArrayAdapter<Room> {
         int seatCount = room.getSeats().size();
         if (seatCount == 0) {
             tvSeatCount.setText("0");
+
         } else {
             tvSeatCount.setText(String.valueOf(seatCount));
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, HeatmapSeatListActivity.class);
+                    intent.putExtra("roomId", v.getTag().toString());
+                    context.startActivity(intent);
+                }
+            });
         }
-
-        rowView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, HeatmapSeatListActivity.class);
-                intent.putExtra("roomId", v.getTag().toString());
-                context.startActivity(intent);
-            }
-        });
 
         return rowView;
     }
