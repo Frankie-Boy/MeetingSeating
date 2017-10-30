@@ -6,6 +6,10 @@
     <item>Settings</item>
     <item>Logout</item>
   </string-array>
+  <string-array name="end_of_email_options">
+    <item>\@novoda.co.uk</item>
+    <item>\@novoda.com</item>
+  </string-array>
   <string name="action_toolbar_refresh">Refresh</string>
   <string name="action_toolbar_filter">Filter</string>
   <string name="action_toolbar_search">Search</string>
@@ -26,6 +30,7 @@
   <string name="login_remember_me">Remember me</string>
   <string name="login_signin_button">Sign in</string>
   <string name="login_newacct_button">Create an Account</string>
+  <string name="signup_create_button">Create account</string>
   <string name="seats_no_list_items">Nothing here! =(</string>
   <string name="toolbar_heatmap_title">Heatmap View</string>
 </resources>

@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,19 +21,26 @@ import java.util.regex.Pattern;
 
 public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth auth;
-    EditText newEmail, newPassword, newFirstname, newSurname;
+    EditText newEmailPrefix, newPassword, newFirstname, newSurname;
+    Spinner newEmailPostfix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_create_account);
 
         auth = FirebaseAuth.getInstance();
 
-        newEmail = findViewById(R.id.et_new_email);
+        newEmailPrefix = findViewById(R.id.et_new_email);
         newPassword = findViewById(R.id.et_new_password);
         newFirstname = findViewById(R.id.et_new_firstname);
         newSurname = findViewById(R.id.et_new_surname);
+        newEmailPostfix = findViewById(R.id.spn_email_options);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                                                                             R.array.end_of_email_options, R.layout.spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        newEmailPostfix.setAdapter(adapter);
     }
 
     @Override
@@ -47,7 +56,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (!formsAreValid()) {
             return;
         }
-        auth.createUserWithEmailAndPassword(newEmail.getText().toString(), newPassword.getText().toString())
+        auth.createUserWithEmailAndPassword(newEmailPrefix.getText().toString(), newPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -56,12 +65,12 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                             DatabaseReference fb = FirebaseDatabase.getInstance().getReference();
 
-                            fb.child("users").child(auth.getUid()).child("email").setValue(newEmail.getText().toString()); // Uid has just been created, so won't be null
+                            fb.child("users").child(auth.getUid()).child("email").setValue(newEmailPrefix.getText().toString());
                             fb.child("users").child(auth.getUid()).child("firstname").setValue(newFirstname.getText().toString());
                             fb.child("users").child(auth.getUid()).child("surname").setValue(newSurname.getText().toString());
 
                             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-                            intent.putExtra("email", newEmail.getText().toString());
+                            intent.putExtra("email", newEmailPrefix.getText().toString());
                             startActivity(intent);
                             finish();
                         } else {
@@ -73,7 +82,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public boolean formsAreValid() {
-        String email = newEmail.getText().toString();
+        String email = newEmailPrefix.getText().toString();
         String password = newPassword.getText().toString();
         String firstname = newFirstname.getText().toString();
         String surname = newSurname.getText().toString();

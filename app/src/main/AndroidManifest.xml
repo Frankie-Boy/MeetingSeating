@@ -18,15 +18,16 @@
       android:windowSoftInputMode="stateHidden">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
-
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
     </activity>
     <activity android:name=".seats.SeatActivity" />
     <activity android:name=".rooms.RoomListActivity" />
     <activity android:name=".settings.SettingsActivity" />
-    <activity android:name=".CreateAccountActivity" />
-    <activity android:name=".rooms.heatmap.HeatmapSeatListActivity"></activity>
+    <activity
+      android:name=".CreateAccountActivity"
+      android:windowSoftInputMode="stateHidden" />
+    <activity android:name=".rooms.heatmap.HeatmapSeatListActivity" />
   </application>
 
 </manifest>
