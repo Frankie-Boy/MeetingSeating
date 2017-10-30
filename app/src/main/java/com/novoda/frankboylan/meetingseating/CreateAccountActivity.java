@@ -17,8 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.regex.Pattern;
-
 public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     EditText newEmailPrefix, newPassword, newFirstname, newSurname;
@@ -56,26 +54,28 @@ public class CreateAccountActivity extends AppCompatActivity {
         if (!formsAreValid()) {
             return;
         }
-        auth.createUserWithEmailAndPassword(newEmailPrefix.getText().toString(), newPassword.getText().toString())
+
+        final String concatEmail = newEmailPrefix.getText().toString() + newEmailPostfix.getSelectedItem().toString();
+        auth.createUserWithEmailAndPassword(concatEmail, newPassword.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Account Creation was a success
-
+                            makeToast("Account Created!");
+                            
                             DatabaseReference fb = FirebaseDatabase.getInstance().getReference();
 
-                            fb.child("users").child(auth.getUid()).child("email").setValue(newEmailPrefix.getText().toString());
+                            fb.child("users").child(auth.getUid()).child("email").setValue(concatEmail);
                             fb.child("users").child(auth.getUid()).child("firstname").setValue(newFirstname.getText().toString());
                             fb.child("users").child(auth.getUid()).child("surname").setValue(newSurname.getText().toString());
 
                             Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
-                            intent.putExtra("email", newEmailPrefix.getText().toString());
+                            intent.putExtra("email", concatEmail);
                             startActivity(intent);
                             finish();
                         } else {
                             // Account Creation failed!
-                            Toast.makeText(CreateAccountActivity.this, "Authentication failure! " + task.getException(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(CreateAccountActivity.this, "Account creation failed:  " + task.getException(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -105,17 +105,12 @@ public class CreateAccountActivity extends AppCompatActivity {
             return false;
         }
 
-        if (email.length() < 9) {
-            makeToast("Email must be longer than 9 characters!");
+        if (email.length() < 2) {
+            makeToast("Email must be longer than 2 characters!");
             return false;
         }
-        Pattern emailRegex = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE); // Non RFC 822 compliant regex validation
-        if (!emailRegex.matcher(email).matches()) {
-            makeToast("Invalid Email!");
-            return false;
-        }
-        if (!email.endsWith("@novoda.com") && !email.endsWith("@novoda.co.uk")) {
-            makeToast("Email must be a Novoda email!");
+        if (!email.matches("^[a-zA-Z0-9]*$")) {
+            makeToast("Email must contain only letters & numbers!");
             return false;
         }
 

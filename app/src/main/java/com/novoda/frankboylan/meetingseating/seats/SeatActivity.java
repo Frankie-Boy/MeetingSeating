@@ -94,7 +94,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
             firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString();
+                    String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString(); // Can only be null if account wasn't created via CreateAccount.java
                     tvLoggedUser.setText("Welcome, " + firstname + "!");
                 }
 
