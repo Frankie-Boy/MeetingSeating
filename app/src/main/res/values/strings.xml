@@ -23,10 +23,9 @@
   <string name="toast_fetching_data">Fetching data</string>
   <string name="action_toolbar_reset">RESET</string>
   <string name="toolbar_settings_title">Settings</string>
-  <string name="login_remember_me">Remember Me</string>
+  <string name="login_remember_me">Remember me</string>
   <string name="login_signin_button">Sign in</string>
-  <string name="login_newacct_button">Create One</string>
-  <string name="login_newacct_text">Need an Account? Create one</string>
+  <string name="login_newacct_button">Create an Account</string>
   <string name="seats_no_list_items">Nothing here! =(</string>
   <string name="toolbar_heatmap_title">Heatmap View</string>
 </resources>
