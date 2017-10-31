@@ -24,4 +24,11 @@ class HeatmapSeat {
         this.heatValue = value;
     }
 
+    @Override
+    public String toString() {
+        return "HeatmapSeat{" +
+                "seatId=" + seatId +
+                ", heatValue=" + heatValue +
+                '}';
+    }
 }
