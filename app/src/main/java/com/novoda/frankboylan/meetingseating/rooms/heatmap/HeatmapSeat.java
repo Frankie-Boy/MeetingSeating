@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap;
 
 import com.squareup.moshi.Json;
 

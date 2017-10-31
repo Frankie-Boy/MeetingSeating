@@ -1,5 +1,5 @@
 package com.novoda.frankboylan.meetingseating.rooms.heatmap;
 
 interface HeatmapSeatListModel {
-    void retrieveData();
+    void retrieveData(String roomId);
 }

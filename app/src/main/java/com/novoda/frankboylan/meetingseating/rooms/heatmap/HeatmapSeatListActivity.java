@@ -1,5 +1,6 @@
 package com.novoda.frankboylan.meetingseating.rooms.heatmap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,7 +32,11 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
         heatmapSeatListPresenter.bind(this);
 
         if (ConnectionStatus.hasActiveInternetConnection()) {
-            heatmapSeatListPresenter.getData();
+            Intent intent = getIntent();
+            String roomId = intent.getStringExtra("roomId");
+            heatmapSeatListPresenter.getData(roomId);
+        } else {
+            // ToDo: Display no internet connection.
         }
 
         heatmapSeatListPresenter.startPresenting();

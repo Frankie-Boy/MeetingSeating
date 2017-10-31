@@ -7,5 +7,5 @@ interface HeatMapSeatListPresenter {
 
     void startPresenting();
 
-    void getData();
+    void getData(String roomId);
 }

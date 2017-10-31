@@ -21,8 +21,8 @@ class HeatmapSeatListPresenterImpl implements HeatMapSeatListPresenter {
     }
 
     @Override
-    public void getData() {
+    public void getData(String roomId) {
         // ToDo: update Lists
-        model.retrieveData();
+        model.retrieveData(roomId);
     }
 }
