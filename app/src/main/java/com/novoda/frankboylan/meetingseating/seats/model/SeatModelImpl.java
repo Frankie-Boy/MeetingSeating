@@ -54,6 +54,7 @@ class SeatModelImpl implements SeatModel {
                 if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
                     List<RoomSeatData> roomSeatData1 = Arrays.asList(roomSeatData);
                     roomDatabaseWriter.add(roomSeatData1.get(0));
+                    // ToDo: update UI here - Maybe reference Presenter!
                 }
             }
 
