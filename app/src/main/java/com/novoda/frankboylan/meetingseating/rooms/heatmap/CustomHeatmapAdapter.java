@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,28 +25,38 @@ class CustomHeatmapAdapter extends ArrayAdapter<HeatmapSeat> {
         this.context = context;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d("HERE: ", position + "");
-        HeatmapSeat seat = seatList.get(position);
-
+    public View getView(int position, View rowView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.heatmap_list_item, null);
-
-        // ToDo: check front icon state (assuming Greyscale)
-
-        LinearLayout llHeatmapItem = convertView.findViewById(R.id.ll_heatmap_item);
-        llHeatmapItem.setBackgroundColor(heatValueToColourGreyscale(seat.getHeatValue()));
-
-        TextView tvHeatmapTitle = convertView.findViewById(R.id.tv_heatmap_title);
-        tvHeatmapTitle.setText(seat.toString());
-        tvHeatmapTitle.setTextColor(Color.rgb(255, 30, 55));
-
-        return convertView;
+        rowView = inflater.inflate(R.layout.heatmap_list_item, null);
+        HeatmapSeat seat = seatList.get(position);
+        return customiseRowView(rowView, seat);
     }
 
-    private int heatValueToColourGreyscale(int heatValue) {
-        float base = (float) heatValue / 100;
+    private View customiseRowView(View rowView, HeatmapSeat seat) {
+        // ToDo: check front icon state (assuming Greyscale)
+
+        LinearLayout llHeatmapItem = rowView.findViewById(R.id.ll_heatmap_item);
+        TextView tvHeatmapTitle = rowView.findViewById(R.id.tv_heatmap_title);
+
+        // Setting up Greyscale themed UI
+        llHeatmapItem.setBackgroundColor(heatValueToGreyscaleBackgroundColor(seat.getHeatValue()));
+
+        tvHeatmapTitle.setText(seat.toString());
+        tvHeatmapTitle.setTextColor(heatValueToGreyscaleTextColor(seat.getHeatValue()));
+
+        return rowView;
+    }
+
+    private int heatValueToGreyscaleBackgroundColor(int heatValue) {
+        float base = 1 - (float) heatValue / 100;
         float col = 255 * base;
         return Color.rgb((int) col, (int) col, (int) col);
+    }
+
+    private int heatValueToGreyscaleTextColor(int heatValue) {
+        if (heatValue > 70) {
+            return Color.rgb(255, 255, 255);
+        }
+        return Color.rgb(0, 0, 0);
     }
 }
