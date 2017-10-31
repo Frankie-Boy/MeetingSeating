@@ -18,11 +18,13 @@ import java.util.List;
 class CustomHeatmapAdapter extends ArrayAdapter<HeatmapSeat> {
     private final Context context;
     private final List<HeatmapSeat> seatList;
+    private final boolean greyscaleBool;
 
-    CustomHeatmapAdapter(@NonNull Context context, List<HeatmapSeat> seatList) {
+    CustomHeatmapAdapter(@NonNull Context context, List<HeatmapSeat> seatList, boolean greayscaleBool) {
         super(context, R.layout.heatmap_list_item, seatList);
         this.seatList = seatList;
         this.context = context;
+        this.greyscaleBool = greayscaleBool;
     }
 
     public View getView(int position, View rowView, ViewGroup parent) {
@@ -33,18 +35,26 @@ class CustomHeatmapAdapter extends ArrayAdapter<HeatmapSeat> {
     }
 
     private View customiseRowView(View rowView, HeatmapSeat seat) {
-        // ToDo: check front icon state (assuming Greyscale)
-
         LinearLayout llHeatmapItem = rowView.findViewById(R.id.ll_heatmap_item);
         TextView tvHeatmapTitle = rowView.findViewById(R.id.tv_heatmap_title);
-
-        // Setting up Greyscale themed UI
-        llHeatmapItem.setBackgroundColor(heatValueToGreyscaleBackgroundColor(seat.getHeatValue()));
-
         tvHeatmapTitle.setText(seat.toString());
-        tvHeatmapTitle.setTextColor(heatValueToGreyscaleTextColor(seat.getHeatValue()));
+
+        if (greyscaleBool) {
+            llHeatmapItem.setBackgroundColor(heatValueToGreyscaleBackgroundColor(seat.getHeatValue()));
+            tvHeatmapTitle.setTextColor(heatValueToGreyscaleTextColor(seat.getHeatValue()));
+        } else {
+            llHeatmapItem.setBackgroundColor(heatValueToFrostbiteBackgroundColor(seat.getHeatValue()));
+            tvHeatmapTitle.setTextColor(heatValueToGreyscaleTextColor(seat.getHeatValue()));
+        }
 
         return rowView;
+    }
+
+    private int heatValueToFrostbiteBackgroundColor(int heatValue) {
+        float base = 1 - (float) heatValue / 100;
+        float colR = 255 - (255 * base);
+        float colB = 255 * base;
+        return Color.rgb((int) colR, 0, (int) colB);
     }
 
     private int heatValueToGreyscaleBackgroundColor(int heatValue) {

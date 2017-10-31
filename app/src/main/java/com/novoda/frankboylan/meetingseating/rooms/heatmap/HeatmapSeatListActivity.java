@@ -17,6 +17,8 @@ import java.util.List;
 public class HeatmapSeatListActivity extends AppCompatActivity implements HeatmapSeatListDisplayer {
     HeatmapSeatListPresenterImpl heatmapSeatListPresenter;
     ListView seatListView;
+    boolean greyscaleEnabled = true;
+    private List<HeatmapSeat> seatList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,8 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_heatmap:
-                // ToDo: Toggle Heatmap Colours & update listView
+                greyscaleEnabled = !greyscaleEnabled;
+                updateAdapter(seatList);
                 break;
             case android.R.id.home:
                 heatmapSeatListPresenter.unbind();
@@ -75,7 +78,8 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
 
     @Override
     public void updateAdapter(List<HeatmapSeat> seatList) {
-        CustomHeatmapAdapter adapter = new CustomHeatmapAdapter(this, seatList);
+        this.seatList = seatList;
+        CustomHeatmapAdapter adapter = new CustomHeatmapAdapter(this, seatList, greyscaleEnabled);
         seatListView.setAdapter(adapter);
     }
 
