@@ -85,8 +85,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         final SeatModel seatModel = SeatModelFactory.build(this);
 
         if (ConnectionStatus.hasActiveInternetConnection()) {
-
-            seatModel.retrieveData(); // ToDo: make sure this response is returned before startPresenting();
+            seatModel.retrieveData();
             showToast("Fetching Data...");
 
             DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();

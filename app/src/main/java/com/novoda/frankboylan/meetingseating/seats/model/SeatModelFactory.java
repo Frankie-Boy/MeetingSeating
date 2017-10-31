@@ -13,8 +13,8 @@ public final class SeatModelFactory {
         SQLiteInsert sqliteInsert = new SQLiteInsert(context);
         SQLiteRead sqliteRead = new SQLiteRead(context);
         SQLiteUpdate sqliteUpdate = new SQLiteUpdate(context);
-        SeatDataRetrievalTask seatDataRetrievalTask = new SeatDataRetrievalTask(new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead));
+        RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
 
-        return new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, seatDataRetrievalTask);
+        return new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, roomDatabaseWriter);
     }
 }
