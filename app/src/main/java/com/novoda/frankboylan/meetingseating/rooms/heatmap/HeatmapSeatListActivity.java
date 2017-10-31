@@ -4,16 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.R;
 
+import java.util.List;
+
 public class HeatmapSeatListActivity extends AppCompatActivity implements HeatmapSeatListDisplayer {
     HeatmapSeatListPresenterImpl heatmapSeatListPresenter;
+    ListView seatListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +31,7 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
         setSupportActionBar(toolbarHeatmap);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ListView seatList = findViewById(R.id.lv_seat_heatmap);
+        seatListView = findViewById(R.id.lv_seat_heatmap);
 
         heatmapSeatListPresenter = new HeatmapSeatListPresenterImpl();
         heatmapSeatListPresenter.bind(this);
@@ -35,8 +40,10 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
             Intent intent = getIntent();
             String roomId = intent.getStringExtra("roomId");
             heatmapSeatListPresenter.getData(roomId);
+            //ArrayAdapter<HeatmapSeat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+            //seatListView.setAdapter(adapter);
         } else {
-            // ToDo: Display no internet connection.
+            makeToast("No internet connection!");
         }
 
         heatmapSeatListPresenter.startPresenting();
@@ -66,6 +73,13 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
     @Override
     public void makeToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void updateAdapter(List<HeatmapSeat> seatList) {
+        Log.d("FIND", seatList.toString());
+        ArrayAdapter<HeatmapSeat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
+        seatListView.setAdapter(adapter);
     }
 
     @Override

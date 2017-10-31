@@ -1,7 +1,5 @@
 package com.novoda.frankboylan.meetingseating.rooms.heatmap;
 
-import android.util.Log;
-
 import com.novoda.frankboylan.meetingseating.AwsSeatMonitorService;
 
 import okhttp3.OkHttpClient;
@@ -14,8 +12,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class HeatmapSeatListModelImpl implements HeatmapSeatListModel {
     private static final String TAG = "HeatmapSeatListModel";
     private AwsSeatMonitorService service;
+    private HeatMapSeatListPresenter heatMapSeatListPresenter;
 
-    HeatmapSeatListModelImpl() {
+    HeatmapSeatListModelImpl(HeatMapSeatListPresenter heatMapSeatListPresenter) {
+        this.heatMapSeatListPresenter = heatMapSeatListPresenter;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.HEATMAP_BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -26,17 +26,16 @@ public class HeatmapSeatListModelImpl implements HeatmapSeatListModel {
 
     @Override
     public void retrieveData(String roomId) {
-        service.seatHeatmapData(roomId, 1234, 4321).enqueue(new Callback<HeatmapSeatData>() { // Constant Start & End queries for now
+        service.seatHeatmapData(roomId, 1234, 4321).enqueue(new Callback<HeatmapSeatData>() { // Constant start & end query for now
             @Override
             public void onResponse(Call<HeatmapSeatData> call, Response<HeatmapSeatData> response) {
-                if (response.isSuccessful()) {
-                    Log.d(TAG, response.body().getRoomId());
+                HeatmapSeatData heatmapSeatData = response.body();
+                if (response.isSuccessful() && heatmapSeatData != null) {
+                    heatMapSeatListPresenter.updateList(heatmapSeatData.getSeats());
                 }
             }
-
             @Override
             public void onFailure(Call<HeatmapSeatData> call, Throwable t) {
-
             }
         });
     }

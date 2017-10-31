@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -151,7 +150,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
 
     @Override
     public void updateSeatList(List<Seat> seatList) {
-        Log.d(TAG, seatList.toString());
         if (seatList.isEmpty()) {
             tvEmptyList.setVisibility(View.VISIBLE);
         } else {

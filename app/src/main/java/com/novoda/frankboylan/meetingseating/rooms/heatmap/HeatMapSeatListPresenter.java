@@ -1,5 +1,7 @@
 package com.novoda.frankboylan.meetingseating.rooms.heatmap;
 
+import java.util.List;
+
 interface HeatMapSeatListPresenter {
     void bind(HeatmapSeatListDisplayer displayer);
 
@@ -8,4 +10,6 @@ interface HeatMapSeatListPresenter {
     void startPresenting();
 
     void getData(String roomId);
+
+    void updateList(List<HeatmapSeat> seatList);
 }

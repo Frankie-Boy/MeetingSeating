@@ -41,7 +41,6 @@ class SeatModelImpl implements SeatModel {
     @Override
     public void retrieveData() {
         service.seatMonitorData().enqueue(new Callback<RoomSeatData>() {
-
             @Override
             public void onResponse(Call<RoomSeatData> call, Response<RoomSeatData> response) {
                 RoomSeatData roomSeatData = response.body();
