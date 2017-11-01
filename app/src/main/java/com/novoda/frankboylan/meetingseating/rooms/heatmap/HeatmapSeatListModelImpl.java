@@ -10,7 +10,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class HeatmapSeatListModelImpl implements HeatmapSeatListModel {
-    private static final String TAG = "HeatmapSeatListModel";
     private AwsSeatMonitorService service;
     private HeatMapSeatListPresenter heatMapSeatListPresenter;
 

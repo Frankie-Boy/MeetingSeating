@@ -7,6 +7,7 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.Seat;
+import com.novoda.frankboylan.meetingseating.seats.SeatPresenterImpl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,19 +19,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-class SeatModelImpl implements SeatModel {
-    private static final String TAG = "SeatModelImpl";
+public class SeatModelImpl implements SeatModel {
     private AwsSeatMonitorService service;
     private SQLiteRead sqliteRead;
     private SQLiteDelete sqliteDelete;
     private SQLiteInsert sqliteInsert;
     private RoomDatabaseWriter roomDatabaseWriter;
+    private SeatPresenterImpl seatPresenter;
 
-    SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, RoomDatabaseWriter roomDatabaseWriter) {
+    public SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, RoomDatabaseWriter roomDatabaseWriter, SeatPresenterImpl seatPresenter) {
         this.sqliteRead = sqliteRead;
         this.sqliteDelete = sqliteDelete;
         this.sqliteInsert = sqliteInsert;
         this.roomDatabaseWriter = roomDatabaseWriter;
+        this.seatPresenter = seatPresenter;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
@@ -54,7 +56,7 @@ class SeatModelImpl implements SeatModel {
                 if (serverResponseTimestamp > databaseTimestamp) {  // Checking data's Timestamp is newer than stored version.
                     List<RoomSeatData> roomSeatData1 = Arrays.asList(roomSeatData);
                     roomDatabaseWriter.add(roomSeatData1.get(0));
-                    // ToDo: update UI here - Maybe reference Presenter!
+                    seatPresenter.onRefresh();
                 }
             }
 

@@ -15,26 +15,16 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
 import com.novoda.frankboylan.meetingseating.R;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
-import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
-import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 
 import java.util.List;
 
 public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
-    private static final String TAG = "SeatActivity";
-
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
     ListView listViewSeats;
@@ -50,13 +40,9 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat);
 
-        final FirebaseAuth auth = FirebaseAuth.getInstance();
-
         ListView drawerList = findViewById(R.id.side_drawer);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-
-        final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
 
         String[] mDrawerOptions = getResources().getStringArray(R.array.drawer_options);
         drawerList.setAdapter(new ArrayAdapter<>(this,
@@ -82,28 +68,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        final SeatModel seatModel = SeatModelFactory.build(this);
-
-        if (ConnectionStatus.hasActiveInternetConnection()) {
-            seatModel.retrieveData();
-            showToast("Fetching Data...");
-
-            DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
-            firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString(); // Can only be null if account wasn't created via CreateAccount.java
-                    tvLoggedUser.setText("Welcome, " + firstname + "!");
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-        seatPresenter = new SeatPresenterImpl(seatModel);
+        seatPresenter = new SeatPresenterImpl(this);
         seatPresenter.bind(this);
 
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
@@ -166,6 +131,14 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
                 v.setChecked(true);
             }
         }
+    }
+
+    @Override
+    public void updateGreeting(DataSnapshot dataSnapshot) {
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
+        final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
+        String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString(); // Can only be null if account wasn't created via CreateAccount.java
+        tvLoggedUser.setText("Welcome, " + firstname + "!");
     }
 
     /**
@@ -288,11 +261,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         } // Otherwise load contents then show it
         llSeatsExpandableContent.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_down_appear));
         llSeatsExpandableContent.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

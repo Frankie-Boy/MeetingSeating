@@ -1,24 +1,30 @@
 package com.novoda.frankboylan.meetingseating.seats;
 
-import android.util.Log;
+import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class SeatPresenterImpl implements SeatPresenter {
-    private static final String TAG = "SeatPresenter";
+public class SeatPresenterImpl implements SeatPresenter {
     private SeatModel model;
     private SeatDisplayer displayer;
     private List<Seat> seatList;
     private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
-    SeatPresenterImpl(SeatModel model) {
-        this.model = model;
+    SeatPresenterImpl(Context context) {
+        model = SeatModelFactory.build(context, this);
         seatList = new ArrayList<>();
     }
 
@@ -109,10 +115,24 @@ class SeatPresenterImpl implements SeatPresenter {
 
     @Override
     public void startPresenting() {
+        if (ConnectionStatus.hasActiveInternetConnection()) {
+            model.retrieveData();
+            DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
+            firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    displayer.updateGreeting(dataSnapshot);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
         List<Seat> cachedSeatList = model.getCachedList();
         if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
             seatList = model.getAllSeats();
-            Log.d(TAG, seatList.toString());
             displayer.updateSeatList(seatList);
             return;
         }

@@ -1,12 +1,11 @@
 package com.novoda.frankboylan.meetingseating.seats;
 
+import com.google.firebase.database.DataSnapshot;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
 
 import java.util.List;
 
 interface SeatDisplayer {
-    void showToast(String message);
-
     void addRoomSwitchElement(Room room);
 
     void addSeatSwitchElement(Seat seat);
@@ -14,4 +13,6 @@ interface SeatDisplayer {
     void updateSeatList(List<Seat> seatList);
 
     void updateSwitchList(List<Seat> cachedSeatList);
+
+    void updateGreeting(DataSnapshot dataSnapshot);
 }

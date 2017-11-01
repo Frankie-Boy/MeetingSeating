@@ -6,15 +6,16 @@ import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.seats.SeatPresenterImpl;
 
 public final class SeatModelFactory {
-    public static SeatModel build(Context context) {
+    public static SeatModel build(Context context, SeatPresenterImpl seatPresenter) {
         SQLiteDelete sqliteDelete = new SQLiteDelete(context);
         SQLiteInsert sqliteInsert = new SQLiteInsert(context);
         SQLiteRead sqliteRead = new SQLiteRead(context);
         SQLiteUpdate sqliteUpdate = new SQLiteUpdate(context);
         RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
 
-        return new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, roomDatabaseWriter);
+        return new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, roomDatabaseWriter, seatPresenter);
     }
 }
