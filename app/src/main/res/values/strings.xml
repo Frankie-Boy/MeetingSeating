@@ -31,6 +31,6 @@
   <string name="login_signin_button">Sign in</string>
   <string name="login_newacct_button">Create an Account</string>
   <string name="signup_create_button">Create account</string>
-  <string name="seats_no_list_items">Nothing here! =(</string>
+  <string name="seats_no_list_items">No Seats to show!</string>
   <string name="toolbar_heatmap_title">Heatmap View</string>
 </resources>
