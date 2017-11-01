@@ -14,7 +14,6 @@ import com.novoda.frankboylan.meetingseating.rooms.heatmap.HeatmapSeatListActivi
 import java.util.List;
 
 class CustomRoomAdapter extends ArrayAdapter<Room> {
-    private static String TAG = "CustomRoomAdapter";
     private List<Room> roomList;
     private Context context;
 

@@ -119,7 +119,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         } else {
             tvEmptyList.setVisibility(View.GONE);
         }
-        ArrayAdapter<Seat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, seatList);
+        ArrayAdapter<Seat> adapter = new CustomSeatAdapter(this, seatList);
         listViewSeats.setAdapter(adapter);
     }
 
