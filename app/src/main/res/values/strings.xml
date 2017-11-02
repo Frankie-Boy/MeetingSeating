@@ -9,6 +9,8 @@
   <string-array name="end_of_email_options">
     <item>\@novoda.co.uk</item>
     <item>\@novoda.com</item>
+    <item>\@novoda.de</item>
+    <item>\@novoda.io</item>
   </string-array>
   <string name="action_toolbar_refresh">Refresh</string>
   <string name="action_toolbar_filter">Filter</string>
