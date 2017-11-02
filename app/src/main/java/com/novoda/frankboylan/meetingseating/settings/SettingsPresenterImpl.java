@@ -7,7 +7,6 @@ class SettingsPresenterImpl implements SettingsPresenter {
 
     SettingsPresenterImpl(SettingsDisplayer displayer, SettingsModel model) {
         this.displayer = displayer;
-
         this.model = model;
     }
 

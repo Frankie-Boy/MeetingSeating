@@ -1,6 +1,5 @@
 package com.novoda.frankboylan.meetingseating.settings;
 
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +21,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
 import com.novoda.frankboylan.meetingseating.R;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
-import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
-import com.novoda.frankboylan.meetingseating.seats.model.RoomDatabaseWriter;
 
 public class SettingsActivity extends AppCompatActivity implements SettingsDisplayer {
     DrawerLayout drawerLayout;
@@ -75,14 +69,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsDispl
         setSupportActionBar(toolbarSettings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SQLiteDelete sqliteDelete = new SQLiteDelete(this);
-        SQLiteInsert sqliteInsert = new SQLiteInsert(this);
-        SQLiteUpdate sqliteUpdate = new SQLiteUpdate(this);
-        SQLiteRead sqliteRead = new SQLiteRead(this);
-        AssetManager assetManager = this.getAssets();
-        RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
-
-        settingsPresenter = new SettingsPresenterImpl(this, new SettingsModelImpl(assetManager, roomDatabaseWriter));
+        settingsPresenter = new SettingsPresenterImpl(this, SettingsModelFactory.build(this));
         settingsPresenter.bind(this);
     }
 
