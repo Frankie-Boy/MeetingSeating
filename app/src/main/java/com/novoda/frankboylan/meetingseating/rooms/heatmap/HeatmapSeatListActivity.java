@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HeatmapSeatListActivity extends AppCompatActivity implements HeatmapSeatListDisplayer {
@@ -32,6 +33,7 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         seatListView = findViewById(R.id.lv_seat_heatmap);
+        seatList = new ArrayList<>();
 
         heatmapSeatListPresenter = new HeatmapSeatListPresenterImpl();
         heatmapSeatListPresenter.bind(this);
@@ -40,8 +42,6 @@ public class HeatmapSeatListActivity extends AppCompatActivity implements Heatma
             Intent intent = getIntent();
             String roomId = intent.getStringExtra("roomId");
             heatmapSeatListPresenter.getData(roomId);
-            //ArrayAdapter<HeatmapSeat> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-            //seatListView.setAdapter(adapter);
         } else {
             makeToast("No internet connection!");
         }
