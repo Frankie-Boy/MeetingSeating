@@ -23,12 +23,7 @@ class SettingsPresenterImpl implements SettingsPresenter {
 
     @Override
     public void loadDataset(int i) {
-        if (i == 2) {
-            displayer.showToast("That dataset hasn't been created yet!");
-        } else {
-            model.replaceWithDataset(i);
-            displayer.showToast("Dataset #" + (i + 1) + " loaded.");
-
-        }
+        model.replaceWithDataset(i);
+        displayer.showToast("Dataset #" + (i + 1) + " loaded.");
     }
 }

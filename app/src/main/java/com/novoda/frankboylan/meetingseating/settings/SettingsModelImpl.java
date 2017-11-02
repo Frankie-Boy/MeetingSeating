@@ -1,7 +1,6 @@
 package com.novoda.frankboylan.meetingseating.settings;
 
 import android.content.res.AssetManager;
-import android.util.Log;
 
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.seats.model.RoomDatabaseWriter;
@@ -14,8 +13,6 @@ import java.io.InputStream;
 import okio.Buffer;
 
 class SettingsModelImpl implements SettingsModel {
-    private static final String TAG = "SettingsModelImpl";
-
     private AssetManager assetManager;
     private final RoomDatabaseWriter roomDatabaseWriter;
 
@@ -32,9 +29,6 @@ class SettingsModelImpl implements SettingsModel {
                 break;
             case 1:
                 loadJSONFromFile("continents.txt");
-                break;
-            default:
-                Log.d(TAG, "That dataset doesn't exist!");
                 break;
         }
     }
