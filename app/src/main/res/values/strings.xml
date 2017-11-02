@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">MeetingSeating</string>
+  <string name="app_name">meeting seating</string>
   <string-array name="drawer_options">
     <item>Seat List</item>
     <item>Heatmap</item>
