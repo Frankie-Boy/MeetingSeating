@@ -29,7 +29,7 @@ public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelList
 
     private void updateSeatList(List<Seat> allSeats) {
         this.seatList.clear();
-        this.seatList = allSeats;
+        this.seatList.addAll(allSeats);
         displayer.resetAllSwitch();
         displayer.updateSeatList(this.seatList);
     }
@@ -46,7 +46,6 @@ public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelList
 
     @Override
     public void fillFilterView() {
-
         for (Room room : model.getAllRooms()) {
             displayer.addRoomSwitchElement(room);
         }
@@ -95,6 +94,7 @@ public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelList
 
     @Override
     public void onSeatModelChanged(List<Seat> seatList) {
+        fillFilterView();
         updateSeatList(seatList);
     }
 }
