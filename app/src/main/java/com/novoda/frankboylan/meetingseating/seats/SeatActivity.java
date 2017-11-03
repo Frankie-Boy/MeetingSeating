@@ -116,7 +116,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer, Se
     @Override
     public void updateSeatList(List<Seat> seatList) {
         if (seatList.isEmpty()) {
-            tvEmptyList.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_on_right));
             tvEmptyList.setVisibility(View.VISIBLE);
         } else {
             tvEmptyList.setVisibility(View.GONE);
@@ -267,8 +266,8 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer, Se
             }
         }
         seatPresenter.onApplyFilter(seatList);
-        cycleFilterUI();
         updateSeatList(seatList);
+        cycleFilterUI();
     }
 
     /**
