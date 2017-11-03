@@ -15,4 +15,10 @@ interface SeatDisplayer {
     void updateSwitchList(List<Seat> cachedSeatList);
 
     void updateGreeting(DataSnapshot dataSnapshot);
+
+    void resetAllSwitch();
+
+    void uncheckSeatsWithMatchingId(int roomId);
+
+    void checkSeatsWithMatchingId(int roomId);
 }

@@ -23,6 +23,7 @@ import com.novoda.frankboylan.meetingseating.R;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
@@ -72,7 +73,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         seatPresenter = new SeatPresenterImpl(SeatModelFactory.build(this));
         seatPresenter.bind(this);
 
-        seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);
         seatPresenter.fillFilterView();
         tvEmptyList = findViewById(R.id.tv_list_text);
 
@@ -107,7 +107,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
                 drawerLayout.openDrawer(Gravity.START);
                 break;
             case R.id.action_reset:
-                seatPresenter.resetAllSwitch();
+                resetAllSwitch();
                 break;
         }
         return true;
@@ -122,6 +122,28 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         }
         ArrayAdapter<Seat> adapter = new CustomSeatAdapter(this, seatList);
         listViewSeats.setAdapter(adapter);
+    }
+
+    @Override
+    public void uncheckSeatsWithMatchingId(int roomId) {
+        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+            Seat seat = (Seat) button.getTag();
+            if (seat.getRoomId().equals(roomId)) {
+                button.setChecked(false);
+            }
+        }
+    }
+
+    @Override
+    public void checkSeatsWithMatchingId(int roomId) {
+        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+            Seat seat = (Seat) button.getTag();
+            if (seat.getRoomId().equals(roomId)) {
+                button.setChecked(true);
+            }
+        }
     }
 
     @Override
@@ -140,6 +162,18 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         final TextView tvLoggedUser = findViewById(R.id.tv_drawer_greeting);
         String firstname = dataSnapshot.child("users").child(auth.getUid()).child("firstname").getValue().toString(); // Can only be null if account wasn't created via CreateAccount.java
         tvLoggedUser.setText("Welcome, " + firstname + "!");
+    }
+
+    @Override
+    public void resetAllSwitch() {
+        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+            button.setChecked(true);
+        }
+        for (int i = 0; i < llRoomsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llRoomsExpandableContent.getChildAt(i);
+            button.setChecked(true);
+        }
     }
 
     /**
@@ -205,7 +239,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         newSwitch.setMinimumHeight(getResources().getInteger(R.integer.filter_switch_min_height));
         newSwitch.setSwitchMinWidth(getResources().getInteger(R.integer.filter_switch_min_width));
         llRoomsExpandableContent.addView(newSwitch);
-        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter));
+        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, this));
     }
 
     public void addSeatSwitchElement(Seat seat) {
@@ -217,15 +251,24 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         newSwitch.setMinimumHeight(100);
         newSwitch.setSwitchMinWidth(150);
         llSeatsExpandableContent.addView(newSwitch);
-        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, seatPresenter));
+        newSwitch.setOnClickListener(new SwitchItemOnClickListener(newSwitch, this));
     }
 
     /**
      * Removes data from original seatList, copies all data from seatListFiltered, then updates the adapter
      */
     public void handlerApplyFilter(View v) {
-        seatPresenter.onApplyFilter();
+        List<Seat> seatList = new ArrayList<>();
+        for (int i = 0; i < llSeatsExpandableContent.getChildCount(); i++) {
+            Switch button = (Switch) llSeatsExpandableContent.getChildAt(i);
+            if (button.isChecked()) {
+                Seat seat = (Seat) button.getTag();
+                seatList.add(seat);
+            }
+        }
+        seatPresenter.onApplyFilter(seatList);
         cycleFilterUI();
+        updateSeatList(seatList);
     }
 
     /**
