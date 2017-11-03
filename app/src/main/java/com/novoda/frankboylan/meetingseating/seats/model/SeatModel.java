@@ -6,7 +6,7 @@ import com.novoda.frankboylan.meetingseating.seats.Seat;
 import java.util.List;
 
 public interface SeatModel {
-    void retrieveData();
+    void retrieveData(SeatModelListener seatModelListener);
 
     List<Seat> getAllSeats();
 
@@ -17,4 +17,8 @@ public interface SeatModel {
     void clearSeatCache();
 
     List<Seat> getCachedList();
+
+    public interface SeatModelListener {
+        void onSeatModelChanged(List<Seat> seatList);
+    }
 }

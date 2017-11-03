@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.novoda.frankboylan.meetingseating.DrawerItemClickListener;
 import com.novoda.frankboylan.meetingseating.R;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
+import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
         llSeatsExpandableContent = findViewById(R.id.ll_filter_expandable_seats);
         llSeatsExpandableContent.setVisibility(View.GONE);
 
-        seatPresenter = new SeatPresenterImpl(this);
+        seatPresenter = new SeatPresenterImpl(SeatModelFactory.build(this));
         seatPresenter.bind(this);
 
         seatPresenter.setLinearLayouts(llRoomsExpandableContent, llSeatsExpandableContent);

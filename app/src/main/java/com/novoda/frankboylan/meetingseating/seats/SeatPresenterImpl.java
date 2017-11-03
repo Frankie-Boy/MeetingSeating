@@ -1,6 +1,5 @@
 package com.novoda.frankboylan.meetingseating.seats;
 
-import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -12,19 +11,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.model.SeatModel;
-import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeatPresenterImpl implements SeatPresenter {
+public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelListener {
     private SeatModel model;
     private SeatDisplayer displayer;
     private List<Seat> seatList;
     private LinearLayout linearLayoutSeats, linearLayoutRooms;
 
-    SeatPresenterImpl(Context context) {
-        model = SeatModelFactory.build(context, this);
+    SeatPresenterImpl(SeatModel model) {
+        this.model = model;
         seatList = new ArrayList<>();
     }
 
@@ -48,10 +46,14 @@ public class SeatPresenterImpl implements SeatPresenter {
 
     @Override
     public void onRefresh() {
-        seatList.clear();
-        seatList = model.getAllSeats();
+        updateSeatList(model.getAllSeats());
+    }
+
+    private void updateSeatList(List<Seat> allSeats) {
+        this.seatList.clear();
+        this.seatList = allSeats;
         resetAllSwitch();
-        displayer.updateSeatList(seatList);
+        displayer.updateSeatList(this.seatList);
     }
 
     public void uncheckSeatsWithMatchingId(int roomId) {
@@ -116,7 +118,7 @@ public class SeatPresenterImpl implements SeatPresenter {
     @Override
     public void startPresenting() {
         if (ConnectionStatus.hasActiveInternetConnection()) {
-            model.retrieveData();
+            model.retrieveData(this);
             DatabaseReference firebaseDb = FirebaseDatabase.getInstance().getReference();
             firebaseDb.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -144,5 +146,10 @@ public class SeatPresenterImpl implements SeatPresenter {
     void onFilterPressed() {
         List<Seat> cachedSeatList = model.getCachedList();
         displayer.updateSwitchList(cachedSeatList);
+    }
+
+    @Override
+    public void onSeatModelChanged(List<Seat> seatList) {
+        updateSeatList(seatList);
     }
 }
