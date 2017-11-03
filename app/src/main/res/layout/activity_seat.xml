@@ -67,10 +67,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
+        android:onClick="handlerApplyFilter"
         android:text="@string/button_filter_proceed"
         android:textColor="@color/white"
-        android:onClick="handlerApplyFilter"
         android:textSize="20sp" />
     </RelativeLayout>
     <!-- List of Seats -->
@@ -78,7 +78,6 @@
       android:id="@+id/tv_list_text"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:paddingTop="200dp"
       android:background="@color/white"
       android:text="@string/seats_no_list_items"
       android:textAlignment="center"
@@ -110,11 +109,11 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_weight="0"
-        android:maxLines="1"
+        android:maxLines="2"
+        android:paddingBottom="8dp"
         android:text="@string/drawer_greeting"
         android:textColor="@color/white"
-        android:textSize="40sp" />
-
+        android:textSize="36sp" />
     </LinearLayout>
 
     <ListView
