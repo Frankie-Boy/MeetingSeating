@@ -1,7 +1,5 @@
 package com.novoda.frankboylan.meetingseating.seats;
 
-import android.util.Log;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -86,9 +84,7 @@ public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelList
             });
         }
         seatList.clear();
-        Log.d("HERE1:", model.isCacheActive() + "");
         if (model.isCacheActive()) {
-            Log.d("HERE: ", " READING CACHE");
             seatList.addAll(model.getCachedList());
             displayer.updateSeatList(seatList);
             return;
