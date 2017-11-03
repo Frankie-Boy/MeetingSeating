@@ -18,6 +18,10 @@ public interface SeatModel {
 
     List<Seat> getCachedList();
 
+    boolean isCacheActive();
+
+    void setMetaCacheToActive();
+
     public interface SeatModelListener {
         void onSeatModelChanged(List<Seat> seatList);
     }

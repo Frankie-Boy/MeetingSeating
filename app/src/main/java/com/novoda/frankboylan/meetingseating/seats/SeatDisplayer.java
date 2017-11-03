@@ -17,5 +17,4 @@ interface SeatDisplayer {
     void updateGreeting(DataSnapshot dataSnapshot);
 
     void resetAllSwitch();
-
 }

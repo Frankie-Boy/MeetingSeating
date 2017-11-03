@@ -2,7 +2,9 @@ package com.novoda.frankboylan.meetingseating.SQLiteDataManagement;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDoneException;
 import android.util.Log;
 
 import com.novoda.frankboylan.meetingseating.Timestamp;
@@ -151,6 +153,15 @@ public class SQLiteRead {
         List<Room> roomList = getAllRooms();
         for (int j = 0; j < roomList.size(); j++) {
             Log.d("TABLE_ROOM", roomList.get(j).toString());
+        }
+    }
+
+    public String getMetaCacheStatus() {
+        SQLiteDatabase db = database.getReadableDatabase();
+        try {
+            return DatabaseUtils.stringForQuery(db, "SELECT * FROM " + SQLiteCreate.META_CACHE_TABLE, null);
+        } catch (SQLiteDoneException d) {
+            return "";
         }
     }
 }

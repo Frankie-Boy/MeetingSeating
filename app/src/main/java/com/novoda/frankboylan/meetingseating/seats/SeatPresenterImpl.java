@@ -1,5 +1,7 @@
 package com.novoda.frankboylan.meetingseating.seats;
 
+import android.util.Log;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +48,7 @@ public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelList
 
     @Override
     public void fillFilterView() {
+
         for (Room room : model.getAllRooms()) {
             displayer.addRoomSwitchElement(room);
         }
@@ -58,7 +61,7 @@ public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelList
     public void onApplyFilter(List<Seat> seatList) {
         this.seatList.clear();
         model.clearSeatCache(); // clear the old cache
-
+        model.setMetaCacheToActive();
         for (Seat seat : seatList) {
             this.seatList.add(seat);
             model.addSeatToCache(seat);
@@ -82,20 +85,16 @@ public class SeatPresenterImpl implements SeatPresenter, SeatModel.SeatModelList
                 }
             });
         }
-        List<Seat> cachedSeatList = model.getCachedList();
-        if (cachedSeatList.isEmpty()) {     // There's no cached data, so load new data.
-            seatList = model.getAllSeats();
+        seatList.clear();
+        Log.d("HERE1:", model.isCacheActive() + "");
+        if (model.isCacheActive()) {
+            Log.d("HERE: ", " READING CACHE");
+            seatList.addAll(model.getCachedList());
             displayer.updateSeatList(seatList);
             return;
         }
-        seatList.clear();
-        seatList.addAll(cachedSeatList);
+        seatList = model.getAllSeats();
         displayer.updateSeatList(seatList);
-    }
-
-    void onFilterPressed() {
-        List<Seat> cachedSeatList = model.getCachedList();
-        displayer.updateSwitchList(cachedSeatList);
     }
 
     @Override

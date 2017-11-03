@@ -3,10 +3,8 @@ package com.novoda.frankboylan.meetingseating.SQLiteDataManagement;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class SQLiteCreate extends SQLiteOpenHelper {
-    private static final String TAG = "SQLiteCreate";
     private static int DATABASE_VERSION = 1;
 
     // Database Strings
@@ -33,7 +31,10 @@ public class SQLiteCreate extends SQLiteOpenHelper {
     static final String META_TABLE = "metadata";
     static final String META_TIMESTAMP = "meta_timestamp";
 
-    public SQLiteCreate(Context context) {
+    static final String META_CACHE_TABLE = "metadata_cache";
+    static final String META_CACHE_TABLE_EXISTS = "metacache_exists";
+
+    SQLiteCreate(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -72,7 +73,11 @@ public class SQLiteCreate extends SQLiteOpenHelper {
                 ");";
         db.execSQL(CREATE_META_TABLE);
 
-        Log.d(TAG, "Tables Created!");
+        String CREATE_META_CACHE_TABLE = "CREATE TABLE " + META_CACHE_TABLE + "(" +
+                META_CACHE_TABLE_EXISTS + " INTEGER DEFAULT 0" +
+                ");";
+        db.execSQL(CREATE_META_CACHE_TABLE);
+
     }
 
     @Override
@@ -81,6 +86,7 @@ public class SQLiteCreate extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + SEAT_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + META_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + SEAT_CACHE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + META_CACHE_TABLE);
         onCreate(db);
     }
 }

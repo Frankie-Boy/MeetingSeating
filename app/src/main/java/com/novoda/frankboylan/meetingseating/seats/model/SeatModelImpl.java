@@ -5,6 +5,7 @@ import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
+import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.Seat;
 
@@ -22,12 +23,14 @@ public class SeatModelImpl implements SeatModel {
     private SQLiteRead sqliteRead;
     private SQLiteDelete sqliteDelete;
     private SQLiteInsert sqliteInsert;
+    private SQLiteUpdate sqliteUpdate;
     private RoomDatabaseWriter roomDatabaseWriter;
 
-    SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, RoomDatabaseWriter roomDatabaseWriter) {
+    SeatModelImpl(SQLiteRead sqliteRead, SQLiteDelete sqliteDelete, SQLiteInsert sqliteInsert, SQLiteUpdate sqliteUpdate, RoomDatabaseWriter roomDatabaseWriter) {
         this.sqliteRead = sqliteRead;
         this.sqliteDelete = sqliteDelete;
         this.sqliteInsert = sqliteInsert;
+        this.sqliteUpdate = sqliteUpdate;
         this.roomDatabaseWriter = roomDatabaseWriter;
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AwsSeatMonitorService.BASE)
@@ -83,5 +86,15 @@ public class SeatModelImpl implements SeatModel {
     @Override
     public List<Seat> getCachedList() {
         return sqliteRead.getCachedList();
+    }
+
+    @Override
+    public boolean isCacheActive() {
+        return sqliteRead.getMetaCacheStatus().equals("1");
+    }
+
+    @Override
+    public void setMetaCacheToActive() {
+        sqliteUpdate.setMetaCacheToActive();
     }
 }

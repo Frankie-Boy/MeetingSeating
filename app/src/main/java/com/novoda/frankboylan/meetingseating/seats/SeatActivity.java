@@ -191,7 +191,6 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer, Se
             rlFilterView.setVisibility(View.VISIBLE); // Displaying View
             toolbarSeat.setTitle(R.string.toolbar_seat_filter_title);
             toolbarSeat.setNavigationIcon(R.drawable.ic_action_arrow);
-            seatPresenter.onFilterPressed();
             return;
         }
         // Else filter view is visible, so hide it!

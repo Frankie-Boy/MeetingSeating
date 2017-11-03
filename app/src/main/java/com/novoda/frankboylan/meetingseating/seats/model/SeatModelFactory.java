@@ -15,7 +15,7 @@ public final class SeatModelFactory {
         SQLiteUpdate sqliteUpdate = new SQLiteUpdate(context);
         RoomDatabaseWriter roomDatabaseWriter = new RoomDatabaseWriter(sqliteDelete, sqliteUpdate, sqliteInsert, sqliteRead);
 
-        return new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, roomDatabaseWriter);
+        return new SeatModelImpl(sqliteRead, sqliteDelete, sqliteInsert, sqliteUpdate, roomDatabaseWriter);
     }
 
     private SeatModelFactory() {
