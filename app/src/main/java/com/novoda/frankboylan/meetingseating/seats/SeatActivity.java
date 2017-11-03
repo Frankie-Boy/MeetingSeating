@@ -26,7 +26,7 @@ import com.novoda.frankboylan.meetingseating.seats.model.SeatModelFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeatActivity extends AppCompatActivity implements SeatDisplayer {
+public class SeatActivity extends AppCompatActivity implements SeatDisplayer, SeatEnabler {
     private Toolbar toolbarSeat;
     private DrawerLayout drawerLayout;
     ListView listViewSeats;

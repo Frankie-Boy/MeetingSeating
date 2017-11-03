@@ -18,7 +18,4 @@ interface SeatDisplayer {
 
     void resetAllSwitch();
 
-    void uncheckSeatsWithMatchingId(int roomId);
-
-    void checkSeatsWithMatchingId(int roomId);
 }
