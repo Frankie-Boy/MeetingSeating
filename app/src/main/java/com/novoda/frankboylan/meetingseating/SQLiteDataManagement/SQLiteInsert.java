@@ -11,7 +11,6 @@ import static com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteC
 
 public class SQLiteInsert {
     private SQLiteCreate database;
-    private static final String TAG = "SQLiteInsert";
 
     public SQLiteInsert(Context context) {
         database = new SQLiteCreate(context);
