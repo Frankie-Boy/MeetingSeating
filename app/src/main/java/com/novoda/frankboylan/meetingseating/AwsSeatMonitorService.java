@@ -13,8 +13,6 @@ public interface AwsSeatMonitorService {
 
     String HEATMAP_BASE = "https://w62twg41g1.execute-api.eu-west-1.amazonaws.com/";
     String HEATMAP = "seat-heat-map-data?";
-    String ROOM_ID = "roomId=";
-    String DATE_RANGE = "&start=1234&end=4321";
 
     @GET(ENV + SEAT_MONITOR)
     Call<RoomSeatData> seatMonitorData();
