@@ -49,6 +49,8 @@ public class SQLiteInsert {
         values.put(SEAT_ROOM_ID, seat.getRoomId());
 
         db.insert(SEAT_TABLE, null, values);
+
+        db.close();
     }
 
     /**
