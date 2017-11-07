@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.model;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

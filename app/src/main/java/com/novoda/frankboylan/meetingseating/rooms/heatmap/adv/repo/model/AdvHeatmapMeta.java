@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.model;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity(tableName = "metadata")
-class AdvHeatmapMeta {
+public class AdvHeatmapMeta {
 
     @PrimaryKey
     @ColumnInfo(name = "latest_timestamp")

@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.model;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -13,7 +13,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
                 entity = AdvHeatmapRoom.class,
                 parentColumns = "room_id",
                 childColumns = "room_id"))
-class AdvHeatmapSeat {
+public class AdvHeatmapSeat {
     @ColumnInfo(name = "seat_id")
     private int seatId;
 

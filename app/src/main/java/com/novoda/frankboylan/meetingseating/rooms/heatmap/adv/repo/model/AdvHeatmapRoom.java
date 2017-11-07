@@ -1,11 +1,11 @@
-package com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.model;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity(tableName = "room_data")
-class AdvHeatmapRoom {
+public class AdvHeatmapRoom {
 
     @PrimaryKey
     @ColumnInfo(name = "room_id")

@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.model;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model;
 
 public interface LocalRepository {
     public void insertMeta(AdvHeatmapMeta metadata);

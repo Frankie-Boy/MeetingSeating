@@ -4,7 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context="com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.AdvHeatmapActivity"
+  tools:context=".rooms.heatmap.adv.repo.AdvHeatmapActivity"
   tools:layout_editor_absoluteY="25dp">
 
   <ListView
