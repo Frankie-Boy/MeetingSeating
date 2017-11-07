@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.novoda.frankboylan.meetingseating.rooms.heatmap.model.AdvHeatmapActivity;
+import com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.AdvHeatmapActivity;
 import com.novoda.frankboylan.meetingseating.seats.SeatActivity;
 import com.novoda.frankboylan.meetingseating.settings.SettingsActivity;
 

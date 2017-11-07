@@ -1,10 +1,10 @@
-package com.novoda.frankboylan.meetingseating.rooms.heatmap.model;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity(tableName = "rooms")
+@Entity(tableName = "room_data")
 class AdvHeatmapRoom {
 
     @PrimaryKey
@@ -26,51 +26,51 @@ class AdvHeatmapRoom {
     @ColumnInfo(name = "size_y")
     private int sizeY;
 
-    public int getRoomId() {
+    int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
-    public String getLocation() {
+    String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    void setLocation(String location) {
         this.location = location;
     }
 
-    public String getUnitName() {
+    String getUnitName() {
         return unitName;
     }
 
-    public void setUnitName(String unitName) {
+    void setUnitName(String unitName) {
         this.unitName = unitName;
     }
 
-    public String getRoomName() {
+    String getRoomName() {
         return roomName;
     }
 
-    public void setRoomName(String roomName) {
+    void setRoomName(String roomName) {
         this.roomName = roomName;
     }
 
-    public int getSizeX() {
+    int getSizeX() {
         return sizeX;
     }
 
-    public void setSizeX(int sizeX) {
+    void setSizeX(int sizeX) {
         this.sizeX = sizeX;
     }
 
-    public int getSizeY() {
+    int getSizeY() {
         return sizeY;
     }
 
-    public void setSizeY(int sizeY) {
+    void setSizeY(int sizeY) {
         this.sizeY = sizeY;
     }
 }

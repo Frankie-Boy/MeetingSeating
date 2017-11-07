@@ -29,7 +29,7 @@
       android:name=".CreateAccountActivity"
       android:windowSoftInputMode="stateHidden" />
     <activity android:name=".rooms.heatmap.HeatmapSeatListActivity" />
-    <activity android:name=".rooms.heatmap.model.AdvHeatmapActivity"></activity>
+    <activity android:name=".rooms.heatmap.repo.AdvHeatmapActivity"></activity>
   </application>
 
 </manifest>

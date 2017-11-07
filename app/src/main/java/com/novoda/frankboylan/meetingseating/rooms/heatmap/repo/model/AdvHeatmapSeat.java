@@ -1,21 +1,23 @@
-package com.novoda.frankboylan.meetingseating.rooms.heatmap.model;
+package com.novoda.frankboylan.meetingseating.rooms.heatmap.repo.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "seats",
+@Entity(tableName = "seat_data",
+        primaryKeys = {"seat_id", "room_id"},
         foreignKeys = @ForeignKey(
                 onDelete = CASCADE,
                 entity = AdvHeatmapRoom.class,
                 parentColumns = "room_id",
                 childColumns = "room_id"))
 class AdvHeatmapSeat {
-    @PrimaryKey
+    @ColumnInfo(name = "seat_id")
     private int seatId;
+
+    @ColumnInfo(name = "room_id")
     private int roomId;
 
     @ColumnInfo(name = "heat_value")
@@ -27,43 +29,43 @@ class AdvHeatmapSeat {
     @ColumnInfo(name = "pos_y")
     private int posY;
 
-    public int getSeatId() {
+    int getSeatId() {
         return seatId;
     }
 
-    public void setSeatId(int seatId) {
+    void setSeatId(int seatId) {
         this.seatId = seatId;
     }
 
-    public int getRoomId() {
+    int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
-    public int getHeatValue() {
+    int getHeatValue() {
         return heatValue;
     }
 
-    public void setHeatValue(int heatValue) {
+    void setHeatValue(int heatValue) {
         this.heatValue = heatValue;
     }
 
-    public int getPosX() {
+    int getPosX() {
         return posX;
     }
 
-    public void setPosX(int posX) {
+    void setPosX(int posX) {
         this.posX = posX;
     }
 
-    public int getPosY() {
+    int getPosY() {
         return posY;
     }
 
-    public void setPosY(int posY) {
+    void setPosY(int posY) {
         this.posY = posY;
     }
 }

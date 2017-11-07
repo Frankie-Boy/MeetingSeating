@@ -1,5 +1,6 @@
 {
    "lastUpdateTimestamp":"1507024176",
+   "heatUnit":"%",
    "rooms":[
       {
          "location":"London",
@@ -8,7 +9,6 @@
          "roomId":990,
          "sizeX":3,
          "sizeY":4,
-         "heatUnit":"%",
          "seats":[
             {
                "seatId":123,
@@ -42,7 +42,6 @@
          "roomId":991,
          "sizeX":5,
          "sizeY":6,
-         "heatUnit":"%",
          "seats":[
             {
                "seatId":123,
@@ -71,7 +70,6 @@
          "roomId":992,
          "sizeX":4,
          "sizeY":4,
-         "heatUnit":"%",
          "seats":[]
       },
       {
@@ -80,7 +78,6 @@
          "roomId":993,
          "sizeX":3,
          "sizeY":4,
-         "heatUnit":"%",
          "seats":[
             {
                "seatId":123,
