@@ -9,13 +9,15 @@ import java.util.List;
 @Dao
 public interface AdvHeatmapSeatDao {
 
-    @Query("SELECT * FROM AdvHeatmapSeat")
+    @Insert
+    void insertAllSeats(AdvHeatmapSeat... seats);
+
+    @Query("DELETE FROM seats")
+    void deleteAllSeats();
+
+    @Query("SELECT * FROM seats")
     List<AdvHeatmapSeat> getAllSeats();
 
-    @Query("SELECT * FROM AdvHeatmapSeat WHERE roomId LIKE :roomId")
+    @Query("SELECT * FROM seats WHERE roomId LIKE :roomId")
     List<AdvHeatmapSeat> getAllSeatsWithMatchingRoomId(String roomId);
-
-    @Insert
-    void insertAll(List<AdvHeatmapSeat> seatList);
-
 }

@@ -2,17 +2,19 @@ package com.novoda.frankboylan.meetingseating.rooms.heatmap.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
-import java.util.List;
-
-@Entity
+@Entity(tableName = "metadata")
 public class AdvHeatmapMeta {
 
-    @ColumnInfo(name = "lastUpdateTimestamp")
-    private String lastUpdateTimestamp;
+    @PrimaryKey
+    @ColumnInfo(name = "latest_timestamp")
+    @NonNull
+    private String lastUpdateTimestamp = "0L";
 
-    @ColumnInfo(name = "rooms")
-    private List<AdvHeatmapRoom> roomList;
+    @ColumnInfo(name = "heat_unit")
+    private String heatUnit = "%";
 
     public String getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
@@ -22,11 +24,11 @@ public class AdvHeatmapMeta {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
     }
 
-    public List<AdvHeatmapRoom> getRoomList() {
-        return roomList;
+    public String getHeatUnit() {
+        return heatUnit;
     }
 
-    public void setRoomList(List<AdvHeatmapRoom> roomList) {
-        this.roomList = roomList;
+    public void setHeatUnit(String heatUnit) {
+        this.heatUnit = heatUnit;
     }
 }

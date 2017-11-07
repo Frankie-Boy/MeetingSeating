@@ -2,23 +2,29 @@ package com.novoda.frankboylan.meetingseating.rooms.heatmap.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 
-@Entity
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+@Entity(tableName = "seats",
+        foreignKeys = @ForeignKey(
+                onDelete = CASCADE,
+                entity = AdvHeatmapRoom.class,
+                parentColumns = "room_id",
+                childColumns = "room_id"))
 class AdvHeatmapSeat {
     @PrimaryKey
     private int seatId;
-
-    @PrimaryKey
     private int roomId;
 
-    @ColumnInfo(name = "heat")
-    private int heat;
+    @ColumnInfo(name = "heat_value")
+    private int heatValue;
 
-    @ColumnInfo(name = "posX")
+    @ColumnInfo(name = "pos_x")
     private int posX;
 
-    @ColumnInfo(name = "posY")
+    @ColumnInfo(name = "pos_y")
     private int posY;
 
     public int getSeatId() {
@@ -37,12 +43,12 @@ class AdvHeatmapSeat {
         this.roomId = roomId;
     }
 
-    public int getHeat() {
-        return heat;
+    public int getHeatValue() {
+        return heatValue;
     }
 
-    public void setHeat(int heat) {
-        this.heat = heat;
+    public void setHeatValue(int heatValue) {
+        this.heatValue = heatValue;
     }
 
     public int getPosX() {

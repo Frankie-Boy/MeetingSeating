@@ -4,34 +4,27 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.List;
-
-@Entity
+@Entity(tableName = "rooms")
 class AdvHeatmapRoom {
 
     @PrimaryKey
+    @ColumnInfo(name = "room_id")
     private int roomId;
 
     @ColumnInfo(name = "location")
     private String location;
 
-    @ColumnInfo(name = "unitName")
+    @ColumnInfo(name = "unit_name")
     private String unitName;
 
-    @ColumnInfo(name = "roomName")
+    @ColumnInfo(name = "room_name")
     private String roomName;
 
-    @ColumnInfo(name = "sizeX")
+    @ColumnInfo(name = "size_x")
     private int sizeX;
 
-    @ColumnInfo(name = "sizeY")
+    @ColumnInfo(name = "size_y")
     private int sizeY;
-
-    @ColumnInfo(name = "heatUnit")
-    private String heatUnit;
-
-    @ColumnInfo(name = "seats")
-    private List<AdvHeatmapSeat> seatList;
 
     public int getRoomId() {
         return roomId;
@@ -79,27 +72,5 @@ class AdvHeatmapRoom {
 
     public void setSizeY(int sizeY) {
         this.sizeY = sizeY;
-    }
-
-    public String getHeatUnit() {
-        return heatUnit;
-    }
-
-    public void setHeatUnit(String heatUnit) {
-        this.heatUnit = heatUnit;
-    }
-
-    public List<AdvHeatmapSeat> getSeatList() {
-        return seatList;
-    }
-
-    public void setSeatList(List<AdvHeatmapSeat> seatList) {
-        this.seatList = seatList;
-    }
-
-    public void updateSeatListId() { // ToDo: use this
-        for (AdvHeatmapSeat seat : seatList) {
-            seat.setRoomId(roomId);
-        }
     }
 }
