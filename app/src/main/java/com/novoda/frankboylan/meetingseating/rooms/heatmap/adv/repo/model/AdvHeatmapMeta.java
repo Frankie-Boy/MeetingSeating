@@ -16,19 +16,19 @@ public class AdvHeatmapMeta {
     @ColumnInfo(name = "heat_unit")
     private String heatUnit = "%";
 
-    String getLastUpdateTimestamp() {
+    public String getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
     }
 
-    void setLastUpdateTimestamp(String lastUpdateTimestamp) {
+    public void setLastUpdateTimestamp(String lastUpdateTimestamp) {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
     }
 
-    String getHeatUnit() {
+    public String getHeatUnit() {
         return heatUnit;
     }
 
-    void setHeatUnit(String heatUnit) {
+    public void setHeatUnit(String heatUnit) {
         this.heatUnit = heatUnit;
     }
 }

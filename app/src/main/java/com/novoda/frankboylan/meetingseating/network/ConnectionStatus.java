@@ -1,4 +1,4 @@
-package com.novoda.frankboylan.meetingseating;
+package com.novoda.frankboylan.meetingseating.network;
 
 import java.io.IOException;
 

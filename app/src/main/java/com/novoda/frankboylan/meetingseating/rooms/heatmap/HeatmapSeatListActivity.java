@@ -9,8 +9,8 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.novoda.frankboylan.meetingseating.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.R;
+import com.novoda.frankboylan.meetingseating.network.ConnectionStatus;
 
 import java.util.ArrayList;
 import java.util.List;

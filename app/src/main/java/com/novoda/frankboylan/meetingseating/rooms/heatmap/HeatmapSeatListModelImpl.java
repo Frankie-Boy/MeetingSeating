@@ -1,6 +1,6 @@
 package com.novoda.frankboylan.meetingseating.rooms.heatmap;
 
-import com.novoda.frankboylan.meetingseating.AwsSeatMonitorService;
+import com.novoda.frankboylan.meetingseating.network.AwsSeatMonitorService;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

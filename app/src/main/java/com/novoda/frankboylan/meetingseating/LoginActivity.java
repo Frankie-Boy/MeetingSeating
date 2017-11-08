@@ -19,6 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.network.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.seats.SeatActivity;
 
 public class LoginActivity extends AppCompatActivity {

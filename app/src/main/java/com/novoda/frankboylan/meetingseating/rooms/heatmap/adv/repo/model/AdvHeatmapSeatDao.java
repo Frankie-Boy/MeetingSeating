@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-interface AdvHeatmapSeatDao {
+public interface AdvHeatmapSeatDao {
 
     @Insert
     void insertSeat(AdvHeatmapSeat seat);

@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.novoda.frankboylan.meetingseating.network.ConnectionStatus;
 
 public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth auth;

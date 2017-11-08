@@ -1,11 +1,11 @@
 package com.novoda.frankboylan.meetingseating.seats.model;
 
-import com.novoda.frankboylan.meetingseating.AwsSeatMonitorService;
 import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteDelete;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteInsert;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteRead;
 import com.novoda.frankboylan.meetingseating.SQLiteDataManagement.SQLiteUpdate;
+import com.novoda.frankboylan.meetingseating.network.AwsSeatMonitorService;
 import com.novoda.frankboylan.meetingseating.rooms.Room;
 import com.novoda.frankboylan.meetingseating.seats.Seat;
 

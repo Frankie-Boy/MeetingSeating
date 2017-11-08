@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-interface AdvHeatmapRoomDao {
+public interface AdvHeatmapRoomDao {
 
     @Insert
     void insertRoom(AdvHeatmapRoom room);
