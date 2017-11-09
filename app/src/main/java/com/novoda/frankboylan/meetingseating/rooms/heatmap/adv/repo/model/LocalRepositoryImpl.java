@@ -18,7 +18,7 @@ public class LocalRepositoryImpl implements LocalRepository {
     @Override
     public void insertMeta(final AdvHeatmapMeta metadata) {
         executor.execute(() -> {
-            metaDao.updateMetaData(metadata);
+            metaDao.insertMetadata(metadata);
         });
     }
 

@@ -9,12 +9,9 @@ import android.support.annotation.NonNull;
 public class AdvHeatmapMeta {
 
     @PrimaryKey
-    @ColumnInfo(name = "latest_timestamp")
+    @ColumnInfo(name = "last_timestamp")
     @NonNull
     private String lastUpdateTimestamp = "0L";
-
-    @ColumnInfo(name = "heat_unit")
-    private String heatUnit = "%";
 
     public String getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
@@ -22,13 +19,5 @@ public class AdvHeatmapMeta {
 
     public void setLastUpdateTimestamp(String lastUpdateTimestamp) {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
-    }
-
-    public String getHeatUnit() {
-        return heatUnit;
-    }
-
-    public void setHeatUnit(String heatUnit) {
-        this.heatUnit = heatUnit;
     }
 }

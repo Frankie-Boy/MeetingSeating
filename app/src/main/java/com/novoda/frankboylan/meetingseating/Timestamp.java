@@ -7,6 +7,10 @@ public class Timestamp {
         this.timestamp = timestamp;
     }
 
+    public Timestamp(String timestamp) {
+        this.timestamp = Long.parseLong(timestamp);
+    }
+
     public Long getTimestamp() {
         return timestamp;
     }

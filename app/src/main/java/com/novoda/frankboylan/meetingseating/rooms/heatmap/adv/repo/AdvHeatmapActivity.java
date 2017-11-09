@@ -31,7 +31,7 @@ public class AdvHeatmapActivity extends AppCompatActivity implements AdvHeatmapD
                 DATABASE_NAME
         ).build();
 
-        presenter = new AdvHeatmapPresenterImpl(database);
+        presenter = new AdvHeatmapPresenterImpl(database, this.getAssets());
         presenter.bind(this);
         presenter.startPresenting();
     }

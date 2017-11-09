@@ -6,18 +6,23 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface AdvHeatmapSeatDao {
 
     @Insert
     void insertSeat(AdvHeatmapSeat seat);
 
+    @Insert
+    void insertSeats(List<AdvHeatmapSeat> seatList);
+
     @Query("DELETE FROM seat_data")
     void deleteAllSeats();
 
     @Query("SELECT * FROM seat_data")
-    List<AdvHeatmapSeat> getAllSeats();
+    Flowable<List<AdvHeatmapSeat>> getAllSeats();
 
     @Query("SELECT * FROM seat_data WHERE room_id LIKE :roomId")
-    List<AdvHeatmapSeat> getAllSeatsWithMatchingRoomId(String roomId);
+    Flowable<List<AdvHeatmapSeat>> getAllSeatsWithMatchingRoomId(String roomId);
 }
