@@ -2,6 +2,7 @@ package com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model;
 
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.novoda.frankboylan.meetingseating.network.ConnectionStatus;
 import com.novoda.frankboylan.meetingseating.network.RetrofitHelper;
@@ -47,6 +48,7 @@ public class AdvHeatmapPresenterImpl implements AdvHeatmapPresenter {
                 public void onNext(AdvHeatmapMeta advHeatmapMeta) {
                     database.metaDao().deleteAllMetadata();
                     database.metaDao().insertMetadata(advHeatmapMeta);
+                    Log.d("AdvHeatmapPresImpl", database.metaDao().getLatestTimestamp());
                 }
 
                 @Override

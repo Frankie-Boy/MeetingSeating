@@ -4,6 +4,7 @@ import com.novoda.frankboylan.meetingseating.RoomSeatData;
 import com.novoda.frankboylan.meetingseating.rooms.heatmap.HeatmapSeatData;
 import com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model.AdvHeatmapMeta;
 import com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model.AdvHeatmapRoom;
+import com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model.AdvHeatmapSeat;
 
 import io.reactivex.Observable;
 import retrofit2.Call;
@@ -26,12 +27,13 @@ public interface AwsSeatMonitorService {
                                           @Query("start") int start,
                                           @Query("end") int end);
 
-    // adv_heatmap_meta.txt
     @GET(ENV + SEAT_MONITOR)
-    Observable<AdvHeatmapMeta> advHeatmapMeta();
+    Observable<AdvHeatmapMeta> advMetadata();
 
-    // adv_heatmap_roomdata.txt
     @GET(ENV + SEAT_MONITOR)
-    Observable<AdvHeatmapRoom> advHeatmapRoomData();
+    Observable<AdvHeatmapRoom> advBase();
+
+    @GET(ENV + SEAT_MONITOR)
+    Observable<AdvHeatmapSeat> advHeatmapData();
 
 }

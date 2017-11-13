@@ -76,7 +76,7 @@ public class SeatActivity extends AppCompatActivity implements SeatDisplayer, Se
         seatPresenter.fillFilterView();
         tvEmptyList = findViewById(R.id.tv_list_text);
 
-        seatPresenter.startPresenting();
+        //seatPresenter.startPresenting(); // ToDo: Uncomment when new endpoint architecture is implemented.
     }
 
     @Override
