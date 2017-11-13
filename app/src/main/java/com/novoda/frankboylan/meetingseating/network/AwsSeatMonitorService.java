@@ -12,6 +12,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface AwsSeatMonitorService {
+
+    // https://j52dra0rwi.execute-api.eu-west-1.amazonaws.com/prod/meetingseating_metadata
+    
     String BASE = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com/";
     String ENV = "prod/";
     String SEAT_MONITOR = "seat-monitor-data/";
