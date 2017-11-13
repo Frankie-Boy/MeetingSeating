@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.novoda.frankboylan.meetingseating.R;
+import com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model.AdvHeatmapModelImpl;
 import com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model.AdvHeatmapPresenterImpl;
 import com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model.AdvHeatmapRoom;
 import com.novoda.frankboylan.meetingseating.rooms.heatmap.adv.repo.model.AdvHeatmapSeat;
@@ -31,7 +32,7 @@ public class AdvHeatmapActivity extends AppCompatActivity implements AdvHeatmapD
                 DATABASE_NAME
         ).build();
 
-        presenter = new AdvHeatmapPresenterImpl(database, this.getAssets());
+        presenter = new AdvHeatmapPresenterImpl(database, this.getAssets(), new AdvHeatmapModelImpl());
         presenter.bind(this);
         presenter.startPresenting();
     }

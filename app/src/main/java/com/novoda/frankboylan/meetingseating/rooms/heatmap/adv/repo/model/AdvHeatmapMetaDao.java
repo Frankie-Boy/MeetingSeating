@@ -7,8 +7,8 @@ import android.arch.persistence.room.Query;
 @Dao
 public interface AdvHeatmapMetaDao {
 
-    @Query("SELECT last_timestamp FROM metadata")
-    String getLatestTimestamp();
+    @Query("SELECT lastUpdated FROM metadata")
+    String getLastUpdated();
 
     @Insert
     void insertMetadata(AdvHeatmapMeta metadata);

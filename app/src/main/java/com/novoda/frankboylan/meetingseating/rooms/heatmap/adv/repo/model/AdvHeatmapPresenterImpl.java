@@ -18,9 +18,9 @@ public class AdvHeatmapPresenterImpl implements AdvHeatmapPresenter {
     private AdvHeatmapModel model;
     private InternalDatabase database;
 
-    public AdvHeatmapPresenterImpl(InternalDatabase database, AssetManager assetManager) {
+    public AdvHeatmapPresenterImpl(InternalDatabase database, AssetManager assetManager, AdvHeatmapModelImpl model) {
         this.database = database;
-        model = new AdvHeatmapModelImpl();
+        this.model = model;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class AdvHeatmapPresenterImpl implements AdvHeatmapPresenter {
                 public void onNext(AdvHeatmapMeta advHeatmapMeta) {
                     database.metaDao().deleteAllMetadata();
                     database.metaDao().insertMetadata(advHeatmapMeta);
-                    Log.d("AdvHeatmapPresImpl", database.metaDao().getLatestTimestamp());
+                    Log.d("AdvHeatmapPresImpl", database.metaDao().getLastUpdated() + " / " + advHeatmapMeta.getLastUpdated());
                 }
 
                 @Override
@@ -57,13 +57,13 @@ public class AdvHeatmapPresenterImpl implements AdvHeatmapPresenter {
 
                 @Override
                 public void onComplete() {
+                    updateListsFromDB();
                 }
             });
 
             // ToDo: Load Dataset automatically (from local files)
             //model.loadLocalDataset();
         }
-        updateListsFromDB();
     }
 
     private void updateListsFromDB() {

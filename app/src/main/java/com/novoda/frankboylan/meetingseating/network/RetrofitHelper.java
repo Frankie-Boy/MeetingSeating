@@ -14,7 +14,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class RetrofitHelper {
     public Observable<AdvHeatmapMeta> serviceMetaData() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AwsSeatMonitorService.BASE)
+                .baseUrl(AwsSeatMonitorService.META_BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(new OkHttpClient())

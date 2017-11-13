@@ -13,14 +13,15 @@ import retrofit2.http.Query;
 
 public interface AwsSeatMonitorService {
 
-    // https://j52dra0rwi.execute-api.eu-west-1.amazonaws.com/prod/meetingseating_metadata
-    
     String BASE = "https://f8v3dmak5d.execute-api.eu-west-1.amazonaws.com/";
     String ENV = "prod/";
     String SEAT_MONITOR = "seat-monitor-data/";
 
     String HEATMAP_BASE = "https://w62twg41g1.execute-api.eu-west-1.amazonaws.com/";
     String HEATMAP = "seat-heat-map-data?";
+
+    String META_BASE = "https://j52dra0rwi.execute-api.eu-west-1.amazonaws.com/";
+    String META = "meetingseating_metadata";
 
     @GET(ENV + SEAT_MONITOR)
     Call<RoomSeatData> seatMonitorData();
@@ -30,7 +31,7 @@ public interface AwsSeatMonitorService {
                                           @Query("start") int start,
                                           @Query("end") int end);
 
-    @GET(ENV + SEAT_MONITOR)
+    @GET(ENV + META)
     Observable<AdvHeatmapMeta> advMetadata();
 
     @GET(ENV + SEAT_MONITOR)
