@@ -87,15 +87,31 @@ public class CreateAccountActivity extends AppCompatActivity {
         String firstname = newFirstname.getText().toString();
         String surname = newSurname.getText().toString();
 
-        if (firstname.length() < 2) {
-            makeToast("Please enter a longer Firstname!");
-            return false;
-        }
-        if (!firstname.matches("[a-zA-Z]+")) {
-            makeToast("Ensure there is only letters in your Firstname!");
-            return false;
-        }
+        return !(!firstnameIsValid(firstname) || !surnameIsValid(surname) ||
+                !emailIsValid(email) || !passwordIsValid(password));
+    }
 
+    private boolean passwordIsValid(String password) {
+        if (password.length() < 6) {
+            makeToast("Password must be longer than 6 characters!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean emailIsValid(String email) {
+        if (email.length() < 2) {
+            //makeToast("Email must be longer than 2 characters!");
+            return false;
+        }
+        if (!email.matches("^[a-zA-Z0-9]*$")) {
+            //makeToast("Email must contain only letters & numbers!");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean surnameIsValid(String surname) {
         if (surname.length() < 2) {
             makeToast("Please enter a longer Surname!");
             return false;
@@ -104,22 +120,18 @@ public class CreateAccountActivity extends AppCompatActivity {
             makeToast("Ensure there is only letters in your Surname!");
             return false;
         }
+        return true;
+    }
 
-        if (email.length() < 2) {
-            makeToast("Email must be longer than 2 characters!");
+    private boolean firstnameIsValid(String firstname) {
+        if (firstname.length() < 2) {
+            makeToast("Please enter a longer Firstname!");
             return false;
         }
-        if (!email.matches("^[a-zA-Z0-9]*$")) {
-            makeToast("Email must contain only letters & numbers!");
+        if (!firstname.matches("[a-zA-Z]+")) {
+            makeToast("Ensure there is only letters in your Firstname!");
             return false;
         }
-
-        if (password.length() < 6) {
-            makeToast("Password must be longer than 6 characters!");
-            return false;
-        }
-
-        // User data passes all validation checks.
         return true;
     }
 

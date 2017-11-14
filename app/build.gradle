@@ -5,6 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId "com.novoda.frankboylan.meetingseating"
+        multiDexEnabled true
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
@@ -29,12 +30,15 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.1.0'
-    compile 'com.google.firebase:firebase-auth:11.4.2'
-    compile 'com.google.firebase:firebase-database:11.4.2'
+    compile 'com.google.firebase:firebase-auth:11.6.0'
+    compile 'com.google.firebase:firebase-database:11.6.0'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
     compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
     compile 'com.facebook.stetho:stetho:1.5.0'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.8.47'
+    androidTestCompile 'com.android.support:support-annotations:26.1.0'
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
     apply plugin: 'com.google.gms.google-services' // This needs to be applied at the END of the dependencies.
 }
