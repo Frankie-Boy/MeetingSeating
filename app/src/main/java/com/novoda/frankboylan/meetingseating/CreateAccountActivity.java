@@ -100,8 +100,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public boolean emailIsValid(String email) {
-        if (email.length() < 2) {
-            //makeToast("Email must be longer than 2 characters!");
+        if (email.length() < 2 || email.length() > 20) {
+            //makeToast("Email must be between 2 & 20 characters!");
             return false;
         }
         if (!email.matches("^[a-zA-Z0-9]*$")) {

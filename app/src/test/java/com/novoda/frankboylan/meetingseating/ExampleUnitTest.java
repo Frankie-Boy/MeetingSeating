@@ -22,4 +22,16 @@ public class ExampleUnitTest {
         CreateAccountActivity newAcct = new CreateAccountActivity();
         assertEquals(newAcct.emailIsValid("fr@ncisco"), false);
     }
+
+    @Test
+    public void emailTooShortReturnsFalse() {
+        CreateAccountActivity newAcct = new CreateAccountActivity();
+        assertEquals(newAcct.emailIsValid("1"), false);
+    }
+
+    @Test
+    public void emailTooLongReturnsFalse() {
+        CreateAccountActivity newAcct = new CreateAccountActivity();
+        assertEquals(newAcct.emailIsValid("1234567891011121314151617"), false);
+    }
 }
