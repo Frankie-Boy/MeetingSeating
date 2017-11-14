@@ -16,7 +16,7 @@ public class HeatmapSeatListModelImpl implements HeatmapSeatListModel {
     HeatmapSeatListModelImpl(HeatMapSeatListPresenter heatMapSeatListPresenter) {
         this.heatMapSeatListPresenter = heatMapSeatListPresenter;
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AwsSeatMonitorService.HEATMAP_BASE)
+                .baseUrl(AwsSeatMonitorService.BASE)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .client(new OkHttpClient())
                 .build();
@@ -25,7 +25,7 @@ public class HeatmapSeatListModelImpl implements HeatmapSeatListModel {
 
     @Override
     public void retrieveData(String roomId) {
-        service.seatHeatmapData(roomId, 1234, 4321).enqueue(new Callback<HeatmapSeatData>() { // Constant start & end query for now
+        service.seatHeatmapData(roomId).enqueue(new Callback<HeatmapSeatData>() {
             @Override
             public void onResponse(Call<HeatmapSeatData> call, Response<HeatmapSeatData> response) {
                 HeatmapSeatData heatmapSeatData = response.body();
