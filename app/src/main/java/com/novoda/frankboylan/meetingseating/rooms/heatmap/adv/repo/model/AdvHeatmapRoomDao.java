@@ -6,8 +6,6 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-
 @Dao
 public interface AdvHeatmapRoomDao {
 
@@ -21,8 +19,8 @@ public interface AdvHeatmapRoomDao {
     void deleteAllRooms();
 
     @Query("SELECT * FROM room_data WHERE room_id LIKE :roomId")
-    Flowable<List<AdvHeatmapRoom>> findByRoomId(String roomId);
+    List<AdvHeatmapRoom> findByRoomId(String roomId);
 
     @Query("SELECT * FROM room_data")
-    Flowable<List<AdvHeatmapRoom>> getAllRooms();
+    List<AdvHeatmapRoom> getAllRooms();
 }

@@ -46,9 +46,20 @@ public class AdvHeatmapPresenterImpl implements AdvHeatmapPresenter {
 
                 @Override
                 public void onNext(AdvHeatmapMeta advHeatmapMeta) {
-                    database.metaDao().deleteAllMetadata();
-                    database.metaDao().insertMetadata(advHeatmapMeta);
-                    Log.d("AdvHeatmapPresImpl", database.metaDao().getLastUpdated() + " / " + advHeatmapMeta.getLastUpdated());
+                    long endpointLastUpdated = Long.valueOf(advHeatmapMeta.getLastUpdated());
+                    Log.d("EndpointLastUpdated", endpointLastUpdated + "");
+                    if (database.metaDao().getLastUpdated() == null) {
+                        AdvHeatmapMeta ahm = new AdvHeatmapMeta();
+                        ahm.setLastUpdated("0");
+                        database.metaDao().insertMetadata(ahm);
+                    }
+                    long databaseLastUpdated = Long.valueOf(database.metaDao().getLastUpdated());
+                    Log.d("DatabaseLastUpdated", databaseLastUpdated + "");
+                    if (databaseLastUpdated <= endpointLastUpdated) {
+                        database.metaDao().deleteAllMetadata();
+                        database.metaDao().insertMetadata(advHeatmapMeta);
+                        fetchMainData();
+                    }
                 }
 
                 @Override
@@ -64,6 +75,31 @@ public class AdvHeatmapPresenterImpl implements AdvHeatmapPresenter {
             // ToDo: Load Dataset automatically (from local files)
             //model.loadLocalDataset();
         }
+    }
+
+    private void fetchMainData() {
+        Observable<AdvHeatmapRoom> dataObservable = new RetrofitHelper().serviceDataMain();
+
+        dataObservable.subscribe(new Observer<AdvHeatmapRoom>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(AdvHeatmapRoom room) {
+                Log.d("AdvHeatmapPres", room.getRoomId() + "");
+                database.roomDao().insertRoom(room);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
     }
 
     private void updateListsFromDB() {

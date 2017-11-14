@@ -11,7 +11,7 @@ public class AdvHeatmapMeta {
     @PrimaryKey
     @ColumnInfo(name = "lastUpdated")
     @NonNull
-    private String lastUpdated = "0L";
+    private String lastUpdated = "0";
 
     public String getLastUpdated() {
         return lastUpdated;
